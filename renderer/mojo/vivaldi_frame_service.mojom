@@ -1,0 +1,83 @@
+module vivaldi.mojom;
+
+import "mojo/public/mojom/base/shared_memory.mojom";
+import "ui/gfx/geometry/mojom/geometry.mojom";
+
+struct AccessKey {
+  string access_key;
+  string tagname;
+  string title;
+  string href;
+  string value;
+  string id;
+  string text_content;
+};
+
+struct SpatnavRect {
+  int64 x;
+  int64 y;
+  int64 width;
+  int64 height;
+  string href;
+};
+
+enum ScrollType {
+  kUp,
+  kDown,
+  kLeft,
+  kRight,
+  kPageUp,
+  kPageDown,
+  kPageLeft,
+  kPageRight,
+  kTop,
+  kBottom,
+};
+
+enum SpatnavDirection {
+  kNone,
+  kUp,
+  kDown,
+  kLeft,
+  kRight,
+};
+
+interface VivaldiFrameService {
+  GetAccessKeysForPage() => (array<AccessKey> access_keys);
+  AccessKeyAction(string access_key);
+
+  ScrollPage(ScrollType scroll_type, int32 scroll_amount);
+
+  MoveSpatnavRect(SpatnavDirection dir) => (SpatnavRect rect);
+  GetFocusedElementInfo() => (string tagname,
+                              string type,
+                              bool editable,
+                              string role);
+
+  // Determine language of given text, if possible. Returns language code, if detected.
+  DetermineTextLanguage(string text) => (string langCode);
+
+  ActivateSpatnavElement(int32 modifiers);
+
+  // Triggered on 'esc' by default. Un-hovers current element and checks for
+  // layout change. Meaning we closed a menu or something similar originally
+  // triggered by spatnav hover.
+  CloseSpatnavOrCurrentOpenMenu() => (bool layout_changed,
+                                      bool current_element_valid);
+
+  // Inserts text into input fields.
+  InsertText(string text);
+
+  ResumeParser();
+
+  // Asks the renderer for a snapshot of web page. If |full_page| is true, the
+  // full page is captured and not scaled down, |rect.height| is used to bound
+  // the capture height, the rest of rect is ignored. If |full_page| is false
+  // the visible part of the page is captured, and, if |rect| is not empty, the
+  // result is cropped to the rectangle. Return a possibly downsampled image on
+  // success or empty on errors.
+  RequestThumbnailForFrame(
+      gfx.mojom.Rect rect, bool full_page, gfx.mojom.Size target_size)
+    => (gfx.mojom.Size image_size,
+        mojo_base.mojom.ReadOnlySharedMemoryRegion? image_region);
+};
