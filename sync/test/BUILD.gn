@@ -1,0 +1,39 @@
+# Copyright (c) 2015-2017 Vivaldi Technologies AS. All rights reserved
+
+source_set("sync_integration_testsupport"){
+  testonly = true
+  sources = [
+    "integration/notes_helper.cpp",
+    "integration/notes_helper.h",
+    "integration/notes_sync_test.cpp",
+    "integration/notes_sync_test.h",
+  ]
+  deps = [
+    "//chrome/browser",
+    "//components/invalidation/impl",
+    "//components/reading_list/features:flags",
+    "//components/sync/protocol",
+    "//components/sync:test_support",
+    "//skia",
+    "//testing/gmock",
+    "//testing/gtest",
+    "//vivaldi/notes",
+    "//vivaldi/notes:browser",
+    "//vivaldi/notes/tests:notes",
+  ]
+}
+
+source_set("fake_server"){
+  sources = [
+    "fake_server/notes_entity.cpp",
+    "fake_server/notes_entity.h",
+    "fake_server/notes_entity_builder.cpp",
+    "fake_server/notes_entity_builder.h",
+  ]
+  deps = [
+    "//components/reading_list/features:flags",
+    "//components/sync/base",
+    "//components/sync/protocol",
+    "//url",
+  ]
+}
