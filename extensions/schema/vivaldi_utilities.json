@@ -1,0 +1,2008 @@
+// Copyright (c) 2015-2018 Vivaldi Technologies AS. All rights reserved.
+[
+  {
+    "namespace": "utilities",
+    "description": "Vivaldi general support api.",
+    "compiler_options": {
+      "implemented_in": "extensions/api/vivaldi_utilities/vivaldi_utilities_api.h"
+    },
+    "types": [
+      {
+        "id": "Color",
+        "type": "object",
+        "description": "Object defining an RGB color.",
+        "properties": {
+          "red": {
+            "type": "integer",
+            "name": "red",
+            "description": "Red color."
+          },
+          "green": {
+            "type": "integer",
+            "name": "green",
+            "description": "Green color."
+          },
+          "blue": {
+            "type": "integer",
+            "name": "blue",
+            "description": "Blue color."
+          }
+        }
+      },
+      {
+        "id": "WindowState",
+        "type": "string",
+        "description": "The state of this browser window.",
+        "enum": [
+          {
+            "name": "normal",
+            "description": "Normal window state (i.e. not minimized, maximized, or fullscreen)."
+          },
+          {
+            "name": "minimized",
+            "description": "Minimized window state."
+          },
+          {
+            "name": "maximized",
+            "description": "Maximized window state."
+          },
+          {
+            "name": "fullscreen",
+            "description": "Fullscreen window state."
+          }
+        ]
+      },
+      {
+        "id": "WindowType",
+        "type": "string",
+        "enum": [
+          "normal",
+          "popup",
+          "settings"
+        ],
+        "description": "Type of window. normal is a browser-window."
+      },
+      {
+        "id": "WindowRestoreState",
+        "type": "string",
+        "enum": [
+          "normal",
+          "minimized",
+          "maximized"
+        ],
+        "description": "State of window after going out of fullscreen."
+      },
+      {
+        "id": "WindowRestoreStateFromFullscreen",
+        "type": "string",
+        "enum": [
+          "normal",
+          "minimized",
+          "maximized",
+          "fullscreen"
+        ],
+        "description": "State of window after going out of html-fullscreen."
+      },
+      {
+        "id": "StatusbarMode",
+        "type": "string",
+        "enum": [
+          "on",
+          "off",
+          "overlay"
+        ],
+        "description": "Statusbar view setting. 'on' | 'off' | 'overlay' (StatusBarDisplayValues from gen/prefs/prefNames.js)"
+      },
+      {
+        "id": "WindowProperties",
+        "type": "object",
+        "description": "Type WindowState in ./stores/WindowStore.js",
+        "properties": {
+          "type": {
+            "$ref": "WindowType"
+          },
+          "state": {
+            "$ref": "WindowState",
+            "optional": true
+          },
+          "restoreStateFullscreen": {
+            "$ref": "WindowRestoreState"
+          },
+          "restoreStateHtml5Fullscreen": {
+            "$ref": "WindowRestoreStateFromFullscreen"
+          },
+          "nativeDecorations": {
+            "type": "boolean",
+            "description": "Window is uses native window-controls."
+          },
+          "incognito": {
+            "type": "boolean",
+            "description": "Window is incognito."
+          },
+          "guest": {
+            "type": "boolean",
+            "description": "Window is guest."
+          },
+          "fullscreenMenubarShown": {
+            "type": "boolean",
+            "description": "Window has menubar in fullscreen."
+          },
+          "html5FullScreen": {
+            "type": "boolean",
+            "description": "Window is fullscreened through htmlelement.requestFullScreen."
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Window is active."
+          },
+          "minimalUI": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Window is incognito."
+          },
+          "visibleUI": {
+            "type": "object",
+            "properties": {
+              "bookmarksBar": {
+                "type": "boolean",
+                "description": "Showing bookmarksbar."
+              },
+              "addressBar": {
+                "type": "boolean",
+                "description": "Showing addressbar."
+              },
+              "panelToggle": {
+                "type": "boolean",
+                "description": "Showing panel-toggle."
+              },
+              "tabs": {
+                "type": "boolean",
+                "description": "Showing tabs."
+              },
+              "statusBar": {
+                "$ref": "StatusbarMode"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "BroadcastAction",
+        "type": "object",
+        "description": "Identifies broadcast type. Only one property should be used.",
+        "properties": {
+          "startDragging": {
+            "type": "boolean",
+            "optional": true
+          },
+          "endDragging": {
+            "type": "boolean",
+            "optional": true
+          },
+          "translate": {
+            "type": "object",
+            "optional": true,
+            "properties": {
+              "winId": {
+                "type": "number",
+                "description": "The window where translation takes place."
+              },
+              "lang": {
+                "type": "string",
+                "description": "Language of text to be translated."
+              },
+              "text": {
+                "type": "string",
+                "description": "Text to be translated."
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "DialogName",
+        "type": "string",
+        "description": "Name of the dialog to set position for.",
+        "enum": [
+          {
+            "name": "chromecast",
+            "description": "The Chromecast dialog with source and destination. Centered over the active webview."
+          },
+          {
+            "name": "password",
+            "description": "The password dialog opening to save a password."
+          },
+          {
+            "name": "permission",
+            "description": "The permission dialog allowing or blocking one or more permissions."
+          }
+        ]
+      },
+      {
+        "id": "CookieMode",
+        "type": "string",
+        "description": "CookieMode enumeration, corresponds to CookieControlsMode in chromium/components/content_settings/core/browser/cookie_settings.h",
+        "enum": [
+          {
+            "name": "off",
+            "description": "All cookies allowed."
+          },
+          {
+            "name": "BlockThirdParty",
+            "description": "Block third party cookies."
+          },
+          {
+            "name": "BlockThirdPartyIncognitoOnly",
+            "description": "Block third party cookies in incognito mode only."
+          }
+        ]
+      },
+      {
+        "id": "FlowDirection",
+        "type": "string",
+        "description": "The direction a dialog would be opened from the given rect.",
+        "enum": [
+          {
+            "name": "down",
+            "description": "Dialog should position itself below the given rect."
+          },
+          {
+            "name": "up",
+            "description": "Dialog should position itself above the given rect."
+          }
+        ]
+      },
+      {
+        "id": "UrlValidResults",
+        "type": "object",
+        "description": "Object that describes the validitity of a given url.",
+        "properties": {
+          "urlValid": {
+            "type": "boolean",
+            "description": "The url is a correctly formatted url. This might be true even if the protocol is not valid."
+          },
+          "isBrowserUrl": {
+            "type": "boolean",
+            "description": "The url can be shown directly by the browser."
+          },
+          "schemeParsed": {
+            "type": "string",
+            "description": "The parsed and authorative protocol scheme as parsed by Chromium."
+          },
+          "normalizedUrl": {
+            "type": "string",
+            "description": "Returns the raw spec, i.e., the full text of the URL, in canonical UTF-8, if the URL is valid."
+          }
+        }
+      },
+      {
+        "id": "WhatsNewResults",
+        "type": "object",
+        "description": "Object that describes how a What's new page can be used.",
+        "properties": {
+          "show": {
+            "type": "boolean",
+            "description": "true if the What's new page can be shown, otherwise false."
+          },
+          "firstrun": {
+            "type": "boolean",
+            "description": "true if this the first time the Whats new page is shown. Do not use if 'show' is false."
+          }
+        }
+      },
+      {
+        "id": "UrlFragments",
+        "type": "object",
+        "description": "Object with url fragments, including top level domain which is eTLD aware.",
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "optional": true,
+            "description": "If URL cannot be parsed at all, this will be absent"
+          },
+          "username": {
+            "type": "string",
+            "optional": true
+          },
+          "password": {
+            "type": "string",
+            "optional": true
+          },
+          "host": {
+            "type": "string",
+            "optional": true
+          },
+          "port": {
+            "type": "string",
+            "optional": true
+          },
+          "path": {
+            "type": "string",
+            "optional": true
+          },
+          "query": {
+            "type": "string",
+            "optional": true
+          },
+          "ref": {
+            "type": "string",
+            "optional": true
+          },
+          "tld": {
+            "type": "string",
+            "optional": true
+          },
+          "urlForSecurityDisplay":  {
+            "type": "string",
+            "optional": true,
+            "description":  "URL formatted for security display, meaning formatted in unicode in a way to avoid IDN homograph attack."
+          },
+          "tldForSecurityDisplay": {
+            "type": "string",
+            "optional": true,
+            "description": "TLD for security display"
+          },
+          "hostForSecurityDisplay": {
+            "type": "string",
+            "optional": true,
+            "description": "Host for security display"
+          },
+          "pathForSecurityDisplay": {
+            "type": "string",
+            "optional": true,
+            "description": "Path for security display"
+          },
+          "queryForSecurityDisplay": {
+            "type": "string",
+            "optional": true,
+            "description": "Query for security display"
+          },
+          "refForSecurityDisplay": {
+            "type": "string",
+            "optional": true,
+            "description": "ref for security display"
+          }
+        }
+      },
+      {
+        "id": "FileExtension",
+        "type": "object",
+        "description": "A single extension item used for filtering ",
+        "properties": {
+          "ext": {
+            "type": "string",
+            "description": "Extension ending, eg. 'jpg'"
+          }
+        }
+      },
+      {
+        "id": "SelectFileDialogType",
+        "type": "string",
+        "description": "The type of selectfile dialog to show.",
+        "enum": [
+          {
+            "name": "file",
+            "description": "This is a file select dialog."
+          },
+          {
+            "name": "save_file",
+            "description": "This is a file select dialog, allowing to choose a nonexistent file for saving."
+          },
+          {
+            "name": "folder",
+            "description": "This is a folder select dialog."
+          }
+        ]
+      },
+      {
+        "id": "SelectFileOptions",
+        "type": "object",
+        "description": "Option object for selectFile.",
+        "properties": {
+          "windowId": {
+            "type": "integer",
+            "description": "Id of the window to show the file selection dialog against."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the file select dialog."
+          },
+          "type": {
+            "$ref": "SelectFileDialogType",
+            "description": "Type of file select dialog, defaults to 'file'."
+          },
+          "accepts": {
+            "type": "array",
+            "description": "Extensions to filter file names on.",
+            "optional": true,
+            "items": {
+              "$ref": "FileExtension"
+            }
+          },
+          "defaultPath": {
+            "type": "string",
+            "description": "The file's default path and name.",
+            "optional": true
+          }
+        }
+      },
+      {
+        "id": "SelectLocalImageParams",
+        "type": "object",
+        "description": "Option object for selectLocalImage.",
+        "properties": {
+          "windowId": {
+            "type": "integer",
+            "description": "Id of the window to show the file selection dialog against."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title for the file selection dialog."
+          },
+          "profileImage": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Store the image path as the path for a custom profile avatar."
+          },
+          "themeId": {
+            "type": "string",
+            "optional": true,
+            "description": "The id of theme to store the background image in."
+          },
+          "thumbnailBookmarkId": {
+            "type": "string",
+            "optional": true,
+            "description": "The bookmark id where to store the selected local path."
+          }
+        }
+      },
+      {
+        "id": "StoreImageOptions",
+        "type": "object",
+        "description": "Option object for storeImage.",
+        "properties": {
+          "url": {
+            "type": "string",
+            "optional": true,
+            "description": "The URL to read the data from. Currently only the file URL is supported."
+          },
+          "data": {
+            "type": "binary",
+            "optional": true,
+            "description": "The image data."
+          },
+          "mimeType": {
+            "type": "string",
+            "optional": true,
+            "description": "The type of the image."
+          },
+          "themeId": {
+            "type": "string",
+            "optional": true,
+            "description": "The id of theme to store the image as theme background."
+          }
+        }
+      },
+      {
+        "id": "SharedDataValue",
+        "type": "object",
+        "description": "Data key+value pair.",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The data key."
+          },
+          "value": {
+            "type": "any",
+            "description": "The data value."
+          }
+        }
+      },
+      {
+        "id": "DateFormats",
+        "type": "object",
+        "description": "An object containing various system date/time formats",
+        "properties": {
+          "shortDateFormat": {
+            "type": "string",
+            "minimum": 0,
+            "description": "Short date format."
+          },
+          "longDateFormat": {
+            "type": "string",
+            "minimum": 0,
+            "description": "Long date format."
+          },
+          "timeFormat": {
+            "type": "string",
+            "minimum": 0,
+            "description": "12/24 hour time format string"
+          },
+          "firstDayOfWeek": {
+            "type": "number",
+            "description": "The first day of the week. 0-6 (Sunday to Saturday)"
+          }
+        }
+      },
+      {
+        "id": "CaptureQRDestination",
+        "type": "string",
+        "description": "Where to store the generated QR code",
+        "enum": [
+          {
+            "name": "dataurl",
+            "description": "Store as a returned data url."
+          },
+          {
+            "name": "file",
+            "description": "Store in the download location."
+          },
+          {
+            "name": "clipboard",
+            "description": "Store in the clipboard"
+          }
+        ]
+      },
+      {
+        "id": "GetVersionResults",
+        "type": "object",
+        "properties": {
+          "vivaldiVersion": {
+            "type": "string",
+            "description": "The Vivaldi version as a string."
+          },
+          "chromiumVersion": {
+            "type": "string",
+            "description": "The Chromium version as a string."
+          }
+        }
+      },
+      {
+        "id": "TranslateError",
+        "type": "string",
+        "enum": [
+          "no_error",
+          "network",
+          "unknown_language",
+          "unsupported_language",
+          "timeout",
+          "error"
+        ],
+        "description": "The error messages translate can return."
+      },
+      {
+        "id": "TranslateTextResponse",
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "TranslateError"
+          },
+          "detectedSourceLanguage": {
+            "type": "string",
+            "description": "Language code of the detected language code of the provided source text, if any."
+          },
+          "sourceText": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The original source strings."
+          },
+          "translatedText": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The translated text corresponding to the given sourceText."
+          }
+        }
+      },
+      {
+        "id": "ProxyPlatformSupport",
+        "type": "object",
+        "properties": {
+          "support": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "id": "ProxyHost",
+        "type": "object",
+        "properties": {
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "number"
+          }
+        }
+      },
+      {
+        "id": "ProxyConnectInfo",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Information when success is false."
+          },
+          "pid": {
+            "type": "number"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "id": "ProxyOptions",
+        "type": "object",
+        "properties": {
+          "local": {
+            "$ref": "ProxyHost"
+          },
+          "remote": {
+            "$ref": "ProxyHost"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "print",
+        "type": "function",
+        "description": "Open print preview dialog.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "WindowId of browser printing active tab."
+          }
+        ]
+      },
+      {
+        "name": "clearAllRecentlyClosedSessions",
+        "type": "function",
+        "description": "Clears the list of recently closed tabs and/or windows.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "type": "boolean",
+              "name": "result",
+              "description": "A boolean variable stating if removing recently closed tabs and/or windows call was successfull or not"
+            }
+          ]
+        }
+      },
+      {
+        "name": "isTabInLastSession",
+        "type": "function",
+        "description": "Checks whether a given tab is part of the last loaded session",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "description": "The tab id to check if part of the session"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "isInSession",
+              "type": "boolean",
+              "description": "true if the given tabId is loaded from the session and has since not been navigated in, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "isUrlValid",
+        "type": "function",
+        "description": "Validates given URL. Returns UrlValidResults with the results.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The URL to validate",
+            "name": "url"
+          }
+        ],
+        "returns": {
+          "$ref": "UrlValidResults"
+        }
+      },
+      {
+        "name": "canOpenUrlExternally",
+        "type": "function",
+        "description": "Check if the browser can potentially open the URL using an external application or an extension. This should only be called if it is already known that the URL is a valid one and is not handled by the browser directly to get a valid result.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The URL to check",
+            "name": "url"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getUrlFragments",
+        "type": "function",
+        "description": "Splits given URL. Returns UrlFragments including top level domain which is eTLD aware.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The URL to process.",
+            "name": "url"
+          }
+        ],
+        "returns": {
+          "$ref": "UrlFragments",
+          "description": "The URL split up in fragments."
+        }
+      },
+      {
+        "name": "urlToThumbnailText",
+        "type": "function",
+        "description": "Gets the text for a fallback speeddial thumbnail",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The URL to get the text from.",
+            "name": "url"
+          }
+        ],
+        "returns": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "getSelectedText",
+        "type": "function",
+        "description": "Returns selected text in page with given id",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "description": "The page to examine"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "text",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "selectFile",
+        "type": "function",
+        "description": "Select a single file and returns the file name.",
+        "parameters": [
+          {
+            "name": "options",
+            "$ref": "SelectFileOptions"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "string",
+              "description": "Full path to the selected file or empty string on error or cancellation.",
+              "name": "path"
+            }
+          ]
+        }
+      },
+      {
+        "name": "selectLocalImage",
+        "type": "function",
+        "description": "Ask the user to select an image file and store its path as a data mapping URL in a bookmark or a preference.",
+        "parameters": [
+          {
+            "name": "params",
+            "$ref": "SelectLocalImageParams"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean",
+              "description": "True if the image was selected and successfully stored, false on errors or cancellations."
+            }
+          ]
+        }
+      },
+      {
+        "name": "storeImage",
+        "type": "function",
+        "description": "Save image from a memory blob to image store and put its URL to preferences or bookmarks.",
+        "parameters": [
+          {
+            "name": "options",
+            "$ref": "StoreImageOptions"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "description": "The newly created chrome://vivaldi-data url. Empty string on failure.",
+              "name": "url",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getVersion",
+        "type": "function",
+        "description": "Gets the Vivaldi version and Chromium versions.",
+        "parameters": [],
+        "returns": {
+          "$ref": "GetVersionResults"
+        }
+      },
+      {
+        "name": "getFFMPEGState",
+        "type": "function",
+        "description": "Helper function for Linux. Reads the env. variable VIVALDI_FFMPEG_FOUND and returns the result",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "value",
+              "type": "boolean",
+              "description": "True if env. variable is set to YES, otherwise False (also if variable does not exists)."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getMediaAvailableState",
+        "type": "function",
+        "description": "Windows: Returns whether this version of the OS has media codecs installed. Might return false on N versions of Windows.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "value",
+              "type": "boolean",
+              "description": "true if codecs are available, otherwise false (typically N versions of Windows with no media pack installed)."
+            }
+          ]
+        }
+      },
+      {
+        "name": "setSharedData",
+        "type": "function",
+        "description": "Sets the given data to be kept in-memory for the duration of the Vivaldi setting (until Vivaldi exits).",
+        "parameters": [
+          {
+            "name": "keyValuePair",
+            "$ref": "SharedDataValue",
+            "description": "The Key-value."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "newvalue",
+              "type": "boolean",
+              "description": "true if a new value was set, false if an existing value was updated."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getSharedData",
+        "type": "function",
+        "description": "Gets the given data from the in-memory storage.",
+        "parameters": [
+          {
+            "name": "keyValuePair",
+            "$ref": "SharedDataValue",
+            "description": "The Key-value, the value is the default value returned if the key does not exist."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "value",
+              "type": "any",
+              "description": "Data value."
+            }
+          ]
+        }
+      },
+      {
+        "name": "takeMutex",
+        "type": "function",
+        "description": "Uses the in-memory storage to synchronize access to a resource accross several vivaldi extension processes (until Vivaldi exits).",
+        "parameters": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "A name uniquely identifying the mutex."
+          },
+          {
+            "name": "wait",
+            "type": "boolean",
+            "optional": true,
+            "description": "Whether to wait for the mutex to be available or to to throw an error if it isn't. Defaults to true."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "handle",
+              "type": "any",
+              "description": "An opaque handle which is required to release the Mutex."
+            }
+          ]
+        }
+      },
+      {
+        "name": "releaseMutex",
+        "type": "function",
+        "description": "Relinquish use of a mutex obtained in takeSharedMutex.",
+        "parameters": [
+          {
+            "name": "handle",
+            "type": "any",
+            "description": "The handle to the mutex, returned from takeSharedMutex."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": []
+        }
+      },
+      {
+        "name": "getSystemDateFormat",
+        "type": "function",
+        "description": "Returns various date/time system formats",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "DateFormats"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getSystemCountry",
+        "type": "function",
+        "description": "Return the system settings for the country if available.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "country",
+              "type": "string",
+              "description": "2-letter ISO code for the country"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setLanguage",
+        "type": "function",
+        "description": "Sets the Vivaldi language code.",
+        "parameters": [
+          {
+            "name": "locale",
+            "type": "string"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "description": "Return value true for success, false for failure.",
+          "parameters": []
+        }
+      },
+      {
+        "name": "getLanguage",
+        "type": "function",
+        "description": "Gets the active Vivaldi language code.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "description": "Return the language code.",
+          "parameters": [
+            {
+              "name": "langCode",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setVivaldiAsDefaultBrowser",
+        "type": "function",
+        "description": "Set Vivaldi as the default browser.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "isVivaldiDefaultBrowser",
+        "type": "function",
+        "description": "Is Vivaldi the default browser.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "launchNetworkSettings",
+        "type": "function",
+        "description": "Launch network settings.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "savePage",
+        "type": "function",
+        "description": "Saves web page.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "description": "Id to of page being saved."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": []
+        }
+      },
+      {
+        "name": "openPage",
+        "type": "function",
+        "description": "Open web page.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "WindowId of browser opening a local file."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": []
+        }
+      },
+      {
+        "name": "broadcastMessage",
+        "type": "function",
+        "description": "Broadcast a message to all windows. Works from regular to private windows as well.",
+        "parameters": [
+          {
+            "$ref": "BroadcastAction",
+            "name": "message",
+            "description": "The message to send."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "setDefaultContentSettings",
+        "type": "function",
+        "description": "Set Vivaldi default content settings.",
+        "parameters": [
+          {
+            "name": "contentSetting",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": []
+          }
+        ]
+      },
+      {
+        "name": "getDefaultContentSettings",
+        "type": "function",
+        "description": "Set Vivaldi default content settings.",
+        "parameters": [
+          {
+            "name": "contentSetting",
+            "type": "string"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setBlockThirdPartyCookies",
+        "type": "function",
+        "description": "Set Vivaldi default content settings.",
+        "parameters": [
+          {
+            "name": "cookieMode",
+            "$ref": "CookieMode",
+            "description": "Cookie control for third party cookies."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getBlockThirdPartyCookies",
+        "type": "function",
+        "description": "Set Vivaldi default content settings.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "cookieMode",
+              "$ref": "CookieMode",
+              "description": "Cookie control for third party cookies."
+            }
+          ]
+        }
+      },
+      {
+        "name": "openTaskManager",
+        "type": "function",
+        "description": "Opens Vivaldi task manager dialog.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "createQRCode",
+        "type": "function",
+        "description": "Opens the QR Code bubble window for the given page.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "description": "The id of the page.",
+            "minimum": 0
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "getStartupAction",
+        "type": "function",
+        "description": "Returns the startup action.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setStartupAction",
+        "type": "function",
+        "description": "Returns the startup action.",
+        "parameters": [
+          {
+            "name": "startup",
+            "type": "string"
+          },
+          {
+            "name": "urls",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "canShowWhatsNewPage",
+        "type": "function",
+        "description": "Checks whether showing the What's new page is allowed.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "$ref": "WhatsNewResults",
+              "description": "Describes how, if at all, a What's new page can be used."
+            }
+          ]
+        }
+      },
+      {
+        "name": "showPasswordDialog",
+        "type": "function",
+        "description": "Shows password manage dialog.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "The window id the dialog belongs to."
+          }
+        ]
+      },
+      {
+        "name": "setDialogPosition",
+        "type": "function",
+        "description": "Sets the opening position for the given Chromium-triggered dialog.",
+        "parameters": [
+          {
+            "name": "dialogName",
+            "$ref": "DialogName",
+            "description": "The window to set the position for."
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "The window id the dialog belongs to."
+          },
+          {
+            "type": "object",
+            "name": "position",
+            "properties": {
+              "left": {
+                "type": "integer",
+                "description": "Anchor left position in client coordinates."
+              },
+              "top": {
+                "type": "integer",
+                "description": "Anchor top position in client coordinates."
+              },
+              "width": {
+                "type": "integer",
+                "description": "Anchor width."
+              },
+              "height": {
+                "type": "integer",
+                "description": "Anchor height."
+              }
+            }
+          },
+          {
+            "name": "flowDirection",
+            "$ref": "FlowDirection",
+            "description": "The direction the dialog should be positioned based on the rect."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "results",
+              "type": "boolean",
+              "description": "true if the dialog is known, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "isRazerChromaAvailable",
+        "type": "function",
+        "description": "Is the Razer Chroma API available.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "boolean",
+              "description": "true if the Razer Chroma API is available, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "isRazerChromaReady",
+        "type": "function",
+        "description": "Is the Razer Chroma API initialized and ready to accept commands.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "boolean",
+              "description": "true if the Razer Chroma API is ready, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "setRazerChromaColor",
+        "type": "function",
+        "description": "Set the color(s) for the configured Razer Chroma lights.",
+        "parameters": [
+          {
+            "name": "colors",
+            "type": "array",
+            "items": {
+              "$ref": "Color",
+              "description": "Array of colors to be set for the configured lights. If multiple colors are set, it will cycle quickly between them from the first to the last."
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "boolean",
+              "description": "true if the Razer Chroma API is available, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "isDownloadManagerReady",
+        "type": "function",
+        "description": "Checks whether the download manager has initialized. If not, register for the onDownloadManagerReady event to be notified when it's ready.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "ready",
+              "type": "boolean",
+              "description": "true if the download manager is ready, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "setContentSettings",
+        "type": "function",
+        "description": "Set a contentsetting for a pattern .",
+        "parameters": [
+          {
+            "name": "details",
+            "type": "object",
+            "properties": {
+              "primaryPattern": {
+                "type": "string",
+                "description": "The pattern for the primary URL. For details on the format of a pattern, see <a href='contentSettings#patterns'>Content Setting Patterns</a>."
+              },
+              "secondaryPattern": {
+                "type": "string",
+                "description": "The pattern for the secondary URL. Defaults to matching all URLs. For details on the format of a pattern, see <a href='contentSettings#patterns'>Content Setting Patterns</a>.",
+                "optional": true
+              },
+              "type": {
+                "type": "string",
+                "description": "The resource identifier for the content type."
+              },
+              "value": {
+                "type": "string",
+                "description": "The setting applied by this rule. See the description of the individual ContentSetting objects for the possible values."
+              },
+              "incognito": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Where to set the setting (default: regular)."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "isDialogOpen",
+        "type": "function",
+        "description": "Checks whether the given native dialog is open.",
+        "parameters": [
+          {
+            "name": "dialogName",
+            "$ref": "DialogName",
+            "description": "Dialog name to check for visibility."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "isOpen",
+              "type": "boolean",
+              "description": "true if the dialog is open, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "focusDialog",
+        "type": "function",
+        "description": "Focus the named dialog so keyboard navigation within it is available.",
+        "parameters": [
+          {
+            "name": "dialogName",
+            "$ref": "DialogName",
+            "description": "Dialog name to check for visibility."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "wasFocused",
+              "type": "boolean",
+              "description": "true if the dialog was focused, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "startChromecast",
+        "type": "function",
+        "description": "Shows the Chromecast dialog.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "Window id where casting should start."
+          }
+        ]
+      },
+      {
+        "name": "isFirstRun",
+        "type": "function",
+        "description": "chrome::IsChromeFirstRun()",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "generateQRCode",
+        "type": "function",
+        "description": "Generate a QR image based on the given data.",
+        "parameters": [
+          {
+            "name": "data",
+            "type": "string",
+            "description": "Data to encode in the QR code. The maximum length of the data is 288 bytes."
+          },
+          {
+            "name": "destination",
+            "$ref": "CaptureQRDestination",
+            "description": "Destination of the QR capture, defaults to 'dataurl'.",
+            "optional": true
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "data url with the generated image if |destination| is 'dataurl' or missing."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getGAPIKey",
+        "type": "function",
+        "description": "Returns G API key.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi's G API key."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getVivaldiNetOAuthClientSecret",
+        "type": "function",
+        "description": "Returns Vivaldi.net OAuth client secret.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi.net OAuth client secret."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getVivaldiNetOAuthClientId",
+        "type": "function",
+        "description": "Returns Vivaldi.net OAuth client id.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi.net OAuth client id."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getGOAuthClientId",
+        "type": "function",
+        "description": "Returns G OAuth API client id.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi's G OAuth API client id."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getGOAuthClientSecret",
+        "type": "function",
+        "description": "Returns G OAuth API client secret.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi's G OAuth API client secret."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getMOAuthClientId",
+        "type": "function",
+        "description": "Returns MS OAuth API client id.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi's MS OAuth API client id."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getYOAuthClientId",
+        "type": "function",
+        "description": "Returns Yahoo OAuth client id.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi's Yahoo OAuth client id."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getYOAuthClientSecret",
+        "type": "function",
+        "description": "Returns Yahoo OAuth client secret.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi's OAuth API client secret."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getFOAuthClientId",
+        "type": "function",
+        "description": "Returns Fastmail OAuth client id.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "Vivaldi Fastmail's OAuth client id."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getCommandLineValue",
+        "type": "function",
+        "description": "Gets the command line value for the given named argument.",
+        "parameters": [
+          {
+            "name": "value",
+            "type": "string",
+            "description": "Name of the command line switch without initial dashes eg. translate-server-url."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string",
+              "description": "The command line strings contents of the given command line, or empty if the command line did not have this named argument."
+            }
+          ]
+        }
+      },
+      {
+        "name": "osCrypt",
+        "type": "function",
+        "parameters": [
+          {
+            "name": "plain",
+            "type": "string",
+            "description": "The content to encrypt"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "encrypted",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "osDecrypt",
+        "type": "function",
+        "parameters": [
+          {
+            "name": "encrypted",
+            "type": "string",
+            "description": "The content to decrypt"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "plain",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "translateText",
+        "type": "function",
+        "parameters": [
+          {
+            "name": "sourceLanguageCode",
+            "type": "string",
+            "description": "The language code of the source text, or empty if you want the server to try to detect the language."
+          },
+          {
+            "name": "destinationLanguageCode",
+            "type": "string",
+            "description": "The destination language code."
+          },
+          {
+            "name": "sourceText",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The strings to translate."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "TranslateTextResponse"
+            }
+          ]
+        }
+      },
+      {
+        "name": "showManageSSLCertificates",
+        "type": "function",
+        "description": "Show the OS manage certificates dialog.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "The window to use as parent window for the dialog"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "setProtocolHandling",
+        "type": "function",
+        "description": "Turn on/off protocol handling for web pages.",
+        "parameters": [
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "description": "Turn on/off protocol handling for web pages."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "supportsProxy",
+        "type": "function",
+        "description": "Returns true or false depending on invisiv proxy can be used or not. This is a platform test, not a test of other condtitions.",
+        "parameters": [],
+        "returns": {
+          "$ref": "ProxyPlatformSupport"
+        }
+      },
+      {
+        "name": "connectProxy",
+        "type": "function",
+        "description": "Connects to invisiv proxy.",
+        "parameters": [
+          {
+            "name": "options",
+            "$ref": "ProxyOptions"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "info",
+              "$ref": "ProxyConnectInfo"
+            }
+          ]
+        }
+      },
+      {
+        "name": "disconnectProxy",
+        "type": "function",
+        "description": "Disconnects from invisiv proxy.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onScroll",
+        "type": "function",
+        "description": "Fires for Mac when scroll device changes.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "scrollType",
+            "minimum": 0,
+            "description": "Device that triggers scrolling. 1: Mouse, 2: Trackpad 3: Inertial"
+          }
+        ]
+      },
+      {
+        "name": "onSharedDataUpdated",
+        "type": "function",
+        "description": "Fires when a shared data value has changed or been added.",
+        "parameters": [
+          {
+            "name": "key",
+            "type": "string",
+            "description": "Name of the key for the value."
+          },
+          {
+            "name": "value",
+            "type": "any",
+            "description": "The new value for the key."
+          }
+        ]
+      },
+      {
+        "name": "onSuspend",
+        "type": "function",
+        "description": "Fired when the computer is about to suspend."
+      },
+      {
+        "name": "onResume",
+        "type": "function",
+        "description": "Fired when the computer has resumed from suspension."
+      },
+      {
+        "name": "onPasswordIconStatusChanged",
+        "type": "function",
+        "description": "Fires for password icon status change.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "Window id to show/hide icon for"
+          },
+          {
+            "name": "show",
+            "type": "boolean",
+            "description": "Whether to show or hide icon"
+          }
+        ]
+      },
+      {
+        "name": "onDownloadManagerReady",
+        "type": "function",
+        "description": "Fired when the download manager has loaded all its data.",
+        "parameters": []
+      },
+      {
+        "name": "onRazerChromaReady",
+        "type": "function",
+        "description": "Fired when the Razer Chroma API has been initialized.",
+        "parameters": []
+      },
+      {
+        "name": "onBroadcastMessage",
+        "type": "function",
+        "description": "Test.",
+        "parameters": [
+          {
+            "$ref": "BroadcastAction",
+            "name": "message",
+            "description": "The message to receive."
+          }
+        ]
+      },
+      {
+        "name": "onShowQRCode",
+        "type": "function",
+        "description": "Fired when Chromium wants us to show a QR code for the given url.",
+        "parameters": [
+          {
+            "name": "url",
+            "type": "string",
+            "description": "The url to show the QR code for."
+          }
+        ]
+      }
+    ]
+  }
+]

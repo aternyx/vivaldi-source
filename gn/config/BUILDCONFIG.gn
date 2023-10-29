@@ -1,0 +1,40 @@
+declare_args() {
+  is_vivaldi = true
+  is_vivaldi_polestar = false
+  is_vivaldi_renault = false
+  is_vivaldi_lynkco = false
+  is_vivaldi_mercedes = false
+  is_vivaldi_volvo = false
+  # GAS = Google Automotive Services - is_vivaldi_gas is set to true for the generic AAOS build
+  is_vivaldi_gas = false
+}
+
+declare_args() {
+  # is_vivaldi_automotive is true for all OEM builds
+  is_vivaldi_automotive = is_vivaldi_polestar || is_vivaldi_renault || is_vivaldi_lynkco || is_vivaldi_mercedes || is_vivaldi_volvo || is_vivaldi_gas
+  is_vivaldi_preloaded = is_vivaldi_mercedes
+}
+
+assert (is_vivaldi)
+
+import ("//build/config/BUILDCONFIG.gn")
+import ("//vivaldi/gn/config/product_configs.gni")
+
+declare_args() {
+  vivaldi_signing_id = ""
+  vivaldi_signing_key = ""
+  vivaldi_notarize_account = ""
+  vivaldi_notarize_password = ""
+  vivaldi_notarytool_password = ""
+}
+
+if (is_win) {
+  _vivaldi_sdk_config = read_file("//vivaldi/build/toolchain.json", "json")
+  vivaldi_win_sdk_version = _vivaldi_sdk_config.version
+}
+
+default_chrome_lint_targets = ["//chrome/android:chrome_public_apk__lint"]
+
+if (vivaldi_notarytool_password != "") {
+  vivaldi_notarytool_password = string_replace(vivaldi_notarytool_password, "@keychain:", "")
+}

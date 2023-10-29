@@ -1,0 +1,19 @@
+source_set("tools") {
+  sources = [
+    "../tools/vivaldi_tools.cpp",
+    "../tools/vivaldi_tools.h",
+  ]
+  deps = [
+    "//chrome/browser/sharing/proto",
+    "//chrome/common",
+    "//components/zoom",
+    "//extensions/buildflags",
+    "//extensions/browser",
+    "//net",
+    "//skia",
+    "//vivaldi/ui",
+  ]
+  allow_circular_includes_from = [
+    "//vivaldi/ui",
+  ]
+}

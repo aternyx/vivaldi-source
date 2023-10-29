@@ -1,0 +1,66 @@
+# Copyright (c) 2022 Vivaldi Technologies AS. All rights reserved
+
+source_set("panel") {
+  sources = [
+    "panel_interaction_controller.mm",
+    "panel_interaction_controller.h",
+    "panel_view_controller.mm",
+    "panel_view_controller.h",
+    "panel_constants.mm",
+    "panel_constants.h",
+    "sidebar_panel_view_controller.mm",
+    "sidebar_panel_view_controller.h",
+    "sidebar_panel_presentation_controller.mm",
+    "sidebar_panel_presentation_controller.h",
+    "panel_transitioning_delegate.mm",
+    "panel_transitioning_delegate.h",
+    "slide_in_animator.mm",
+    "slide_in_animator.h",
+    "slide_out_animator.mm",
+    "slide_out_animator.h",
+    "panel_button_view.mm",
+    "panel_button_view.h",
+    "panel_button_cell.mm",
+    "panel_button_cell.h"
+  ]
+
+  deps = [
+    "//base",
+    "//components/keyed_service/core",
+    "//components/keyed_service/ios",
+    "//components/prefs",
+    "//ios/chrome/browser/browser_state",
+    "//ios/chrome/browser/shared/model/browser",
+    "//ios/chrome/browser/shared/public/features",
+    "//ios/chrome/browser/shared/ui/table_view:styler",
+    "//ios/chrome/browser/shared/ui/table_view:utils",
+    "//ios/chrome/browser/shared/ui/table_view:views",
+    "//ios/chrome/browser/shared/ui/table_view",
+    "//ios/chrome/browser/shared/ui/util:url_with_title",
+    "//ios/chrome/browser/url_loading",
+    "//ios/chrome/browser/web_state_list",
+    "//ios/chrome/browser/window_activities",
+    "//ios/chrome/common/ui/colors",
+    "//ios/chrome/common/ui/util",
+    "//ios/third_party/material_components_ios",
+    "//ui/base",
+    "//vivaldi/notes:browser",
+    "//vivaldi/ios/ui/notes/cells",
+    "resources:vivaldi_notes_empty",
+    "resources:vivaldi_history_empty",
+    "resources:vivaldi_bookmarks_empty",
+    "resources:bookmark_panel_active",
+    "resources:history_panel_active",
+    "resources:notes_panel_active",
+    "resources:readinglist_panel_active",
+    "resources:vivaldi_bookmark_panel",
+    "resources:vivaldi_bookmarks_empty",
+    "resources:vivaldi_history_empty",
+    "resources:vivaldi_history_panel",
+    "resources:vivaldi_notes_empty",
+    "resources:vivaldi_notes_panel",
+    "resources:vivaldi_readinglist_panel",
+ ]
+ frameworks = [ "UIKit.framework" ]
+
+}

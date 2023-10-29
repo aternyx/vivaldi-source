@@ -1,0 +1,367 @@
+// Copyright (c) 2015-2017 Vivaldi Technologies AS. All rights reserved
+// Copyright (c) 2014 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+[
+  {
+    "namespace": "sync",
+    "description": "Use <code>vivaldi.sync</code> for sync messages.",
+    "types": [
+      {
+        "id": "SyncNotificationClientStatus",
+        "description": "Used to report whether we have a connection to the notification server.",
+        "type": "string",
+        "enum": [ "connected", "disconnected" ]
+      },
+      {
+        "id": "EngineState",
+        "description": "The state of the sync engine.",
+        "type": "string",
+        "enum": [ {
+          "name": "stopped",
+          "description": "Sync has not been requested by the user"
+        }, {
+          "name": "starting",
+          "description": "Sync has been requested but the engine is not done starting"
+        }, {
+          "name": "starting_server_error",
+          "description": "Sync has been requested but the engine is not done starting and can't do so because of a server issue"
+        }, {
+          "name": "started",
+          "description": "The sync engine is running normally"
+        }, {
+          "name": "clearing_data",
+          "description": "The sync engine is running, but it is in the process of requesting server data to be cleared."
+        }, {
+          "name": "configuration_pending",
+          "description": "The sync engine is running, but it is waiting for the current setup to be complete before actually syncing anything"
+        }, {
+          "name": "failed",
+          "description": "The sync engine encountered an error that forced it to stop."
+        } ]
+      },
+      {
+        "id": "DisableReason",
+        "description": "The reason why the sync engine is in a failed state. This should be kept in sync with SyncService::DisableReason (chromium/components/sync/driver/sync_service.h)",
+        "type": "string",
+        "enum" : [ "enterprise_policy", "not_signed_in",
+          "unrecoverable_error", "flag" ]
+      },
+      {
+        "id": "CycleStatus",
+        "description": "Error occuring as part of the sync cycle. This should be kept in sync with VivaldiSyncUIHelper::CycleStatus (sync/vivaldi_sync_ui_helper.h)",
+        "type": "string",
+        "enum": [ "not_synced", "success", "auth_error",
+          "server_error", "network_error", "conflict", "throttled",
+          "other_error" ]
+      },
+      {
+        "id": "ProtocolErrorType",
+        "description": "Possible error types for errors returned as part of sync server responses. This should be kept in sync with syncer::SyncProtocolErrorType (chromium/components/sync/protocol/sync_protocol_error.h)",
+        "type": "string",
+        "enum" : [ "success", "not_my_birthday", "throttled", "clear_pending",
+          "transient_error", "migration_done", "disabled_by_admin",
+          "partial_failure", "client_data_obsolete", "encryption_obsolete",
+          "unknown" ]
+      },
+      {
+        "id": "ClientAction",
+        "description": "Possible action that the client can take to fix the last server-returned error. This should be kept in sync with syncer::ClientAction (chromium/components/sync/protocol/sync_protocol_error.h)",
+        "type": "string",
+        "enum" : [ "upgrade_client", "disable_sync_on_client",
+          "stop_sync_for_disabled_account", "reset_local_sync_data", "unknown" ]
+      },
+      {
+        "id": "DataType",
+        "description": "User selectable data types that we support",
+        "type" : "string",
+        "enum" : [ "bookmarks", "preferences", "passwords", "autofill",
+          "history", "extensions", "apps", "reading_list", "tabs", "notes" ]
+      },
+      {
+        "id": "DataTypeSelection",
+        "type": "object",
+        "description": "A structure containing the system status of a data type.",
+        "properties": {
+          "dataType": {
+            "$ref": "DataType"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "true if we want to sync this data type, otherwise false."
+          }
+        }
+      },
+      {
+        "id": "EngineData",
+        "type": "object",
+        "description": "Contains information about the state of the sync engine.",
+        "properties":{
+          "engineState": {
+            "$ref": "EngineState"
+          },
+          "disableReasons": {
+            "type" : "array",
+            "items": {
+              "$ref": "DisableReason"
+            }
+          },
+          "protocolErrorType": {
+            "$ref": "ProtocolErrorType"
+          },
+          "protocolErrorDescription": {
+            "type": "string",
+            "description": "Plain english description of the error as sent by the server"
+          },
+          "protocolErrorClientAction": {
+            "$ref": "ClientAction"
+          },
+          "usesEncryptionPassword": {
+            "type": "boolean",
+            "description": "Whether encryption has been set up"
+          },
+          "needsDecryptionPassword": {
+            "type": "boolean",
+            "description": "Whether a password is needed to decrypt the sync data"
+          },
+          "isEncryptingEverything": {
+            "type": "boolean",
+            "description": "Wheter the engine is encrypting all data types"
+          },
+          "isSetupInProgress": {
+            "type": "boolean",
+            "description": "Whether the sync service is being configured."
+          },
+          "isFirstSetupComplete": {
+            "type": "boolean",
+            "description": "Whether the sync service has been configured and started before."
+          },
+          "syncEverything": {
+            "type": "boolean",
+            "description": "Indicates that all datatypes will always be synced."
+          },
+          "dataTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "DataTypeSelection"
+            },
+            "description": "List of available data types and whether the user chose to sync them."
+          },
+          "isReady": {
+            "type": "boolean",
+            "desccription": "Always true. Lets the JS code knows that it has received the real data."
+          }
+        }
+      },
+      {
+        "id": "CycleData",
+        "type": "object",
+        "description": "Contains information about the last sync cycle.",
+        "properties":{
+          "cycleStartTime": {
+            "type": "number",
+            "description": "The last time a sync cycle started."
+          },
+          "downloadUpdatesStatus": {
+            "$ref": "CycleStatus",
+            "description": "Whether the download updates part of the last sync cycle was successful"
+          },
+          "commitStatus": {
+            "$ref": "CycleStatus",
+            "description": "Whether the commit part of the last sync cycle was successful"
+          },
+          "nextRetryTime": {
+            "type": "number",
+            "description": "The time at which the next sync attempt will be made, if the last one failed"
+          },
+          "isReady": {
+            "type": "boolean",
+            "desccription": "Always true. Lets the JS code knows that it has received the real data."
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "start",
+        "type": "function",
+        "description": "Starts up sync. Feedback about the startup process can be obtained by listening to onEngineStateChanged.",
+        "parameters": [ ]
+      },
+      {
+        "name": "stop",
+        "type": "function",
+        "description": "Shuts sync down.",
+        "parameters": [ ]
+      },
+      {
+        "name": "setEncryptionPassword",
+        "type": "function",
+        "description": "Sets the password to use for encryption/decryption of Sync data. If an empty password is supplied, the password supplied when logging in will be used.",
+        "parameters": [
+          {
+            "name": "password",
+            "type": "string",
+            "optional": true,
+            "description": "The encryption password to use. If not specified, We will attempt to use the currently stored login password instead."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "accepted",
+              "type": "boolean",
+              "description": "Whether the password was accepted. This will be false if we have data to decrypt and the password doesn't allow to decrypt them or if we already had a password set."
+            }
+          ]
+        }
+      },
+      {
+        "name": "backupEncryptionToken",
+        "type": "function",
+        "description": "Saves the token derived from the encryption password to a file",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "target_file",
+            "description": "The file to which the token should be saved"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "restoreEncryptionToken",
+        "type": "function",
+        "description": "Uses a previously backed-up token to set up encryption",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "source_file",
+            "description": "The file from which the token should be recovered"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean",
+              "description": "Whether the file was read successfully. Failure may still occur if the retrieved token is incorrect."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getDefaultSessionName",
+        "type": "function",
+        "description": "Returns the device name as determined by the OS.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setTypes",
+        "type": "function",
+        "description": "Sets which data types should be synced",
+        "parameters": [
+          {
+            "name": "syncEverything",
+            "type": "boolean",
+            "description": "Sets which datatypes sould be synced."
+          },
+          {
+            "name": "types",
+            "type": "array",
+            "items": {
+              "$ref": "DataTypeSelection"
+            },
+            "description": "List of data types to be enabled"
+          }
+        ]
+      },
+      {
+        "name": "getEngineState",
+        "type": "function",
+        "description": "Returns informations about the status of the sync engine.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters":[
+            {
+              "name": "data",
+              "$ref": "EngineData"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getLastCycleState",
+        "type": "function",
+        "description": "Returns informations about the status of the last sync cycle.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "data",
+              "$ref": "CycleData"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setupComplete",
+        "type": "function",
+        "description": "Informs the backend that the user is done configuring sync types",
+        "parameters": [ ]
+      },
+      {
+        "name": "clearData",
+        "type": "function",
+        "description": "Clear all the user's data on the server side and logs them out",
+        "parameters": [ ]
+      }
+    ],
+    "events": [
+      {
+        "name": "onEngineStateChanged",
+        "type": "function",
+        "description": "Fired when the sync engine state has changed.",
+        "parameters": [
+          {
+            "name": "data",
+            "$ref": "EngineData"
+          }
+        ]
+      },
+      {
+        "name": "onCycleCompleted",
+        "type": "function",
+        "description": "Fired when a sync cycle completed.",
+        "parameters": [
+          {
+            "name": "data",
+            "$ref": "CycleData"
+          }
+        ]
+      }
+    ]
+  }
+]

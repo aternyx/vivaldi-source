@@ -1,0 +1,58 @@
+import ("//vivaldi/testing/testing.gni")
+
+if (vivaldi_build_tests) {
+  update_target("//chrome/test:browser_tests") {
+    sources += [
+      "//vivaldi/extensions/api/webview/chrome_web_view_mediastate_apitest.cc",
+      "//vivaldi/extensions/api/tabs/tests/tabs_mediastate_apitest.cc",
+    ]
+  }
+}
+
+if (!is_android) {
+  update_target("//chrome/common:common_lib") {
+    sources -= ["initialize_extensions_client.cc"]
+    sources += ["//vivaldi/extensions/vivaldi_initialize_extensions_client.cc"]
+  }
+}
+
+update_target("//extensions/renderer:renderer") {
+  sources += [
+    "//vivaldi/extensions/renderer/vivaldi_script_dispatcher.cpp",
+    "//vivaldi/extensions/renderer/vivaldi_script_dispatcher.h",
+    "//vivaldi/extensions/renderer/vivaldi_utilities_hook_delegate.cc",
+    "//vivaldi/extensions/renderer/vivaldi_utilities_hook_delegate.h",
+  ]
+
+  deps += [
+    "//components/lookalikes/core:proto",
+    "//vivaldi/extensions:resources",
+  ]
+}
+
+update_template_instance("//chrome/common/extensions/api:api_features") {
+  sources += [ "//vivaldi/extensions/api/_api_features.json" ]
+}
+
+update_template_instance("//chrome/common/extensions/api:permission_features") {
+  sources += [ "//vivaldi/extensions/api/_permission_features.json" ]
+}
+
+update_template_instance("//chrome/common/extensions/api:manifest_features") {
+  sources += [ "//vivaldi/extensions/api/_manifest_features.json" ]
+}
+
+update_target("//extensions/browser:browser_sources") {
+  sources += [
+    "//vivaldi/extensions/vivaldi_extension_prefs.cc",
+    "//vivaldi/extensions/api/guest_view/vivaldi_web_view_guest.cpp",
+  ]
+  deps += [
+    "//chrome/common:mojo_bindings",
+    "//chrome/browser/sharing/proto",
+    "//components/translate/content/browser",
+    "//third_party/blink/public:blink_headers",
+    "//vivaldi/extensions/schema",
+    "//vivaldi/prefs:prefs_files_generator",
+  ]
+}

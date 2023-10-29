@@ -1,0 +1,15 @@
+# Copyright (c) 2020 Vivaldi Technologies AS. All rights reserved
+
+import("//mojo/public/tools/bindings/mojom.gni")
+
+mojom("mojom") {
+  sources = [ "adblock_cosmetic_filter.mojom" ]
+
+  deps = [ "//url/mojom:url_mojom_gurl" ]
+
+  input_root_override = "//vivaldi/"
+
+  export_class_attribute_blink = "CORE_EXPORT"
+  export_define_blink = "BLINK_CORE_IMPLEMENTATION=1"
+  export_header_blink = "third_party/blink/renderer/core/core_export.h"
+}

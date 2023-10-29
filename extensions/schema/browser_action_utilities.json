@@ -1,0 +1,385 @@
+// Copyright 2015 Vivaldi Technologies AS. All rights reserved.
+
+[
+  {
+    "namespace": "extensionActionUtils",
+    "description": "Helper functions for Vivaldi to reuse Chromes extension UI.",
+    "types": [
+      {
+        "id": "ActionType",
+        "type": "string",
+        "enum": [ "browser", "page" ],
+        "description": "browser- or pageAction."
+      },
+      {
+        "id": "ExtensionType",
+        "type": "string",
+        "enum": [ "extensionAction", "componentAction" ],
+        "description": "Regular extension- or componentAction. Component actions will go through ToolbarActionViewController"
+      },
+      {
+        "id":  "MenuType",
+        "type": "string",
+        "enum": ["normal", "checkbox", "radio", "separator"],
+        "description": "What type of menu item."
+      },
+      {
+        "id": "MenuItem",
+        "type": "object",
+        "description": "Menu item representing a single menu item.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the item as shown in the menu."
+          },
+          "id": {
+            "type": "string",
+            "description": "The id for the item."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Is the item enabled."
+          },
+          "visible": {
+            "type": "boolean",
+            "description": "Is the item visible."
+          },
+          "checked": {
+            "type": "boolean",
+            "description": "Is the item checked."
+          },
+          "menuType": {
+            "$ref": "MenuType"
+          },
+          "submenu": {
+            "type": "array",
+            "items": { "$ref": "MenuItem" },
+            "optional": true,
+            "description": "Sub menu items if the extension supplies a custom menu."
+          }
+        }
+      },
+      {
+          "id": "ExtensionInfo",
+          "type": "object",
+          "description": "Extension action per tab id.",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The unique extension identifier."
+            },
+            "badgeTooltip": {
+              "type": "string",
+              "optional": true,
+              "description": "Tooltip for the button."
+            },
+            "badgeText": {
+              "type": "string",
+              "optional": true,
+              "description": "Badgetext, typically room for four chars."
+            },
+            "badgeIcon": {
+              "type": "string",
+              "optional": true,
+              "description": "data-url for the current icon."
+            },
+            "badgeTextColor": {
+              "type": "string",
+              "optional": true,
+              "description": "Text color for the badge text, currently unused."
+            },
+            "badgeBackgroundColor": {
+              "type": "string",
+              "optional": true,
+              "description": "Background color for the badge text."
+            },
+            "enabled": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Whether the extension is enabled or not."
+            },
+            "actionType": {
+              "$ref": "ActionType",
+              "optional": true,
+              "description": "The type of the extensionAction, either pageaction or browseraction."
+            },
+            "visible": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Visibility of the action button, defaults to true."
+            },
+            "actionIsHidden": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Set to true if the action is user-set to hidden. Defaults to false."
+            },
+            "allowInIncognito": {
+              "type": "boolean",
+              "optional": true,
+              "description": "Whether the action is available in incognito windows or not."
+            },
+            "extensionType": {
+              "$ref": "ExtensionType",
+              "optional": true,
+              "description": "The type of the extensionAction, either pageaction or browseraction. Defaults to |extensionAction|."
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of extension."
+            },
+            "homepage": {
+              "type": "string",
+              "optional": true,
+              "description": "Homepage of extension."
+            },
+            "optionspage": {
+              "type": "string",
+              "optional": true,
+              "description": "Address of extension options page."
+            },
+            "optionsInNewTab": {
+              "type": "boolean",
+              "optional": true,
+              "description": "false if the options page should be opened embedded, true if it opens in a new tab."
+            },
+            "keyboardShortcut": {
+              "type": "string",
+              "optional": true,
+              "description": "Keyboard shortcut to toggle this extension."
+            }
+          }
+        }
+    ],
+    "functions": [
+      {
+        "name": "getToolbarExtensions",
+        "type": "function",
+        "description": "",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": { "$ref": "ExtensionInfo" }
+            }
+          ]
+        }
+      },
+      {
+        "name": "executeExtensionAction",
+        "type": "function",
+        "description": "execute browserAction or pageAction for extension",
+          "parameters": [
+            {
+              "name": "extensionId",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "type": "integer",
+              "name": "windowId",
+              "description": "id of the application window."
+            },
+            {
+              "name": "showPopup",
+              "type": "function",
+              "description": "Callback for popup actions.",
+              "parameters": [
+                {
+                  "name": "popupUrl",
+                  "type": "string",
+                  "description": "Relative url for the popup document."
+                }
+              ]
+            }
+          ]
+      },
+      {
+        "name": "toggleBrowserActionVisibility",
+        "type": "function",
+        "description": "This will toggle the visibility of an extension browser- or page-action button. The regular vivaldi://extensions page will have a 'show' button.",
+        "parameters": [
+          {
+            "name": "extensionId",
+            "type": "string",
+            "description": "The id for the extension we want to toggle visibility on."
+          }
+        ]
+      },
+      {
+        "name": "removeExtension",
+        "type": "function",
+        "description": "Removes a specified extension.",
+        "parameters": [
+          {
+            "name": "extensionId",
+            "type": "string",
+            "description": "The id for the extension we want to remove."
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "id of the application window. Used to find the Browser object."
+          }
+        ]
+      },
+      {
+        "name": "showExtensionOptions",
+        "type": "function",
+        "description": "Shows options for the given extension",
+        "parameters": [
+          {
+            "name": "extensionId",
+            "type": "string",
+            "description": "The id for the extension we want to remove."
+          },
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "id of the application window. Used to find the Browser object."
+          }
+        ]
+      },
+      {
+        "name": "getExtensionMenu",
+        "type": "function",
+        "description": "Gets the context menu for the given extension",
+        "parameters": [
+          {
+            "name": "extensionId",
+            "type": "string",
+            "description": "The id for the extension we want to get the menu for."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "items",
+              "type": "array",
+              "items": { "$ref": "MenuItem" },
+              "description": "Menu items if the extension supplies a custom menu."
+            }
+          ]
+        }
+      },
+      {
+        "name": "executeMenuAction",
+        "type": "function",
+        "description": "Execute menu action for extension.",
+          "parameters": [
+            {
+              "name": "extensionId",
+              "type": "string",
+              "description": ""
+            },
+            {
+              "type": "integer",
+              "name": "windowId",
+              "description": "id of the application window."
+            },
+            {
+              "type": "string",
+              "name": "menuId",
+              "description": "id of the menu item."
+            },
+            {
+              "name": "result",
+              "type": "function",
+              "description": "Callback for action.",
+              "parameters": [
+                {
+                  "name": "success",
+                  "type": "boolean",
+                  "description": "true on success."
+                }
+              ]
+            }
+          ]
+      }
+    ],
+    "events": [
+      {
+        "name": "onAdded",
+        "type": "function",
+        "description": "Fired when an extension has been loaded.",
+        "parameters": [
+          {
+            "$ref": "ExtensionInfo",
+            "name": "extension"
+          }
+        ]
+      },
+      {
+        "name": "onRemoved",
+        "type": "function",
+        "description": "Fired when an extension has been unloaded.",
+        "parameters": [
+          {
+            "$ref": "ExtensionInfo",
+            "name": "extension"
+          }
+        ]
+      },
+      {
+        "name": "onUpdated",
+        "type": "function",
+        "description": "Fired when an extensionAction is changed.",
+        "parameters": [
+          {
+            "$ref": "ExtensionInfo",
+            "name": "extension"
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "id of the window that receives the update."
+          }
+        ]
+      },
+      {
+        "name": "onCommandAdded",
+        "type": "function",
+        "description": "Fired when a keyboard shortcut is added to an extension.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "extensionId"
+          },
+          {
+            "type": "string",
+            "name": "shortcut"
+          }
+        ]
+      },
+      {
+        "name": "onCommandRemoved",
+        "type": "function",
+        "description": "Fired when a keyboard shortcut is removed from an extension.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "extensionId"
+          },
+          {
+            "type": "string",
+            "name": "shortcut"
+          }
+        ]
+      },
+      {
+        "name": "onIconLoaded",
+        "type": "function",
+        "description": "Fired when an extension-icon is fully loaded. Note that only ExtensionInfo.id and ExtensionInfo.badgeIcon is filled!",
+        "parameters": [
+          {
+            "$ref": "ExtensionInfo",
+            "name": "extension"
+          }
+        ]
+      }
+    ]
+  }
+]

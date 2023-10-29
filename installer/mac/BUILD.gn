@@ -1,0 +1,305 @@
+import("//vivaldi/gn/config/version.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/command_action.gni")
+import("//build/config/compiler/pgo/pgo.gni")
+import("//vivaldi/installer/widevine.gni")
+import("//build/util/branding.gni")
+
+assert(is_mac)
+
+import("//vivaldi/gn/config/signer_features.gni")
+
+build_app_dmg_script_path = "//vivaldi/thirdparty/create_dmg/create-dmg"
+
+vivaldi_name = "Vivaldi"
+vivaldi_app_name = vivaldi_name
+input_app_folder_for_dmg = "$root_build_dir/$vivaldi_name.app"
+
+universal_suffix = ""
+
+perform_signing = vivaldi_signing_key != "" && vivaldi_signing_id != ""
+
+signing_deps = []
+dmg__signing_deps = []
+if (perform_signing) {
+  signing_deps += [ ":sign_mac" ]
+  dmg__signing_deps += [ ":sign_dmg" ]
+
+  mac_packaging_dir = "$root_build_dir/Vivaldi_Packaging"
+
+  signing_input_dir = "."
+  if (generate_universal_mac) {
+    signing_input_dir = "universal"
+    universal_suffix = ".universal"
+  }
+
+  name_prefix = ""
+  mac_product_directory = "stable"
+
+  if (VIVALDI_RELEASE_KIND == "vivaldi_snapshot") {
+    app_name_fragment = "Snapshot"
+    mac_product_directory = "$vivaldi_name $app_name_fragment"
+    vivaldi_app_name = "$vivaldi_name $app_name_fragment"
+    name_prefix = "sxs-snapshot-$app_name_fragment-"
+  } else if (VIVALDI_RELEASE_KIND == "vivaldi_sopranos") {
+    app_name_fragment = "Internal"
+    mac_product_directory = "$vivaldi_name $app_name_fragment"
+    vivaldi_app_name = "$vivaldi_name $app_name_fragment"
+    name_prefix = "sxs-internal-$app_name_fragment-"
+  }
+
+  input_app_folder_for_dmg = "$root_build_dir/$name_prefix$mac_product_directory"
+}
+
+# NOTE(tomas@vivaldi.com): Don't change the names of these files based on channel
+dmg_name = "$vivaldi_name.${vivaldi_version_full}${universal_suffix}.dmg"
+
+
+group("mac") {
+  deps = [ ":build_dmg" ] + signing_deps + dmg__signing_deps
+}
+
+command_bash("build_dmg") {
+  command = build_app_dmg_script_path
+  deps = []
+  if (!perform_signing || !is_full_signer) {
+    deps += [
+              "//chrome/installer/mac",
+              "//vivaldi:vivaldi",
+            ]
+  }
+  deps += signing_deps
+
+  icns = "//vivaldi/installer/mac/icons/$VIVALDI_RELEASE_KIND/disk_image.icns"
+  eula = "//vivaldi/installer/mac/licenses/en.rtf"
+  background = "//vivaldi/installer/mac/background/vivaldi_dmg_background.tif"
+
+  inputs = [
+    background,
+    command,
+    eula,
+    icns,
+    "//vivaldi/thirdparty/create_dmg/support/eula-resources-template.xml",
+    "//vivaldi/thirdparty/create_dmg/support/template.applescript",
+  ]
+
+  outputs = [
+    "$root_build_dir/$dmg_name",
+  ]
+
+  args = [
+    "--volname","$vivaldi_app_name $vivaldi_version_full.dmg",
+    "--volicon", rebase_path(icns, root_build_dir),
+    "--eula", rebase_path(eula, root_build_dir),
+    "--background", rebase_path(background, root_build_dir),
+    "--window-pos", "100", "100",
+    "--window-size", "577", "366",
+    "--text-size", "13",
+    "--icon-size", "128",
+    "--icon", vivaldi_app_name, "158", "152",
+    "--icon", ".background", "1000", "152",
+    "--icon", ".fseventsd", "1100", "152",
+    "--icon", ".VolumeIcon.icns", "1200", "152",
+    "--app-drop-link", "412", "152",
+    "--format", "UDBZ",
+    "--no-internet-enable",
+    dmg_name,
+    rebase_path(input_app_folder_for_dmg, root_build_dir),
+  ]
+}
+
+if (perform_signing) {
+  tar_name = "$vivaldi_name.$vivaldi_version_full${universal_suffix}.tar.xz"
+  group("sign_mac") {
+    deps = [
+      ":sign_package",
+      ":create_tar",
+    ]
+  }
+
+  if (generate_universal_mac) {
+    action("generate_universal") {
+      script = "//chrome/installer/mac/universalizer.py"
+
+      args = rebase_path([
+        "//out/signing_x64/Vivaldi.app",
+        "$root_out_dir/Vivaldi.app",
+        "$root_out_dir/universal/Vivaldi.app",
+      ])
+
+      outputs = [
+        "$root_out_dir/universal/Vivaldi.app",
+        "$root_gen_dir/universal.done"
+      ]
+    }
+
+    system_command("universal_packaging") {
+      deps = [":generate_universal"]
+      if (!is_full_signer) {
+        deps += ["//chrome/installer/mac"]
+      }
+      command = "ln"
+      inputs = []
+      outputs = [
+        "$root_gen_dir/universal_packaging.done",
+      ]
+      args = [
+        "-s",
+        "../Vivaldi_Packaging",
+        "universal/",
+      ]
+    }
+
+  }
+
+  action("sign_package") {
+    deps = []
+    if (!is_full_signer) {
+      deps += [
+        "//chrome:chrome_app",
+        "//chrome/installer/mac",
+        "//vivaldi:vivaldi",
+      ]
+    }
+    if (is_full_signer && enable_widevine_signing) {
+      deps += [":vivaldi_framework_widevine_signature"]
+    }
+    if (generate_universal_mac) {
+      deps += [
+        ":generate_universal",
+        ":universal_packaging",
+      ]
+    }
+    script = "$mac_packaging_dir/sign_chrome.py"
+    inputs = []
+    outputs = ["$root_gen_dir/signed_package.done"]
+    args = [
+      "--identity", vivaldi_signing_id,
+      "--input", signing_input_dir,
+      "--output", ".",
+      "--disable-packaging",
+      "--vivaldi-release-kind", VIVALDI_RELEASE_KIND,
+    ]
+
+    # hardening and notarization and disabled due to VB-58183
+    if (is_full_signer) {
+      assert(vivaldi_notarize_account != "")
+      assert(vivaldi_notarytool_password != "")
+      args += [
+        "--notarize",
+      ]
+      notarize_args = [
+        "--team-id", chrome_mac_team_id,
+        "--apple-id", vivaldi_notarize_account,
+        "--keychain-profile", vivaldi_notarytool_password,
+      ]
+      foreach (arg, notarize_args) {
+        args += ["--notary-arg=$arg"]
+      }
+    } else {
+      args += [
+        # Vivaldi does not use entitlements_plist or provisioning_profile
+        # so using this flag to disable that part of the code
+        "--development",
+      ]
+    }
+  }
+
+  action("sign_dmg") {
+    deps = [
+      ":build_dmg",
+    ]
+    script = "sign_dmg.py"
+    inputs = ["$root_build_dir/$dmg_name"]
+    outputs = ["$root_gen_dir/signed_dmg.done"]
+    args = [
+      "--identity", vivaldi_signing_id,
+    ]
+
+    if (is_full_signer) {
+      assert(vivaldi_notarize_account != "")
+      assert(vivaldi_notarytool_password != "")
+      args += [
+        "--notarize",
+      ]
+      notarize_args = [
+        "--team-id", chrome_mac_team_id,
+        "--apple-id", vivaldi_notarize_account,
+        "--keychain-profile", vivaldi_notarytool_password,
+      ]
+      foreach (arg, notarize_args) {
+        args += ["--notary-arg=$arg"]
+      }
+    }
+    args += [ dmg_name ]
+  }
+
+  #correct permissions in app before tar-ing it.
+  system_command("chmod_app") {
+    deps = [
+      ":sign_package",
+    ]
+    if (!is_full_signer) {
+      deps += [
+        "//chrome:chrome_app",
+        "//chrome/installer/mac",
+        "//vivaldi:vivaldi",
+      ]
+    }
+    command = "find"
+    inputs = []
+    outputs = [
+      "$root_gen_dir/chmod.done",
+    ]
+    args = [
+      rebase_path("$input_app_folder_for_dmg", root_build_dir),
+      "-exec", "chmod", "-h", "a-st+rX,u+w,go-w", "{}", ";"
+    ]
+  }
+
+  system_command("create_tar") {
+    deps = [
+      ":chmod_app",
+      ":sign_package",
+    ]
+    command = "tar"
+    tar_path = "$root_build_dir/$tar_name"
+    inputs = [
+      "$root_gen_dir/chmod.done",
+      "$root_gen_dir/signed_package.done",
+    ]
+    outputs = [tar_path]
+
+    args = [
+      "-C",
+      rebase_path(input_app_folder_for_dmg, root_build_dir),
+      "-cJf",
+      rebase_path(tar_path, root_build_dir),
+      "$vivaldi_app_name.app",
+    ]
+  }
+}
+
+if (is_full_signer && enable_widevine_signing) {
+  app_root_out_dir = "$root_out_dir"
+  if (generate_universal_mac) {
+    app_root_out_dir = "$root_out_dir/universal"
+  }
+
+  widevine_sign("sign_vivaldi_framework_for_widevine") {
+    file = "${app_root_out_dir}/${vivaldi_name}.app/Contents/Frameworks/${vivaldi_name} Framework.framework/Versions/$vivaldi_version_full/${vivaldi_name} Framework"
+    flags = 1
+    signature_file = "${app_root_out_dir}/${vivaldi_name} Framework.sig"
+    if (generate_universal_mac) {
+      deps = [ ":generate_universal" ]
+    }
+  }
+
+  copy("vivaldi_framework_widevine_signature") {
+    deps = [ ":sign_vivaldi_framework_for_widevine" ]
+
+    sources = [ "${app_root_out_dir}/${vivaldi_name} Framework.sig" ]
+
+    outputs = [ "${app_root_out_dir}/${vivaldi_name}.app/Contents/Frameworks/${vivaldi_name} Framework.framework/Versions/$vivaldi_version_full/Resources/{{source_file_part}}" ]
+  }
+}

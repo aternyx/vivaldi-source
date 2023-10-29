@@ -1,0 +1,35 @@
+
+static_library("app_helper") {
+  deps = [
+    "//content/public/browser:browser",
+    "//components/services/filesystem/public/mojom",
+  ]
+  sources = [
+    "../helper/vivaldi_app_helper.cc",
+    "../helper/vivaldi_app_helper.h",
+  ]
+}
+
+static_library("helper") {
+  deps = [
+    "//content/public/browser:browser",
+    "//chrome/common:buildflags",
+    "//components/paint_preview/buildflags",
+    "//components/services/language_detection/public/mojom",
+    "//components/translate/content/common",
+    "//vivaldi/extensions/schema",
+  ]
+  public_deps = [
+    "//vivaldi/renderer/mojo:frame_host_service",
+  ]
+  sources = [
+    "file_selection_options.cc",
+    "file_selection_options.h",
+    "vivaldi_frame_host_service_impl.cc",
+    "vivaldi_frame_host_service_impl.h",
+    "vivaldi_frame_observer.cc",
+    "vivaldi_frame_observer.h",
+    "vivaldi_init_helpers.cc",
+    "vivaldi_init_helpers.h",
+  ]
+}

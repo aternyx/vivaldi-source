@@ -1,0 +1,62 @@
+import("//tools/json_schema_compiler/json_schema_api.gni")
+import("schemas.gni")
+
+generated_json_strings("generated_api_json_strings") {
+  sources = schema_sources
+  configs = [ "//build/config:precompiled_headers" ]
+  bundle_name = "Vivaldi"
+  root = "//vivaldi/"
+  target_prefix = "vivaldi"
+
+  deps = schema_dependencies
+}
+
+function_registration("generated_api_registration") {
+  sources = schema_sources
+  impl_dir = "//vivaldi/extensions/api"
+  configs = [
+    "//build/config:precompiled_headers",
+  ]
+  bundle_name = "Vivaldi"
+  root = "//vivaldi/"
+  target_prefix = "vivaldi"
+
+  deps = [
+    # Different APIs include headers from these targets.
+    ":generated_api_json_strings",
+    ":generated_api_types",
+
+    "//chrome/common:buildflags",
+    "//chrome/common/extensions/api",
+    "//chrome/services/qrcode_generator/public/mojom",
+    "//components/autofill/core/common/mojom:mojo_types",
+    "//components/guest_view/common:mojom",
+    "//components/omnibox/browser:buildflags",
+    "//components/paint_preview/buildflags:buildflags",
+    "//components/translate/content/common",
+    "//content/public/browser",
+    "//extensions/common",
+    "//skia",
+    "//vivaldi/renderer/mojo:frame_service",
+  ]
+  deps += schema_dependencies
+}
+
+generated_types("generated_api_types") {
+  sources = schema_sources
+  schema_include_rules = extensions_api_schema_include_rules
+  target_prefix = "vivaldi"
+  root = "//vivaldi/"
+
+  deps = [
+    "//extensions/common/api",
+  ]
+}
+
+
+group("schema") {
+  public_deps = [
+    ":generated_api_json_strings",
+    ":generated_api_types",
+  ]
+}

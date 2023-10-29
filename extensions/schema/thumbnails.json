@@ -1,0 +1,243 @@
+// Copyright (c) 2015-2016 Vivaldi Technologies AS. All rights reserved.
+
+[
+  {
+    "namespace": "thumbnails",
+    "description": "Thumbnail capture support api.",
+    "types": [
+      {
+        "id": "CaptureBookmarkParams",
+        "type": "object",
+        "description": "A structure containing parameters for the captureUrl call.",
+        "properties": {
+          "bookmarkId": {
+            "type": "string",
+            "description": "Bookmark id to associate the captured thumbnail with."
+          },
+          "url": {
+            "type": "string",
+            "description": "url to load and generate thumbnail for."
+          }
+        }
+      },
+      {
+        "id": "CaptureUIParams",
+        "type": "object",
+        "description": "A structure containing parameters for the captureUI call.",
+        "properties": {
+          "windowId": {
+            "type": "integer"
+          },
+          "posX": {
+            "type": "number",
+            "description": "X offset inside the given app window in the UI coordinates."
+          },
+          "posY": {
+            "type": "number",
+            "description": "Y offset inside the given app window in the UI coordinates."
+          },
+          "width": {
+            "type": "number",
+            "description": "Width of the capture in the UI coordinates."
+          },
+          "height": {
+            "type": "number",
+            "description": "Height of the capture in the UI coordinates."
+          },
+          "encodeFormat": {
+            "type": "string",
+            "optional": true,
+            "description": "The encoding format. 'jpg' or 'png'. Defaults to 'png'."
+          },
+          "encodeQuality": {
+            "type": "integer",
+            "optional": true,
+            "description": "The jpg encoding quality if format is 'jpg', otherwise ignored. Default is 90, which is very high quality."
+          },
+          "saveToDisk": {
+            "type": "boolean",
+            "optional": true,
+            "description": "The resulting image is saved under the configurable directory. Default is false."
+          },
+          "showFileInPath": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If |saveToBasePath| is provided, setting this to true will open the folder with the file selected after capture has completed. Default is false."
+          },
+          "copyToClipboard": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If true, will copy the image to clipboard in a raw and uncompressed format. This will override any file path arguments. Default is false."
+          },
+          "saveFilePattern": {
+            "type": "string",
+            "optional": true,
+            "description": "If set, will use this pattern to contruct the filename. Note that the file name is still guaranteed to be unique, and (1), (2) etc might be appended if needed."
+          }
+        }
+      },
+      {
+        "id": "CaptureRect",
+        "type": "object",
+        "description": "Rect struct for capture actions where the result wanted is a cut-out of the full tab.",
+        "properties": {
+          "left": {
+            "type": "integer",
+            "description": "x"
+          },
+          "top": {
+            "type": "integer",
+            "description": "y"
+          },
+          "width": {
+            "type": "integer",
+            "description": "width"
+          },
+          "height": {
+            "type": "integer",
+            "description": "height"
+          }
+        }
+      },
+      {
+        "id": "CaptureTabParams",
+        "type": "object",
+        "description": "A structure containing parameters for the captureTab call.",
+        "properties": {
+          "encodeFormat": {
+            "type": "string",
+            "optional": true,
+            "description": "The encoding format. 'jpg' or 'png'. Defaults to 'png'."
+          },
+          "encodeQuality": {
+            "type": "integer",
+            "optional": true,
+            "description": "The jpg encoding quality if format is 'jpg', otherwise ignored. Default is 90, which is very high quality."
+          },
+          "fullPage": {
+            "type": "boolean",
+            "optional": true,
+            "description": "true to capture the full height of the page, restricted to 20000 pixels height. Default is false."
+          },
+          "rect": {
+            "$ref": "CaptureRect",
+            "optional": true,
+            "description": "Wanted rect, output is not scaled."
+          },
+          "width": {
+            "type": "integer",
+            "optional": true,
+            "description": "The resulting width of the capture after scaling. Ignored if |fullPage| is true."
+          },
+          "height": {
+            "type": "integer",
+            "optional": true,
+            "description": "The resulting height of the capture after scaling or if onlyVisible is false, the maximum number of pixels to capture in height."
+          },
+          "saveToDisk": {
+            "type": "boolean",
+            "optional": true,
+            "description": "The resulting image is saved under the configurable directory. Default is false."
+          },
+          "showFileInPath": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If |saveToBasePath| is provided, setting this to true will open the folder with the file selected after capture has completed. Default is false."
+          },
+          "copyToClipboard": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If true, will copy the image to clipboard in a raw and uncompressed format. This will override any file path arguments. Default is false."
+          },
+          "saveFilePattern": {
+            "type": "string",
+            "optional": true,
+            "description": "If set, will use this pattern to contruct the filename. Note that the file name is still guaranteed to be unique, and (1), (2) etc might be appended if needed."
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "captureUI",
+        "type": "function",
+        "description": "Captures a part of the visible UI for the given app window.",
+        "parameters": [
+          {
+            "name": "params",
+            "$ref": "CaptureUIParams"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "success",
+                "type": "boolean",
+                "description": "true if the image was succesfully captured"
+              },
+              {
+                "name": "image",
+                "type": "string",
+                "description": "base64-encoded of the captured image if any."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "captureTab",
+        "type": "function",
+        "description": "Captures the contents of a tab.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "description": "The tab id to capture. 0 to capture the current active tab."
+          },
+          {
+            "name": "params",
+            "$ref": "CaptureTabParams"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": [
+              {
+                "name": "success",
+                "type": "boolean",
+                "description": "true if the image was succesfully captured"
+              },
+              {
+                "name": "image",
+                "type": "string",
+                "description": "base64-encoded of the captured image if any."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "captureBookmark",
+        "type": "function",
+        "description": "Loads a url then captures the contents of it and attached it to a bookmark.",
+        "parameters": [
+          {
+            "name": "params",
+            "$ref": "CaptureBookmarkParams"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean",
+              "description": "True if the thumbnail was successfully generated and stored in the bookmark."
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

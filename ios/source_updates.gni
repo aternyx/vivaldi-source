@@ -1,0 +1,154 @@
+# Copyright (c) 2022 Vivaldi Technologies AS. All rights reserved
+
+update_template_instance("//ios/chrome/app/resources:launchscreen_xib") {
+  source = "//vivaldi/ios/app/resources/LaunchScreen.xib"
+}
+
+update_target("//ios/chrome/browser/ui/browser_view:browser_view") {
+  sources += [
+    "//vivaldi/ios/chrome/browser/ui/browser_view/browser_view_controller+vivaldi.h",
+    "//vivaldi/ios/chrome/browser/ui/browser_view/browser_view_controller+vivaldi.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/tab_switcher/tab_grid:tab_grid_ui_constants") {
+  sources += [
+    "//vivaldi/ios/chrome/browser/ui/tab_switcher/tab_grid/vivaldi_tab_grid_constants.h",
+    "//vivaldi/ios/chrome/browser/ui/tab_switcher/tab_grid/vivaldi_tab_grid_constants.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/tab_switcher/tab_grid:tab_grid_ui") {
+  sources += [
+    "//vivaldi/ios/chrome/browser/ui/tab_switcher/tab_grid/vivaldi_tab_grid_page_control_constants.h",
+    "//vivaldi/ios/chrome/browser/ui/tab_switcher/tab_grid/vivaldi_tab_grid_page_control_constants.mm",
+    "//vivaldi/ios/chrome/browser/ui/tab_switcher/tab_grid/vivaldi_tab_grid_empty_state_view_delegate.h",
+  ]
+}
+
+update_template_instance("//ios/chrome/widget_kit_extension:widget_kit_extension_swift") {
+  sources -= [
+    "main.swift",
+    "search_widget.swift",
+    "quick_actions_widget.swift"
+  ]
+  sources += [
+    "//vivaldi/ios/chrome/widget_kit_extension/main.swift",
+    "//vivaldi/ios/chrome/widget_kit_extension/search_widget.swift",
+    "//vivaldi/ios/chrome/widget_kit_extension/quick_actions_widget.swift",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/tabs:tabs") {
+  sources += [
+    "//vivaldi/ios/chrome/browser/ui/tab_strip/vivaldi_tab_strip_constants.h",
+    "//vivaldi/ios/chrome/browser/ui/tab_strip/vivaldi_tab_strip_constants.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/toolbar:toolbar_ui") {
+  sources += [
+    "//vivaldi/ios/chrome/browser/ui/toolbar/secondary_toolbar_constants+vivaldi.h",
+    "//vivaldi/ios/chrome/browser/ui/toolbar/secondary_toolbar_constants+vivaldi.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/location_bar:location_bar") {
+  sources += [
+    "//vivaldi/ios/chrome/browser/ui/location_bar/location_bar_constants+vivaldi.h",
+    "//vivaldi/ios/chrome/browser/ui/location_bar/location_bar_constants+vivaldi.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/shared/ui/table_view/cells:cells") {
+  sources += [
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_table_view_illustrated_item.h",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_table_view_illustrated_item.mm",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_table_view_segmented_control_item.h",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_table_view_segmented_control_item.mm",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_table_view_text_button_item.h",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_table_view_text_button_item.mm",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_input_error_item.h",
+    "//vivaldi/ios/ui/table_view/cells/vivaldi_input_error_item.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/browser_state:browser_state") {
+  sources += [
+    "//vivaldi/ios/ad_blocker/adblock_rule_service_factory.h",
+    "//vivaldi/ios/ad_blocker/adblock_rule_service_factory.mm",
+    "//vivaldi/ios/chrome/browser/browser_state/vivaldi_post_browser_state_init.mm",
+    "//vivaldi/ios/chrome/browser/browser_state/vivaldi_post_browser_state_init.h",
+    ]
+}
+
+update_target("//ios/chrome/browser/ui/sharing/activity_services/data:data") {
+  sources += [
+    "//vivaldi/ios/ui/activity_services/share_text_data.h",
+    "//vivaldi/ios/ui/activity_services/share_text_data.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/settings:settings") {
+  sources += [
+    "//vivaldi/ios/ui/settings/vivaldi_settings_constants.h",
+    "//vivaldi/ios/ui/settings/vivaldi_settings_constants.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/toolbar:toolbar_ui") {
+    sources += [
+    "//vivaldi/ios/ui/toolbar/vivaldi_toolbar_constants.h",
+    "//vivaldi/ios/ui/toolbar/vivaldi_toolbar_constants.mm",
+    "//vivaldi/ios/ui/toolbar/vivaldi_sticky_toolbar_view.h",
+    "//vivaldi/ios/ui/toolbar/vivaldi_sticky_toolbar_view.mm",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/popup_menu/overflow_menu:overflow_menu_swift") {
+    sources += [
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_action_list.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_action_row.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_view.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_provider.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_hosting_view_controller.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_action_section.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_destination_view.swift",
+    "//vivaldi/ios/ui/vivaldi_overflow_menu/vivaldi_overflow_menu_destination_list.swift",
+  ]
+}
+
+update_template_instance("//ios/chrome/app:info_plist") {
+  info_plists += [
+    "//vivaldi/ios/app/Disable-Multiscreen.plist",
+  ]
+ }
+
+update_template_instance("//ios/chrome/credential_provider_extension/ui/resources:consent_view_controller") {
+  sources -= [
+    "consent_view_controller.imageset/Contents.json",
+    "consent_view_controller.imageset/promo_passwords_in_other_apps@2x.png",
+    "consent_view_controller.imageset/promo_passwords_in_other_apps@3x.png",
+    "consent_view_controller.imageset/promo_passwords_in_other_apps_dark@2x.png",
+    "consent_view_controller.imageset/promo_passwords_in_other_apps_dark@3x.png",
+  ]
+  sources += [
+    "//vivaldi/ios/ui/widget/resources/consent_view_controller.imageset/Contents.json",
+    "//vivaldi/ios/ui/widget/resources/consent_view_controller.imageset/promo-passwords_in_other_apps@2x.png",
+    "//vivaldi/ios/ui/widget/resources/consent_view_controller.imageset/promo-passwords_in_other_apps@3x.png",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/webui:webui") {
+    sources += [
+      "//vivaldi/ios/ui/about/vivaldi_ios_about_version.mm",
+      "//vivaldi/ios/ui/about/vivaldi_ios_about_version.h",
+  ]
+}
+
+update_target("//ios/chrome/browser/ui/whats_new:whats_new") {
+    sources += [
+      "//vivaldi/ios/chrome/browser/ui/whats_new/vivaldi_whats_new_util.mm",
+      "//vivaldi/ios/chrome/browser/ui/whats_new/vivaldi_whats_new_util.h",
+  ]
+}

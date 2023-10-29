@@ -1,0 +1,185 @@
+import("//vivaldi/gn/config/features.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/config/version.gni")
+import("//build/config/compiler/pgo/pgo.gni")
+import("//vivaldi/gn/config/signer_features.gni")
+
+if (is_win) {
+  import("//build/config/win/visual_studio_version.gni")
+}
+
+if (is_win || is_mac) {
+  import("//vivaldi/installer/widevine.gni")
+}
+
+if (!is_android && !is_mac && !is_ios) {
+  update_target("//chrome:chrome_initial") {
+    if (is_win) {
+      output_name = "initialexe/vivaldi"
+    } else {
+      output_name = "vivaldi"
+    }
+  }
+}
+
+if (is_win) {
+  update_target("//chrome:chrome_dll") {
+    output_name = "vivaldi"
+  }
+
+  update_target("//chrome:reorder_imports") {
+    inputs = []
+    outputs = []
+    inputs = [
+      "$root_out_dir/initialexe/vivaldi.exe",
+    ]
+    outputs = [
+      "$root_out_dir/vivaldi.exe",
+      "$root_out_dir/vivaldi.exe.pdb",
+    ]
+  }
+
+  update_target("//chrome/chrome_elf:chrome_elf") {
+    output_name = "vivaldi_elf"
+  }
+
+  update_template_instance(
+      "//chrome/app/version_assembly:version_assembly_manifest") {
+    output = "$root_build_dir/$vivaldi_version_full.manifest"
+  }
+
+  update_template_instance("//chrome/test:browser_tests") {
+    data_deps -= [
+      "//chrome/browser/extensions/api:native_messaging_test_echo_&_host"
+    ]
+  }
+
+  _platform_suffix = ""
+  if (target_cpu == "x64") {
+    _platform_suffix = ".x64"
+  }
+
+  update_target(
+      "//chrome/installer/mini_installer:mini_installer_archive") {
+    vivaldi_release_file = "$root_gen_dir/vivaldi/vivaldi.release"
+    inputs -= [
+      "$root_out_dir/chrome.dll",
+      "$root_out_dir/chrome.exe",
+      release_file
+    ]
+    inputs += [
+      "$root_out_dir/vivaldi.dll",
+      "$root_out_dir/vivaldi.exe",
+      "$root_out_dir/vivaldi_proxy.exe",
+      "$root_out_dir/update_notifier.exe",
+      vivaldi_release_file
+    ]
+    deps+= [
+      "//vivaldi/update_notifier",
+      "//vivaldi/installer/win:vivaldi_release",
+      "//vivaldi/tools/vivaldi_proxy",
+    ]
+    outputs -= [ "$root_out_dir/chrome.7z" ]
+    if (!is_component_build) {
+      outputs -= [ "$root_out_dir/chrome.packed.7z" ]
+    }
+
+    # Have to keep the sequence due to the archive.d file being keyed to the first name
+    temp = outputs
+    outputs = []
+    outputs += [ "$root_out_dir/vivaldi.7z" ]
+    if (!is_component_build) {
+      outputs += [ "$root_out_dir/vivaldi.packed.7z" ]
+    }
+    outputs += temp
+    args -= [
+      "--input_file",
+      rebase_path(release_file, root_build_dir),
+    ]
+    args += [
+      "--input_file",
+      rebase_path(vivaldi_release_file, root_build_dir),
+      "--vivaldi-version",
+      rebase_path("//vivaldi/VIVALDI_VERSION", root_build_dir),
+      "--vivaldi-build-version",
+      "$GLOBAL_BUILDNUM",
+    ]
+    if (sign_executables) {
+      args += [
+        "--sign-executables",
+        "--vivaldi-sign-key", vivaldi_signing_key,
+        "--vivaldi-sign-cmd", "$windows_sdk_path/bin/$vivaldi_win_sdk_version/x64/signtool.exe",
+      ]
+    }
+    if (enable_widevine_signing) {
+      args += [
+        "--vivaldi-widevine-sign-cmd", rebase_path(widevine_signing_script),
+        "--vivaldi-widevine-verify-cmd", rebase_path(widevine_verify_script),
+        "--vivaldi-widevine-private-key", rebase_path(widevine_private_key),
+        "--vivaldi-widevine-cert", rebase_path(widevine_signing_cert),
+      ]
+    }
+  }
+
+  update_target("//chrome/installer/mini_installer:mini_installer") {
+    output_name = "Vivaldi.${vivaldi_version_full}${_platform_suffix}"
+  }
+
+  update_template_instance("//chrome:chrome_dll_version") {
+    sources -= ["app/chrome_dll.ver"]
+    sources += [
+      "//vivaldi/app/other_resources/vivaldi_dll.ver"
+    ]
+  }
+
+  update_template_instance("//chrome:chrome_exe_version") {
+    sources -= ["app/chrome_exe.ver"]
+    sources += [
+      "//vivaldi/app/other_resources/vivaldi_exe.ver"
+    ]
+  }
+
+  update_template_instance("//chrome/chrome_elf:chrome_elf_resources") {
+    sources -= ["chrome_elf.ver"]
+    sources += [
+      "//vivaldi/app/other_resources/vivaldi_elf.ver"
+    ]
+  }
+}
+
+if (is_android) {
+  update_template_instance("//chrome/android:chrome_public_apk") {
+    apk_name = "Vivaldi.${vivaldi_version_full}"
+    lint_baseline_file = "//chrome/android/expectations/lint-baseline.xml"
+    lint_suppressions_file = "$root_gen_dir/vivaldi/android/merged_suppression.xml"
+    lint_suppressions_dep = "//vivaldi/android:generate_merged_lint_suppression_file"
+    not_needed(["lint_suppressions_dep"])
+  }
+
+  update_template_instance("//chrome/android:chrome_public_bundle") {
+    bundle_name = "Vivaldi.${vivaldi_version_full}"
+    if (!is_vivaldi_lynkco) {
+      # enable_lint = true
+    }
+    lint_baseline_file = "//chrome/android/expectations/lint-baseline.xml"
+    lint_suppressions_file = "$root_gen_dir/vivaldi/android/merged_suppression.xml"
+    lint_suppressions_dep = "//vivaldi/android:generate_merged_lint_suppression_file"
+    not_needed(["lint_suppressions_dep"])
+  }
+}
+
+if(!is_ios) {
+  update_template_instance("//components/vector_icons:components_vector_icons") {
+    sources -= ["${branding_path_component}/product.icon"]
+    sources += ["//vivaldi/app/resources/vector_icons/product.icon"]
+  }
+
+  update_template_instance("//ui/message_center:message_center_vector_icons") {
+    sources -= ["product.icon"]
+    sources += ["//vivaldi/app/resources/message_center_vector_icons/product.icon"]
+  }
+  update_template_instance("//components/omnibox/browser:omnibox_vector_icons") {
+    sources -= ["product.icon"]
+    sources += ["//vivaldi/app/resources/vector_icons/product.icon"]
+  }
+}

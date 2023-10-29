@@ -1,0 +1,37 @@
+# Copyright 2022 Vivaldi Technologies. All rights reserved.
+
+import("//build/config/ios/asset_catalog.gni")
+
+colorset("vivaldi_tab_strip_background_color") {
+  sources = [ "vivaldi_tab_strip_background_color.colorset/Contents.json" ]
+}
+
+colorset("vivaldi_tab_view_selected_color") {
+  sources = [ "vivaldi_tab_view_selected_color.colorset/Contents.json" ]
+}
+
+colorset("vivaldi_tab_view_not_selected_color") {
+  sources = [ "vivaldi_tab_view_not_selected_color.colorset/Contents.json" ]
+}
+
+colorset("vivaldi_tab_view_selected_tint_color") {
+  sources = [ "vivaldi_tab_view_selected_tint_color.colorset/Contents.json" ]
+}
+
+colorset("vivaldi_tab_view_not_selected_tint_color") {
+  sources = [ "vivaldi_tab_view_not_selected_tint_color.colorset/Contents.json" ]
+}
+
+imageset("tabstrip_new_tab") {
+  sources = [
+    "tabstrip_new_tab.imageset/Contents.json",
+    "tabstrip_new_tab.imageset/tabstrip_new_tab@2x.png",
+  ]
+}
+
+imageset("tabstrip_close_tab") {
+  sources = [
+    "tabstrip_close_tab.imageset/Contents.json",
+    "tabstrip_close_tab.imageset/tabstrip_close_tab.pdf",
+  ]
+}

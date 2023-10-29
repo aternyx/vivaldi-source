@@ -1,0 +1,103 @@
+//
+// Copyright (c) 2019 Vivaldi Technologies AS. All rights reserved.
+//
+
+[
+  {
+    "namespace": "bookmarkContextMenu",
+    "description": "Use the <code>vivaldi.bookmarkContextMenu</code> API to show a bookmark menu for the bookmark bar.",
+    "types": [
+      {
+        "id": "Rect",
+        "type": "object",
+        "description": "Position and size of element in menu bar.",
+        "properties": {
+          "x": {"type": "integer", "description": "Left position of item that opens menu, screen coordinates."},
+          "y": {"type": "integer", "description": "Top position of item that opens menu, screen coordinates."},
+          "width": {"type": "integer", "description": "Width of item that opens menu."},
+          "height": {"type": "integer", "description": "Height of item that opens menu."}
+        }
+      },
+      { "id": "FolderEntry",
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "description": "Bookmark folder id."},
+          "offset": {"type": "integer", "description": "Offset into folder."},
+          "folderGroup": {"type": "boolean", "description": "When true, sorted content will have folders first or last in list."},
+          "rect": {"$ref": "Rect"}
+        }
+      },
+      {
+        "id": "SortOrder",
+        "type": "string",
+        "description": "Defines how to sort container items.",
+        "enum": ["ascending", "descending"]
+      },
+      {
+        "id": "SortField",
+        "type": "string",
+        "description": "Defines what element to use as sort key",
+        "enum": ["title", "url", "nickname", "description", "dateadded"]
+      },
+      {
+        "id": "Edge",
+        "type": "string",
+        "description": "Defines position of menu items added in chrome code wrt bookmark items.",
+        "enum": [ "above", "below", "off" ]
+      },
+      {
+        "id": "Icons",
+        "type": "array",
+        "description": "Icons encoded as base64",
+        "items": { "type": "string" }
+      }
+    ],
+    "functions": [
+      {
+        "name": "show",
+        "type": "function",
+        "description": "Shows a context menu.",
+        "parameters": [
+          {
+            "name": "properties",
+            "type": "object",
+            "properties": {
+              "windowId": { "type": "integer" },
+              "siblings": { "type": "array", "items": {"$ref": "FolderEntry"}, "description": "List of menu entries."},
+              "id": {"type": "string", "description": "Bookmark folder id. Must match an id in the sibling list."},
+              "edge": {"$ref": "Edge", "optional": true, "description": "Where to place extra menu items"},
+              "sortField": {"$ref": "SortField", "optional": true},
+              "sortOrder": {"$ref": "SortOrder", "optional": true},
+              "icons": {"$ref": "Icons", "description": "Default and folder icons."}
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "description": "Notifies caller that menu has closed.",
+          "parameters": []
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onOpen",
+        "type": "function",
+        "description": "Fires before menu opens.",
+        "parameters": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Menu id, same as the bookmark folder to be shown."
+          }
+        ]
+      },
+      {
+        "name": "onClose",
+        "type": "function",
+        "description": "Fires before menu closes.",
+        "parameters": []
+      }
+    ]
+  }
+]

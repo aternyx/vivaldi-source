@@ -1,0 +1,287 @@
+// Copyright (c) 2015 Vivaldi Technologies AS. All rights reserved
+
+// This features file defines permissions for extension APIs implemented
+// under vivaldi/vivaldi_extensions.
+// See extensions/common/features/* to understand this file, in particular
+// feature.h, simple_feature.h, and base_feature_provider.h.
+
+// To add a new whitelisted ID, SHA-1 it and force it to uppercase. In Bash:
+//
+// $ echo -n "aaaabbbbccccddddeeeeffffgggghhhh" | \
+// sha1sum | tr '[:lower:]' '[:upper:]'
+// 9A0417016F345C934A1A88F55CA17C05014EEEBA  -
+
+// If you add a new platform_app permission please update the "stubs_app" test:
+// chrome/test/data/extensions/api_test/stubs_app/manifest.json
+
+{
+  "accessKeys": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "autoUpdate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "bookmarkContextMenu": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "bookmarksPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "calendar": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "contacts": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "contentBlocking": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "contextMenu": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C", // Vivaldi
+      "9BDA982ACDCC4D336065C67D618CB5ED844751FF" // contextMenu test
+    ]
+  },
+  "devtoolsPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "editcommand": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "extensionActionUtils": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "historyPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "importData": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "infobars": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "mailPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "menuContent": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "menubar": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "menubarMenu": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "notes": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "pageActions": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "pipPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app", "extension" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C", // Vivaldi
+      "14AB172D91E1DDC1F3963FBAAD72E6179E13264A" // pip extension
+    ]
+  },
+  "prefs": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "readingListPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "runtimePrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "savedpasswords": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "searchEngines": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "sessionsPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "settings": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "sync": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "tabsPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "themePrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app", "extension" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C", // Vivaldi
+      "E2F7DC11CCD38036C3420F4755A6AD7363C9034F"  // theme store extension
+    ]
+  },
+  "thumbnails": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "translateHistory": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "utilities": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "vivaldiAccount": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "windowPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "webViewPrivate": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  },
+  "zoom": {
+    "channel": "stable",
+    "extension_types": [ "platform_app" ],
+    "allowlist": [
+      "A414F2F4543AC9C68DDF663D0A459E6053E3373C" // Vivaldi
+    ]
+  }
+}

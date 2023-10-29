@@ -1,0 +1,81 @@
+import("//build/config/chrome_build.gni")
+import("//vivaldi/gn/config/version.gni")
+import("//vivaldi/testing/testing.gni")
+
+if (is_win) {
+  if (is_official_build) {
+    update_template_instance("//components/viz/test:test_support") {
+      cflags = [ "/wd4723" ]  # potential divide by 0.
+    }
+  }
+}
+
+if (is_mac) {
+  update_template_instance("//chrome:chrome_framework") {
+    ldflags += [
+      "-Wl,-rpath,@loader_path/../../../../Frameworks",
+    ]
+  }
+
+  update_template_instance("//chrome/installer/mac:sign_config") {
+    extra_args += [
+      "-e", "GLOBAL_BUILDNUM=$GLOBAL_BUILDNUM",
+    ]
+  }
+
+  if (vivaldi_build_tests) {
+    foreach(_target,
+            [
+              "//chrome/test:browser_tests",
+              "//chrome/test:interactive_ui_tests",
+              "//chrome/test:sync_integration_tests",
+              "//chrome/test:unit_tests",
+              "//components:components_unittests",
+            ]) {
+      update_template_instance(_target) {
+        if (!defined(ldflags)) {
+          ldflags = []
+        }
+        ldflags += [
+          "-Wl,-rpath,@executable_path/sparkle_lib/Build/Products/Release/",
+        ]
+      }
+    }
+  }
+}
+
+if (is_linux) {
+  update_target("//chrome:chrome_initial") {
+    # Find libffmpeg.so without the executable wrapper script. Note that
+    # RUNPATH (new-dtags) is used over RPATH because otherwise there will be a
+    # failure when building packages.
+    ldflags += [
+      "-rpath",
+      "\$ORIGIN/lib/", # Linux packages use lib/libffmpeg.so
+      "-rpath",
+      "\$ORIGIN/", # Local builds use libffmpeg.so
+      "-Wl,--enable-new-dtags",
+    ]
+  }
+  update_target("//tools/v8_context_snapshot:v8_context_snapshot_generator") {
+    ldflags = [
+      "-rpath",
+      "\$ORIGIN/", # Find libffmpeg.so
+    ]
+    deps += [ "//third_party/expat" ]
+  }
+  if (target_cpu == "arm64") {
+    update_template_instance("//third_party/swiftshader/third_party/llvm-10.0:swiftshader_llvm") {
+      if (!defined(cflags)) {
+        cflags = []
+      }
+      cflags += [ "-Wno-defaulted-function-deleted" ]
+    }
+    update_template_instance("//third_party/swiftshader/src/Reactor:swiftshader_reactor") {
+      if (!defined(cflags)) {
+        cflags = []
+      }
+      cflags += [ "-Wno-defaulted-function-deleted" ]
+    }
+  }
+}

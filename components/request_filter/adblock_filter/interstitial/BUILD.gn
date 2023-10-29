@@ -1,0 +1,19 @@
+# Copyright (c) 2019 Vivaldi Technologies AS. All rights reserved
+
+source_set("interstitial") {
+  sources= [
+    "document_blocked_controller_client.cc",
+    "document_blocked_controller_client.h",
+    "document_blocked_interstitial.cc",
+    "document_blocked_interstitial.h",
+    "document_blocked_throttle.cc",
+    "document_blocked_throttle.h",
+  ]
+  deps = [
+    "../:adblock_filter",
+    "//chrome/common:buildflags",
+    "//components/site_engagement/core/mojom:mojo_bindings",
+    "//components/security_interstitials/core/common/mojom",
+    "//content/public/browser",
+  ]
+}

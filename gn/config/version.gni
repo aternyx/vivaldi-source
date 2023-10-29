@@ -1,0 +1,76 @@
+declare_args() {
+  GLOBAL_BUILDNUM = "10000"
+}
+
+vivaldi_version_py_path = "//build/util/version.py"
+
+vivaldi_version_path = "//vivaldi/VIVALDI_VERSION"
+chrome_version_path = "//chrome/VERSION"
+lastchange_path = "//build/util/LASTCHANGE"
+
+vivaldi_global_build_number = "$GLOBAL_BUILDNUM"
+
+vivaldi_version_full =
+    exec_script(
+        vivaldi_version_py_path,
+        [
+          "-f",
+          rebase_path(vivaldi_version_path, root_build_dir),
+          "-f",
+          rebase_path(chrome_version_path, root_build_dir),
+          "-t",
+          "@VIVALDI_MAJOR@.@VIVALDI_MINOR@.@VIVALDI_NIGHTLY@.$GLOBAL_BUILDNUM",
+        ],
+        "trim string",
+        [vivaldi_version_path, chrome_version_path]
+      )
+
+chrome_dylib_version =
+    exec_script(vivaldi_version_py_path,
+                [
+                  "-f",
+                  rebase_path(vivaldi_version_path, root_build_dir),
+                  "-f",
+                  rebase_path(chrome_version_path, root_build_dir),
+                  "-t",
+                  "@BUILD@.@PATCH_HI@.@PATCH_LO@",
+                  "-e",
+                  "PATCH_HI=int($GLOBAL_BUILDNUM/256)",
+                  "-e",
+                  "PATCH_LO=int($GLOBAL_BUILDNUM)%256",
+                ],
+                "trim string",
+                [vivaldi_version_path, chrome_version_path]
+        )
+
+if (is_android && defined(is_vivaldi) && is_vivaldi) {
+  if (current_cpu == "arm") {
+    VERSION_ID_FORMAT = "'4%s%04d'"
+  } else if (current_cpu == "arm64") {
+    VERSION_ID_FORMAT = "'5%s%04d'"
+  } else if (current_cpu == "x86") {
+    VERSION_ID_FORMAT = "'6%s%04d'"
+  } else if (current_cpu == "x64") {
+    VERSION_ID_FORMAT = "'7%s%04d'"
+  } else {
+    assert(false, "Unsupported current CPU: " + current_cpu)
+  }
+
+  vivaldi_version_code =
+      exec_script(vivaldi_version_py_path,
+                  [
+                    "-f",
+                    rebase_path(vivaldi_version_path, root_build_dir),
+                    "-t",
+                    "@VERSION_ID@",
+                    "-e",
+                    "VERSION_ID=$VERSION_ID_FORMAT % (VIVALDI_NIGHTLY, int($GLOBAL_BUILDNUM)%1000)",
+                  ],
+                  "trim string",
+                  [vivaldi_version_path]
+          )
+  if (is_vivaldi_gas) {
+    vivaldi_version_code = "1" + vivaldi_version_code
+  }
+  #print("Vivaldi version code: " + vivaldi_version_code)
+}

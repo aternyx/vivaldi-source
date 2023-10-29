@@ -1,0 +1,273 @@
+// Copyright (c) 2015 Vivaldi Technologies AS. All rights reserved
+[
+  {
+    "namespace": "autoUpdate",
+    "compiler_options": {
+      "implemented_in": "extensions/api/auto_update/auto_update_api.h"
+    },
+    "platforms": [
+      "win",
+      "mac"
+    ],
+    "description": "Use the <code>vivaldi.autoupdate</code> API to interact with (Win)Sparkle.",
+    "types": [
+      {
+        "id": "UpdateOperationStatusEnum",
+        "type": "string",
+        "enum": [
+          "noUpdate",
+          "didAbortWithError",
+          "didFindValidUpdate",
+          "willDownloadUpdate",
+          "didDownloadUpdate",
+          "willInstallUpdateOnQuit",
+          "updaterDidRelaunchApplication"
+        ]
+      },
+      {
+        "id": "UpdateOperationStatus",
+        "type": "object",
+        "description": "A structure describing the status of an update operation if any.",
+        "properties": {
+          "status": {
+            "$ref": "UpdateOperationStatusEnum"
+          },
+          "version": {
+            "type": "string"
+          },
+          "releaseNotesUrl": {
+            "type": "string"
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "checkForUpdates",
+        "type": "function",
+        "description": "Check for Vivaldi browser updates.",
+        "parameters": [
+          {
+            "name": "withUi",
+            "type": "boolean",
+            "description": "Indicates whether we want the auto-update ui to appear."
+          }
+        ]
+      },
+      {
+        "name": "isUpdateNotifierEnabled",
+        "type": "function",
+        "description": "Checks whether the update notifier is set to run on startup.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "boolean",
+              "name": "result"
+            }
+          ]
+        }
+      },
+      {
+        "name": "enableUpdateNotifier",
+        "type": "function",
+        "description": "Sets the update notifier to run on startup and launches it.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "boolean",
+              "name": "result"
+            }
+          ]
+        }
+      },
+      {
+        "name": "disableUpdateNotifier",
+        "type": "function",
+        "description": "Removes the update notifier from autorun and attempts to terminate it.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "boolean",
+              "name": "result"
+            }
+          ]
+        }
+      },
+      {
+        "name": "installUpdateAndRestart",
+        "type": "function",
+        "description": "Installs update & restart. Should be called after an onWillInstallUpdateOnQuit event has occurred.",
+        "parameters": []
+      },
+      {
+        "name": "getAutoInstallUpdates",
+        "type": "function",
+        "description": "Checks whether we automatically install updates",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "boolean",
+              "name": "result"
+            }
+          ]
+        }
+      },
+      {
+        "name": "setAutoInstallUpdates",
+        "type": "function",
+        "description": "Change automatically install updates setting",
+        "parameters": [
+          {
+            "name": "autoinstall",
+            "type": "boolean",
+            "description": "Indicates whether we want to automatically install updates."
+          }
+        ]
+      },
+      {
+        "name": "getLastCheckTime",
+        "type": "function",
+        "description": "Get the date & time we last checked for an update. Returns milliseconds since epoch.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "number",
+              "name": "result"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getUpdateStatus",
+        "type": "function",
+        "description": "Get a status of an update operation if any",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "$ref": "UpdateOperationStatus",
+              "description": "status of an update operation. Return null on errors.",
+              "name": "result"
+            }
+          ]
+        }
+      },
+      {
+        "name": "hasAutoUpdates",
+        "type": "function",
+        "description": "Return true if automatic updates are supported.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "type": "boolean",
+              "name": "result"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onDidFindValidUpdate",
+        "type": "function",
+        "description": "Fired when a valid update is found.",
+        "parameters": [
+          {
+            "name": "releaseNotesUrl",
+            "type": "string",
+            "description": "URL of the release notes of the update."
+          },
+          {
+            "type": "string",
+            "name": "version",
+            "description": "The version of the update or an empty string if not known"
+          }
+        ]
+      },
+      {
+        "name": "onUpdaterDidNotFindUpdate",
+        "type": "function",
+        "description": "Fired if checkForUpdates did not find an update.",
+        "parameters": []
+      },
+      {
+        "name": "onWillDownloadUpdate",
+        "type": "function",
+        "description": "Fired when an update will be downloaded.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "version",
+            "description": "The version of the update or an empty string if not known"
+          }
+        ]
+      },
+      {
+        "name": "onDidDownloadUpdate",
+        "type": "function",
+        "description": "Fired when an update has been downloaded.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "version",
+            "description": "The version of the update or an empty string if not known"
+          }
+        ]
+      },
+      {
+        "name": "onWillInstallUpdateOnQuit",
+        "type": "function",
+        "description": "Fired when an update will be installed on restart or quit.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "version",
+            "description": "The version that will be installed on quit or an empty string if not known"
+          }
+        ]
+      },
+      {
+        "name": "onUpdaterWillRelaunchApplication",
+        "type": "function",
+        "description": "Fired just before the updater restarts the application.",
+        "parameters": []
+      },
+      {
+        "name": "onUpdaterDidRelaunchApplication",
+        "type": "function",
+        "description": "Fired when an application has been restarted due to an update.",
+        "parameters": []
+      },
+      {
+        "name": "onDidAbortWithError",
+        "type": "function",
+        "description": "Fired when an update fails.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "description",
+            "description": "Description of the error."
+          },
+          {
+            "type": "string",
+            "name": "reason",
+            "description": "The reason for the error."
+          }
+        ]
+      }
+    ]
+  }
+]

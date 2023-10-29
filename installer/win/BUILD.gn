@@ -1,0 +1,59 @@
+
+import("//build/config/win/manifest.gni")
+
+assert(is_win)
+
+dpi_aware_manifest = "//chrome/installer/setup/setup.exe.manifest"
+
+windows_manifest("dpi_aware_exe_manifest") {
+  sources = [
+    dpi_aware_manifest
+  ]
+}
+
+action("vivaldi_release") {
+  script = "//vivaldi/scripts/generate_chrome_release.py"
+
+  chrome_release_file = "//chrome/installer/mini_installer/chrome.release"
+  vivaldi_release_file = "//vivaldi/installer/win/vivaldi.release"
+  vivaldi_release_target = "$root_gen_dir/vivaldi/vivaldi.release"
+
+  inputs = [
+    script,
+    chrome_release_file,
+    vivaldi_release_file,
+  ]
+
+  outputs = [
+    vivaldi_release_target,
+  ]
+
+  args = rebase_path([
+    chrome_release_file,
+    vivaldi_release_file,
+    vivaldi_release_target,
+  ], root_build_dir)
+}
+
+generated_file("language_names_include") {
+  languages_json = read_file(
+      "//vivaldi/vivapp/src/constants/language-list.json", "json"
+  )
+  languages = languages_json.languages
+  lines = ["#define DO_VIVALDI_LANGUAGE_NAMES \\"]
+  foreach(tuple, languages.list) {
+    code = tuple[0]
+    english_name = tuple[1]
+    native_name = tuple[2]
+    if (english_name == native_name) {
+      name = english_name
+    } else {
+      name = native_name + " - " + english_name
+    }
+    lines += [ "  HANDLE_VIVALDI_LANGUAGE_NAME(\"$code\", \"$name\") \\" ]
+  }
+  lines += [""]
+  contents = lines
+  outputs = [ "$target_gen_dir/vivaldi_install_language_names.h" ]
+  output_conversion = "list lines"
+}

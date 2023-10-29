@@ -1,0 +1,27 @@
+
+declare_args() {
+  # Media decoders based on the original Opera patches
+  system_proprietary_codecs = is_win || is_mac
+
+  vivaldi_disable_sparkle = false
+  enable_widevine_signing = false
+  vivaldi_disable_widevine_verification = false
+  # Google API key for Google tasks, calendar
+  vivaldi_task_api_key = ""
+  # Google OAuth API client ID
+  vivaldi_oauth_client_id = ""
+  # Google OAuth API client secret
+  vivaldi_oauth_client_secret = ""
+  # Microsoft OAuth Application (client) ID
+  vivaldi_microsoft_oauth_client_id = ""
+  # Yahoo OAuth client ID
+  vivaldi_yahoo_oauth_client_id = ""
+  # Yahoo OAuth client secret
+  vivaldi_yahoo_oauth_client_secret = ""
+  # Vivaldi.net OAuth client secret
+  vivaldi_net_oauth_client_secret = ""
+  # Vivaldi.net OAuth client id
+  vivaldi_net_oauth_client_id = ""
+  # Fastmail OAuth client id
+  vivaldi_fastmail_oauth_client_id = ""
+}

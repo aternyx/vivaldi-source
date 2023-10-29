@@ -1,0 +1,443 @@
+// Copyright (c) 2017 Vivaldi Technologies AS. All rights reserved
+
+[
+  {
+    "namespace": "windowPrivate",
+    "description": "Use the <code>vivaldi.windowPrivate</code> API for vivaldi windows.",
+    "compiler_options": {
+      "implemented_in": "extensions/api/window/window_private_api.h"
+    },
+    "types": [
+      {
+        "id": "WindowState",
+        "type": "string",
+        "description": "The state of this browser window.",
+        "enum": [
+          {
+            "name": "normal",
+            "description": "Normal window state (i.e. not minimized, maximized, or fullscreen)."
+          },
+          {
+            "name": "minimized",
+            "description": "Minimized window state."
+          },
+          {
+            "name": "maximized",
+            "description": "Maximized window state."
+          },
+          {
+            "name": "fullscreen",
+            "description": "Fullscreen window state."
+          }
+        ]
+      },
+      {
+        "id": "CreateWindowOptions",
+        "type": "object",
+        "description": "Object passed to the |create| function.",
+        "properties": {
+          "bounds": {
+            "optional": true,
+            "type": "object",
+            "properties": {
+              "left": {
+                "type": "integer",
+                "optional": true
+              },
+              "top": {
+                "type": "integer",
+                "optional": true
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "minWidth": {
+                "type": "integer",
+                "optional": true
+              },
+              "minHeight": {
+                "type": "integer",
+                "optional": true
+              }
+            }
+          },
+          "windowDecoration": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Enable window decoration. Defaults to false."
+          },
+          "incognito": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Incogito window. Default is false."
+          },
+          "focused": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If true, opens a active window. Default is true."
+          },
+          "state": {
+            "name": "state",
+            "optional": true,
+            "$ref": "WindowState",
+            "description": "The state to set the window to. Default is normal window state (i.e. not minimized, maximized, or fullscreen)."
+          },
+          "tabUrl": {
+            "type": "string",
+            "optional": true,
+            "description": "The url to be added as a new tab, this will be added to the tab model. Not used for settings, popups, etc."
+          },
+          "vivExtData": {
+            "type": "string",
+            "optional": true,
+            "description": "Extra data to attach to the window."
+          },
+          "windowKey": {
+            "type": "string",
+            "optional": true,
+            "description": "Id to identify the window. If a window with a given id is created while another window with the same id already exists, the currently opened window will be focused instead of creating a new window."
+          }
+        }
+      },
+      {
+        "id": "WindowType",
+        "type": "string",
+        "description": "The type of this browser window.",
+        "enum": [
+          {
+            "name": "normal",
+            "description": "This is a normal browser window."
+          },
+          {
+            "name": "settings",
+            "description": "This is a settings window."
+          },
+          {
+            "name": "popup",
+            "description": "This is a popup window."
+          },
+          {
+            "name": "devtools",
+            "description": "This is a devtools window."
+          }
+        ]
+      },
+      {
+        "id": "FocusedElementInfo",
+        "type": "object",
+        "description": "Information about the HTML element having focus.",
+        "properties": {
+          "tagName": {
+            "type": "string",
+            "description": "Element tag name"
+          },
+          "type": {
+            "type": "string",
+            "description": "Element type"
+          },
+          "editable": {
+            "type": "boolean",
+            "description": "True if element is editable."
+          },
+          "role": {
+            "type": "string",
+            "description": "Element role"
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "create",
+        "type": "function",
+        "description": "Create a window with additional Vivaldi specific properties.",
+        "parameters": [
+          {
+            "name": "url",
+            "type": "string",
+            "description": "Url to page to show as the full window UI of the new window."
+          },
+          {
+            "name": "options",
+            "$ref": "CreateWindowOptions"
+          },
+          {
+            "name": "type",
+            "optional": true,
+            "$ref": "WindowType"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+              {
+              "name": "windowId",
+              "type": "integer",
+              "description": "The window id of the created window if successful or -1 on an error or if the user immediately closed the window."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getCurrentId",
+        "type": "function",
+        "description": "Returns the window id of the window we are currently running inside.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "windowId",
+              "type": "integer",
+              "description": "The window id of the current window if successful."
+            }
+          ]
+        }
+      },
+      {
+        "name": "setState",
+        "type": "function",
+        "description": "Sets the window state.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "The window id of the window to change the state for."
+          },
+          {
+            "name": "state",
+            "$ref": "WindowState",
+            "description": "The state to set the window to."
+          }
+        ]
+      },
+      {
+        "name": "updateMaximizeButtonPosition",
+        "type": "function",
+        "description": "Notify C++ about the position of the maximize button to show extra native GUI like the split window menu in Windows 11.",
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "The window id of the window to update the coordinates of the maximize button."
+          },
+          {
+            "type": "number",
+            "name": "left"
+          },
+          {
+            "type": "number",
+            "name": "top"
+          },
+          {
+            "type": "number",
+            "name": "width"
+          },
+          {
+            "type": "number",
+            "name": "height"
+          }
+        ]
+      },
+      {
+        "name": "getFocusedElementInfo",
+        "type": "function",
+        "description": "Get information about currently focused element in Vivaldi window or any of its webviews.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "info",
+              "$ref": "FocusedElementInfo"
+            }
+          ]
+        }
+      },
+      {
+        "name": "isOnScreenWithNotch",
+        "type": "function",
+        "description": "Returns true if the screen the window is on has a notch.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "isNotched",
+              "type": "boolean",
+              "description": "True if the screen the window is on has a notch."
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onWindowDidChangeScreens",
+        "type": "function",
+        "description": "Fired when the window has changed screens include a parameter that says whether the new screen has a notch.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "type": "boolean",
+            "name": "hasNotch",
+            "description": "Screen has a notch (true) or without notch (false)."
+          }
+        ]
+      },
+      {
+        "name": "onStateChanged",
+        "type": "function",
+        "description": "Fired when the window state changes (minimize/maximize/fullscreen).",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "name": "state",
+            "$ref": "WindowState",
+            "description": "The new state set to the window."
+          }
+        ]
+      },
+      {
+        "name": "onPositionChanged",
+        "type": "function",
+        "description": "Fired when the window changes position.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          }
+        ]
+      },
+      {
+        "name": "onActivated",
+        "type": "function",
+        "description": "Fired when the window changes activation.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "type": "boolean",
+            "name": "activated",
+            "description": "Changed activation state."
+          }
+        ]
+      },
+      {
+        "name": "onFullscreenMenubarChanged",
+        "type": "function",
+        "description": "Fired when the main menu bar is show/hidden in fullscreen.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "type": "boolean",
+            "name": "shown",
+            "description": "Main menubar is shown (true) or hidden (false)."
+          }
+        ]
+      },
+      {
+        "name": "onBeforeUnloadDialogOpened",
+        "type": "function",
+        "description": "Fired when a beforeunload dialog is shown for a tab.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "type": "integer",
+            "name": "tabId"
+          }
+        ]
+      },
+      {
+        "name": "onWindowClosed",
+        "type": "function",
+        "description": "Fired when a window is closed, even for guest windows.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          }
+        ]
+      },
+      {
+        "name": "onWindowCloseCanceled",
+        "type": "function",
+        "description": "Fired when a window close sqeuence is canceled. Note that the close action may not have been started from JS.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          }
+        ]
+      },
+      {
+        "name": "onPageInfoPopupChanged",
+        "type": "function",
+        "description": "Fired when a page information popup visibility changes.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "type": "boolean",
+            "name": "visible"
+          }
+        ]
+      },
+      {
+        "name": "onActiveTabStatusText",
+        "type": "function",
+        "description": "Fired when the active tab has new loadstate text. Will reset to <empty> string",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          },
+          {
+            "type": "string",
+            "name": "statusText"
+          }
+        ]
+      },
+      {
+        "name": "onWebContentsHasWindow",
+        "type": "function",
+        "description": "Fired when the webcontents has a window object. chrome.windows.getviews find this now.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,186 @@
+import("//vivaldi/gn/config/product.gni")
+
+if (is_win) {
+  update_target("//chrome/installer/setup:setup") {
+    sources -= [
+      "setup.rc",
+      "setup_resource.h",
+    ]
+    sources += [
+      "//vivaldi/installer/win/setup/setup.rc",
+      "//vivaldi/installer/win/setup/setup_resource.h",
+    ]
+  }
+
+  update_target("//chrome/installer/setup:lib") {
+    sources += [
+      "//vivaldi/installer/util/vivaldi_install_dialog.cc",
+      "//vivaldi/installer/util/vivaldi_install_dialog.h",
+      "//vivaldi/installer/util/vivaldi_progress_dialog.cc",
+      "//vivaldi/installer/util/vivaldi_progress_dialog.h",
+      "//vivaldi/installer/util/vivaldi_setup_util.cc",
+      "//vivaldi/installer/util/vivaldi_setup_util.h",
+    ]
+  }
+
+  update_template_instance("//chrome/installer/setup:setup_exe_version") {
+    template_file =
+        "//vivaldi/installer/win/setup/setup_exe_version.rc.version"
+  }
+
+  update_target("//chrome/installer/setup:lib") {
+    sources -= [ "${branding_path_product}_behaviors.cc" ]
+    sources += [
+      "//vivaldi/installer/vivaldi_behaviors.cc",
+    ]
+    if (release_kind == "final") {
+      color = "#EF3939"
+    } else if (is_official_build) {
+      color = "#373737"
+    } else {
+      color = "#30c27c"
+    }
+    if (!defined(defines)) {
+      defines = []
+    }
+    defines += ["VIVALDI_RELEASE_BACKGROUND_COLOR=\"$color\""]
+  }
+
+  update_target("//chrome/install_static:install_static_util") {
+    sources -= [
+      "chromium_install_modes.cc",
+      "chromium_install_modes.h",
+    ]
+    sources += [
+      "//vivaldi/installer/vivaldi_install_modes.cc",
+      "//vivaldi/installer/vivaldi_install_modes.h",
+      "//vivaldi/installer/util/vivaldi_install_constants.cc",
+      "//vivaldi/installer/util/vivaldi_install_constants.h",
+      "//vivaldi/installer/util/vivaldi_static_install_helpers.cc",
+      "//vivaldi/installer/util/vivaldi_static_install_helpers.h",
+    ]
+    deps += [
+      "//base",
+    ]
+    libs += [
+      "rpcrt4.lib"
+    ]
+    public_configs = [ "//third_party/abseil-cpp:absl_include_config" ]
+  }
+
+  # We do not include //chrome/install_static:install_static_unittests in the
+  # vivaldi build, so add out test to a related test set that we do include. We
+  # also add the source files to simplify dependency management.
+  update_target("//components:components_unittests") {
+    if (!defined(sources)) {
+      sources = []
+    }
+    sources += [
+      "//vivaldi/installer/util/vivaldi_install_constants.cc",
+      "//vivaldi/installer/util/vivaldi_install_constants.h",
+      "//vivaldi/installer/util/vivaldi_static_install_helpers.cc",
+      "//vivaldi/installer/util/vivaldi_static_install_helpers.h",
+      "//vivaldi/installer/util/vivaldi_static_install_helpers_unittest.cc",
+    ]
+  }
+
+  update_target("//chrome/installer/util:with_no_strings") {
+    sources += [
+      "//vivaldi/installer/util/marker_file_work_item.cc",
+      "//vivaldi/installer/util/marker_file_work_item.h",
+      "//vivaldi/installer/util/vivaldi_install_util.cc",
+      "//vivaldi/installer/util/vivaldi_install_util.h",
+      "//vivaldi/installer/win/detached_thread.cc",
+      "//vivaldi/installer/win/detached_thread.h",
+      "//vivaldi/installer/win/vivaldi_install_l10n.cc",
+      "//vivaldi/installer/win/vivaldi_install_l10n.h",
+    ]
+  }
+}
+
+if (is_linux && !is_component_build) {
+  update_target("//chrome/installer/linux:rpm_packaging_files") {
+    sources -= [
+      "rpm/chrome.spec.template",
+    ]
+    sources += [
+      "//vivaldi/installer/linux/rpm/vivaldi.spec.template",
+    ]
+  }
+  update_target("//chrome/installer/linux:common_packaging_files") {
+    sources -= [
+      "common/wrapper",
+    ]
+    sources += [
+      "//vivaldi/installer/linux/common/appdata.xml.template",
+      "//vivaldi/installer/linux/common/update-ffmpeg",
+      "//vivaldi/installer/linux/common/vivaldi.apt.include",
+      "//vivaldi/installer/linux/common/vivaldi.info",
+      "//vivaldi/installer/linux/common/vivaldi.rpm.include",
+      "//vivaldi/installer/linux/common/wrapper",
+      "//vivaldi/installer/linux/common/xfce-helper.template",
+      "//vivaldi/installer/win/EULA.html",
+      "//vivaldi/relayproxy/linux/relayproxy-linux",
+    ]
+  }
+}
+
+if (is_mac) {
+  update_template_instance("//chrome:entitlements") {
+    entitlements_templates += [
+      "//vivaldi/installer/mac/app-entitlements-vivaldi.plist",
+    ]
+  }
+  if (is_official_build) {
+    update_template_instance("//chrome:entitlements") {
+      entitlements_templates += [
+        "//vivaldi/installer/mac/app-entitlements-vivaldi-official.plist",
+      ]
+    }
+  }
+}
+
+if (is_ios) {
+  update_template_instance("//ios/chrome/app:entitlements") {
+    entitlements_templates -= [ "resources/Chrome.entitlements" ]
+    entitlements_templates += [
+      "//vivaldi/installer/ios/Vivaldi.entitlements",
+    ]
+  }
+
+  update_template_instance("//ios/chrome/content_widget_extension/appex:entitlements") {
+    entitlements_templates -= [ "entitlements/external/content_widget_extension.appex.entitlements" ]
+    entitlements_templates += [
+      "//vivaldi/ios/app/entitlements/content_widget_extension.appex.entitlements",
+    ]
+  }
+
+  update_template_instance("//ios/chrome/search_widget_extension/appex:entitlements") {
+    entitlements_templates -= [ "entitlements/external/search_widget_extension.appex.entitlements" ]
+    entitlements_templates += [
+      "//vivaldi/ios/app/entitlements/search_widget_extension.appex.entitlements",
+    ]
+  }
+
+  update_template_instance("//ios/chrome/widget_kit_extension/appex:entitlements") {
+    entitlements_templates -= [ "entitlements/external/widget_kit_extension.appex.entitlements" ]
+    entitlements_templates += [
+      "//vivaldi/ios/app/entitlements/widget_kit_extension.appex.entitlements",
+    ]
+  }
+
+  update_template_instance("//ios/chrome/share_extension/appex:entitlements") {
+    entitlements_templates -= [ "entitlements/external/share_extension.appex.entitlements" ]
+    entitlements_templates += [
+      "//vivaldi/ios/app/entitlements/share_extension.appex.entitlements",
+    ]
+  }
+
+  update_template_instance("//ios/chrome/credential_provider_extension/appex:entitlements") {
+    entitlements_templates -= [ "entitlements/external/credential_provider_extension.appex.entitlements" ]
+    entitlements_templates += [
+      "//vivaldi/ios/app/entitlements/credential_provider_extension.appex.entitlements",
+    ]
+  }
+
+}

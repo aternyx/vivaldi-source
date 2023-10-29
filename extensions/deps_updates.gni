@@ -1,0 +1,95 @@
+import ("//vivaldi/testing/testing.gni")
+
+update_template_instance("//chrome:packed_resources") {
+  if (!defined(additional_extra_paks)) {
+    additional_extra_paks = []
+  }
+  additional_extra_paks += [
+    "$root_gen_dir/vivaldi/vivaldi_extension_resources.pak",
+  ]
+  # Both deps and public_deps need to be updated; deps are used by subtargets
+  if (!defined(deps)) { deps = [] }
+  deps += [ "//vivaldi/extensions:resources" ]
+  if (!defined(public_deps)) { public_deps = [] }
+  public_deps += [ "//vivaldi/extensions:resources" ]
+}
+
+if (!is_android) {
+  update_target("//chrome/browser:browser") {
+    public_deps += [
+      "//vivaldi/extensions/api:apis",
+      "//vivaldi/extensions/helper",
+      "//vivaldi/extensions/helper:app_helper",
+      "//vivaldi/extensions/schema",
+      "//vivaldi/extensions/tools",
+    ]
+    allow_circular_includes_from += [
+      "//vivaldi/extensions/api:apis",
+      "//vivaldi/extensions/helper",
+      "//vivaldi/extensions/helper:app_helper",
+      "//vivaldi/extensions/tools",
+    ]
+  }
+  update_target("//chrome/browser/extensions:extensions") {
+    deps += [
+      "//vivaldi/extensions/schema",
+      "//vivaldi/prefs:prefs_files_generator",
+    ]
+    allow_circular_includes_from += [
+      "//components/bookmarks/browser",
+    ]
+  }
+}
+
+update_target("//chrome/browser/ui:ui") {
+  public_deps += [
+    "//components/sessions:sessions",
+    "//vivaldi/extensions/api:apis",
+    "//vivaldi/extensions/schema",
+    "//vivaldi/extensions/tools",
+  ]
+  allow_circular_includes_from += [
+    "//vivaldi/extensions/api:apis",
+    "//vivaldi/extensions/tools",
+  ]
+}
+
+update_target("//components/guest_view/browser:browser") {
+  public_deps += [
+    "//extensions/buildflags",
+    "//vivaldi/extensions/helper:app_helper"
+  ]
+}
+
+update_target("//components/zoom:zoom") {
+  deps += [
+    "//extensions/buildflags",
+  ]
+}
+
+update_target("//components/history/core/browser:browser") {
+  public_deps += [
+    "//vivaldi/db",
+    "//vivaldi/extensions/schema",
+  ]
+}
+
+update_target("//content/common:common") {
+  deps += [ "//components/version_info:generate_version_info" ]
+}
+
+update_target("//chrome/browser/apps/platform_apps:platform_apps") {
+  deps += [ "//vivaldi/extensions/tools" ]
+}
+
+update_template_instance("//third_party/blink/renderer/platform:platform") {
+  visibility += [
+    "//vivaldi/extensions/api:apis",
+  ]
+}
+
+if (vivaldi_build_tests) {
+  update_target("//components:components_unittests") {
+    assert_no_deps = [] # //components/history/core/browser depends on extensions and chrome
+  }
+}

@@ -1,0 +1,54 @@
+import("//build/config/chrome_build.gni")
+import("//vivaldi/testing/testing.gni")
+
+_main_dll_targets = []
+if (is_win || is_mac) {
+  _main_dll_targets += [
+    "//chrome:chrome_dll",
+  ]
+}
+else if (!is_android) {
+  _main_dll_targets += [ "//chrome:chrome_initial" ]
+}
+foreach(_target, _main_dll_targets) {
+  update_target(_target) {
+    sources += [
+      "//vivaldi/extraparts/vivaldi_main_delegate.cpp",
+      "//vivaldi/extraparts/vivaldi_main_delegate.h",
+    ]
+    if (is_win) {
+      sources += [
+        "//vivaldi/browser/win/vivaldi_running_dlg.h",
+        "//vivaldi/browser/win/vivaldi_running_dlg.cc",
+      ]
+    }
+    deps += [
+      "//vivaldi/components:adverse_adblocking",
+      "//vivaldi/extensions:extensions_client"
+    ]
+  }
+}
+
+if (vivaldi_build_tests) {
+  update_target("//chrome/test:test_support") {
+    sources += [
+      "//vivaldi/extraparts/vivaldi_main_delegate.cpp",
+      "//vivaldi/extraparts/vivaldi_main_delegate.h",
+    ]
+    public_deps += [
+      "//vivaldi/components:adverse_adblocking",
+    ]
+    if (!is_android) {
+      public_deps += [ "//vivaldi/extensions:extensions_client" ]
+    }
+  }
+}
+
+if (is_android) {
+  update_target("//chrome:chrome_android_core") {
+    sources += [
+      "//vivaldi/extraparts/vivaldi_main_delegate.cpp",
+      "//vivaldi/extraparts/vivaldi_main_delegate.h",
+    ]
+  }
+}

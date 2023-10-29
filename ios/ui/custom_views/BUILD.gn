@@ -1,0 +1,21 @@
+# Copyright 2022 Vivaldi Technologies. All rights reserved.
+
+source_set("custom_views") {
+  sources = [
+    "custom_view_constants.h",
+    "custom_view_constants.mm",
+    "vivaldi_text_field_view.h",
+    "vivaldi_text_field_view.mm",
+    "vivaldi_search_bar_view.h",
+    "vivaldi_search_bar_view.mm",
+    "vivaldi_text_view.h",
+    "vivaldi_text_view.mm"
+  ]
+
+  deps = []
+
+  frameworks = [
+    "Foundation.framework",
+    "UIKit.framework",
+  ]
+}

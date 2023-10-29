@@ -1,0 +1,2012 @@
+// Copyright (c) 2017 Vivaldi Technologies AS. All rights reserved
+[
+  {
+    "namespace": "calendar",
+    "description": "Use the <code>vivaldi.calendar</code> API to manipulate calendar events.",
+    "types": [
+      {
+        "id": "AccountType",
+        "type": "string",
+        "enum": [ "local", "vivaldi", "google", "caldav", "ical", "fastmail" ],
+        "description": "The account type. Maps to int in db: 0: Local. 1: Vivaldi.net calendar. 2: Google Calendar. 3: CalDAV.  4: Read only iCal."
+      },
+      {
+        "id": "RecurrenceException",
+        "type": "object",
+        "description": "A object describing how an instance of event recurrence is changed.",
+        "properties": {
+          "exception_id": {
+            "type": "string",
+            "optional": true,
+            "description": "The id of the exception."
+          },
+          "cancelled": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If a certain instance of recurring event is cancelled."
+          },
+          "date": {
+            "type": "number",
+            "optional": true,
+            "description": "The date of a recurring event that an exception should be added to. In milliseconds since the epoch."
+          },
+          "exception_event_id": {
+            "type": "string",
+            "optional": true,
+            "description": "The id of the event that serves as exception to the event in a recurrence series."
+          },
+          "parent_event_id": {
+            "type": "string",
+            "optional": true,
+            "description": "The id of the event that is parent to all the others events in the recurrence series."
+          }
+        }
+      },
+      {
+        "id": "CreateNotificationRow",
+        "type": "object",
+        "description": "An object describing notification to be created during event creation.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the notification."
+          },
+          "when": {
+            "type": "number",
+            "description": "When this notification should fire. In milliseconds since the epoch."
+          }
+        }
+      },
+      {
+        "id": "CreateInviteRow",
+        "type": "object",
+        "description": "An object describing invite to be created during event creation.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the invite."
+          },
+          "address": {
+            "type": "string",
+            "description": "The invite address."
+          },
+          "partstat": {
+            "type": "string",
+            "description": "The participation status for the event invite."
+          }
+        }
+      },
+      {
+        "id": "SupportedCalendarComponents",
+        "type": "object",
+        "description": "An object describing supported calendar component set.",
+        "properties": {
+          "vevent": {
+            "type": "boolean",
+            "description": "Does the calendar support vevent."
+          },
+          "vtodo": {
+            "type": "boolean",
+            "description": "Does the calendar support vtodo."
+          },
+          "vjournal": {
+            "type": "boolean",
+            "description": "Does the calendar support vjournal."
+          }
+        }
+      },
+      {
+        "id": "Notification",
+        "type": "object",
+        "description": "An object describing notification.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minimum": 0,
+            "description": "The unique identifier for the notification. IDs are unique within the current profile, and they remain valid even after the browser is restarted."
+          },
+          "event_id": {
+            "type": "string",
+            "minimum": 0,
+            "optional": true,
+            "description": "The event id this notification applies to."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the notification."
+          },
+          "description": {
+            "type": "string",
+            "name": "description",
+            "optional": true,
+            "description": "The description of the notification."
+          },
+          "when": {
+            "type": "number",
+            "description": "When this notification should fire. In milliseconds since the epoch."
+          },
+          "period": {
+            "type": "number",
+            "optional": true,
+            "description": "If not null, when the notification will fire. In milliseconds since the epoch."
+          },
+          "delay": {
+            "type": "integer",
+            "optional": true,
+            "description": "The notification will fire after delay minutes from now. Can not be used together with when."
+          }
+        }
+      },
+      {
+        "id": "Invite",
+        "description": "Object describing event invite.",
+        "inline_doc": true,
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the invite."
+          },
+          "event_id": {
+            "type": "string",
+            "description": "The id of the event that this invite applies to."
+          },
+          "name": {
+            "type": "string",
+            "optional": true,
+            "description": "The name of the contact to send the invite to."
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the contact to send the invite to."
+          },
+          "sent": {
+            "type": "boolean",
+            "optional": true,
+            "description": "States if the event invite has been sent or not."
+          },
+          "partstat": {
+            "type": "string",
+            "optional": true,
+            "description": "The participation status for the event invite."
+          }
+        }
+      },
+      {
+        "id": "CalendarEvent",
+        "type": "object",
+        "description": "A calendar event. An event belongs to a single Calendar.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minimum": 0,
+            "description": "The unique identifier for the event. IDs are unique within the current profile, and they remain valid even after the browser is restarted."
+          },
+          "calendarId": {
+            "type": "string",
+            "description": "The calendar id of the event."
+          },
+          "alarmId": {
+            "type": "string",
+            "optional": true,
+            "description": "The alarm id of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of event."
+          },
+          "description": {
+            "type": "string",
+            "optional": true,
+            "description": "The event description."
+          },
+          "start": {
+            "type": "number",
+            "optional": true,
+            "description": "When this event starts, in milliseconds since the epoch."
+          },
+          "end": {
+            "type": "number",
+            "optional": true,
+            "description": "When this event ends, in milliseconds since the epoch."
+          },
+          "allDay": {
+            "type": "boolean",
+            "optional": true,
+            "description": "All day event."
+          },
+          "is_recurring": {
+            "description": "Is this a recurring event.",
+            "type": "boolean",
+            "optional": true
+          },
+          "location": {
+            "type": "string",
+            "optional": true,
+            "description": "The location of the event."
+          },
+          "url": {
+            "description": "The url of the event.",
+            "type": "string",
+            "optional": true
+          },
+          "etag": {
+            "description": "The CalDAV etag id of the event.",
+            "type": "string",
+            "optional": true
+          },
+          "href": {
+            "description": "The CalDAV href id of the event.",
+            "type": "string",
+            "optional": true
+          },
+          "uid": {
+            "description": "The event uid.",
+            "type": "string",
+            "optional": true
+          },
+          "eventTypeId": {
+            "description": "The event type id.",
+            "type": "string",
+            "optional": true
+          },
+          "task": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Whether this event is a task. Tasks can be marked as completed."
+          },
+          "complete": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If this event is a task type you can mark it as complete."
+          },
+          "trash": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Is this event trashed."
+          },
+          "trash_time": {
+            "description": "When this event was trashed, in milliseconds since the epoch.",
+            "type": "number",
+            "optional": true
+          },
+          "sequence": {
+            "description": "iCal sequence field according to: https://tools.ietf.org/html/rfc5545#section-3.8.7.4.",
+            "type": "integer",
+            "optional": true
+          },
+          "ical": {
+            "type": "string",
+            "optional": true,
+            "description": "The original ical message."
+          },
+          "rrule": {
+            "type": "string",
+            "optional": true,
+            "description": "The recurring rule. In iCalendar format."
+          },
+          "recurrenceExceptions": {
+            "description": "List of recurrence exceptions. Either cancelled instances or moved.",
+            "type": "array",
+            "optional": true,
+            "items": {
+              "$ref": "RecurrenceException"
+            }
+          },
+          "notifications": {
+            "description": "List of notifications.",
+            "type": "array",
+            "optional": true,
+            "items": {
+              "$ref": "Notification"
+            }
+          },
+          "organizer": {
+            "type": "string",
+            "optional": true,
+            "description": "The organizer of the event."
+          },
+          "invites": {
+            "description": "List of invites.",
+            "type": "array",
+            "optional": true,
+            "items": {
+              "$ref": "Invite"
+            }
+          },
+          "timezone": {
+            "type": "string",
+            "optional": true,
+            "description": "The timezone of the event."
+          },
+          "priority": {
+            "type": "integer",
+            "optional": true,
+            "description": "Priority of event or task. Must be in the range [0..9]. 0 is equivalent of no priority."
+          },
+          "status": {
+            "type": "string",
+            "optional": true,
+            "description": "The overall status or confirmation for the event or todo."
+          },
+          "percentage_complete": {
+            "type": "integer",
+            "optional": true,
+            "description": "The percent completion of a todo to the organizer."
+          },
+          "categories": {
+            "type": "string",
+            "optional": true,
+            "description": "Event or todo categories. A comma separated list."
+          },
+          "component_class": {
+            "type": "string",
+            "optional": true,
+            "description": "Access classification for a event or todo."
+          },
+          "attachment": {
+            "type": "string",
+            "optional": true,
+            "description": "Document object for a event or todo."
+          },
+          "completed": {
+            "type": "number",
+            "optional": true,
+            "description": "The date and time that a todo was actually completed."
+          },
+          "syncPending": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Does this event have any pending sync changes."
+          },
+          "deletePending": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Should the event be deleted locally once server deletion is completed."
+          }
+        }
+      },
+      {
+        "id": "CreateDetails",
+        "description": "Object passed to the create() function.",
+        "inline_doc": true,
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "optional": false
+          },
+          "description": {
+            "type": "string",
+            "optional": true
+          },
+          "start": {
+            "type": "number",
+            "optional": true,
+            "description": "When this event shoud starts, in milliseconds since the epoch."
+          },
+          "end": {
+            "type": "number",
+            "optional": true,
+            "description": "When this event should ends, in milliseconds since the epoch."
+          },
+          "allDay": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Is this a all day event."
+          },
+          "is_recurring": {
+            "description": "Is this a recurring event.",
+            "type": "boolean",
+            "optional": true
+          },
+          "location": {
+            "type": "string",
+            "optional": true,
+            "description": "The location of the event."
+          },
+          "url": {
+            "description": "The url of the event.",
+            "type": "string",
+            "optional": true
+          },
+          "calendarId": {
+            "type": "string",
+            "description": "The calendar id of the event."
+          },
+          "etag": {
+            "type": "string",
+            "optional": true,
+            "description": "The CalDAV etag id of the event."
+          },
+          "href": {
+            "type": "string",
+            "optional": true,
+            "description": "The CalDAV href id of the event."
+          },
+          "uid": {
+            "type": "string",
+            "optional": true,
+            "description": "The event uid."
+          },
+          "task": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Whether this event is a task. Tasks can be marked as completed."
+          },
+          "complete": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If this event is a task type you can mark it as complete."
+          },
+          "sequence": {
+            "description": "iCal sequence field according to: https://tools.ietf.org/html/rfc5545#section-3.8.7.4.",
+            "type": "integer",
+            "optional": true
+          },
+          "ical": {
+            "type": "string",
+            "optional": true,
+            "description": "The original ical message."
+          },
+          "rrule": {
+            "type": "string",
+            "optional": true,
+            "description": "The recurring rule. In iCalendar format."
+          },
+          "eventTypeId": {
+            "type": "string",
+            "optional": true,
+            "description": "The event type id of the event."
+          },
+          "organizer": {
+            "type": "string",
+            "optional": true,
+            "description": "The organizer of the event."
+          },
+          "recurrenceExceptions": {
+            "description": "List of recurrence exceptions.",
+            "type": "array",
+            "optional": true,
+            "items": {
+              "$ref": "RecurrenceException"
+            }
+          },
+          "notifications": {
+            "description": "List of notifications to create.",
+            "type": "array",
+            "optional": true,
+            "items": {
+              "$ref": "CreateNotificationRow"
+            }
+          },
+          "invites": {
+            "description": "List of invites to create.",
+            "type": "array",
+            "optional": true,
+            "items": {
+              "$ref": "CreateInviteRow"
+            }
+          },
+          "timezone": {
+            "type": "string",
+            "optional": true,
+            "description": "The timezone of the event to create."
+          },
+          "is_template": {
+            "type": "boolean",
+            "description": "Is  the event a template or not."
+          },
+          "priority": {
+            "type": "integer",
+            "optional": true,
+            "description": "Priority of event or task. Must be in the range [0..9]. 0 is equivalent of no priority."
+          },
+          "status": {
+            "type": "string",
+            "optional": true,
+            "description": "The overall status or confirmation for the event or todo."
+          },
+          "percentage_complete": {
+            "type": "integer",
+            "optional": true,
+            "description": "The percent completion of a todo to the organizer."
+          },
+          "categories": {
+            "type": "string",
+            "optional": true,
+            "description": "Event or todo categories. A comma separated list."
+          },
+          "component_class": {
+            "type": "string",
+            "optional": true,
+            "description": "Access classification for a event or todo."
+          },
+          "attachment": {
+            "type": "string",
+            "optional": true,
+            "description": "Document object for a event or todo."
+          },
+          "completed": {
+            "type": "number",
+            "optional": true,
+            "description": "The date and time that a todo was actually completed."
+          },
+          "syncPending": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Does this event have any pending sync changes."
+          },
+          "deletePending": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Should the event be deleted locally once server deletion is completed."
+          }
+        }
+      },
+      {
+        "id": "EventType",
+        "type": "object",
+        "description": "A event type.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minimum": 0,
+            "description": "The unique identifier for the event type. IDs are unique within the current profile, and they remain valid even after the browser is restarted."
+          },
+          "name": {
+            "type": "string",
+            "description": "The event type name."
+          },
+          "color": {
+            "type": "string",
+            "optional": true,
+            "description": "The color of the event type."
+          },
+          "iconindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "The event type icon index."
+          }
+        }
+      },
+      {
+        "id": "CreateEventType",
+        "description": "Object passed to the typeCreate() function.",
+        "inline_doc": true,
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "optional": false
+          },
+          "color": {
+            "type": "string",
+            "optional": true,
+            "description": "The color of the event type."
+          },
+          "iconindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "The event type iconindex."
+          }
+        }
+      },
+      {
+        "id": "CreateEventsResults",
+        "type": "object",
+        "description": "Object stating how many events were created successfully and how many creations resulted in errors.",
+        "properties": {
+          "created_count": {
+            "description": "Number of events created.",
+            "type": "integer"
+          },
+          "failed_count": {
+            "description": "Number of failed event creation attempts.",
+            "type": "integer"
+          }
+        }
+      },
+      {
+        "id": "CreateCalendarDetails",
+        "description": "Object passed to the createCalendar() function.",
+        "inline_doc": true,
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "description": "The id of the account the calendar belongs to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the calendar to be created."
+          },
+          "description": {
+            "type": "string",
+            "optional": true,
+            "description": "The description of the calendar to be created."
+          },
+          "orderindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "The UI order of the calendar."
+          },
+          "iconindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "The iconindex of the calendar."
+          },
+          "color": {
+            "type": "string",
+            "optional": true,
+            "description": "The color of the calendar."
+          },
+          "hidden": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If this calendar should be visible."
+          },
+          "active": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If this CalDAV calendar should be polled."
+          },
+          "lastChecked": {
+            "type": "number",
+            "optional": true,
+            "description": "When this calendar last checked for updates.  In milliseconds since the epoch."
+          },
+          "timezone": {
+            "type": "string",
+            "optional": true,
+            "description": "The timezone of the calendar."
+          },
+          "ctag": {
+            "type": "string",
+            "optional": true,
+            "description": "The ctag field of the CalDAV calendar."
+          },
+          "supportedCalendarComponent": {
+            "$ref": "SupportedCalendarComponents"
+          }
+        }
+      },
+      {
+        "id": "Calendar",
+        "type": "object",
+        "description": "Calendar that owns events.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minimum": 0,
+            "description": "The unique identifier for the calendar. IDs are unique within the current profile, and they remain valid even after the browser is restarted."
+          },
+          "accountId": {
+            "type": "string",
+            "description": "The id of the account the calendar belongs to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the calendar."
+          },
+          "description": {
+            "type": "string",
+            "optional": true,
+            "description": "The calendar description."
+          },
+          "orderindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "The UI order of the calendar."
+          },
+          "color": {
+            "type": "string",
+            "optional": true,
+            "description": "The UI color of the calendar."
+          },
+          "hidden": {
+            "type": "boolean",
+            "optional": true,
+            "description": "States if the calendar is hidden in the UI."
+          },
+          "active": {
+            "type": "boolean",
+            "optional": true,
+            "description": "States if a CalDAV calendar should be polled."
+          },
+          "iconindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "Icon index of the calendar."
+          },
+          "ctag": {
+            "type": "string",
+            "optional": true,
+            "description": "The ctag field of the CalDAV calendar."
+          },
+          "lastChecked": {
+            "type": "number",
+            "optional": true,
+            "description": "When this calendar last checked for updates.  In milliseconds since the epoch."
+          },
+          "timezone": {
+            "type": "string",
+            "optional": true,
+            "description": "The timezone of the calendar."
+          },
+          "supportedCalendarComponent": {
+            "$ref": "SupportedCalendarComponents"
+          }
+        }
+      },
+      {
+        "id": "updateCalendar",
+        "type": "object",
+        "description": "Object to update calendar.",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "optional": true,
+            "description": "The id of the account the calendar belongs to."
+          },
+          "name": {
+            "type": "string",
+            "optional": true,
+            "description": "The name of the calendar."
+          },
+          "description": {
+            "type": "string",
+            "optional": true,
+            "description": "The calendar description."
+          },
+          "orderindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "The UI order of the calendar."
+          },
+          "color": {
+            "type": "string",
+            "optional": true,
+            "description": "The UI color of the calendar."
+          },
+          "hidden": {
+            "type": "boolean",
+            "optional": true,
+            "description": "States if the calendar is hidden in the UI."
+          },
+          "active": {
+            "type": "boolean",
+            "optional": true,
+            "description": "States if a CalDAV calendar should be polled."
+          },
+          "iconindex": {
+            "type": "integer",
+            "optional": true,
+            "description": "Icon index of the calendar."
+          },
+          "ctag": {
+            "type": "string",
+            "optional": true,
+            "description": "The ctag field of the CalDAV calendar."
+          },
+          "lastChecked": {
+            "type": "number",
+            "optional": true,
+            "description": "When this calendar last checked for updates.  In milliseconds since the epoch."
+          },
+          "timezone": {
+            "type": "string",
+            "optional": true,
+            "description": "The timezone of the calendar."
+          },
+          "supportedCalendarComponent": {
+            "optional": true,
+            "$ref": "SupportedCalendarComponents"
+          }
+        }
+      },
+      {
+        "id": "updatedAccount",
+        "type": "object",
+        "description": "Object to update calendar.",
+        "properties": {
+          "name": {
+            "name": "The updated name of the account.",
+            "type": "string",
+            "optional": true
+          },
+          "username": {
+            "name": "The user name of the account.",
+            "type": "string",
+            "optional": true
+          },
+          "url": {
+            "description": "The updated url of the account.",
+            "type": "string",
+            "optional": true
+          },
+          "account_type": {
+            "description": "The type of account.",
+            "type": "string",
+            "$ref": "AccountType",
+            "optional": true
+          },
+          "interval": {
+            "type": "integer",
+            "optional": true,
+            "description": "The interval how often this account should poll. In seconds."
+          }
+        }
+      },
+      {
+        "id": "createdAccount",
+        "type": "object",
+        "description": "Object to create calendar.",
+        "properties": {
+          "name": {
+            "name": "The name of the account to create.",
+            "type": "string"
+          },
+          "username": {
+            "name": "The user name of the account to create.",
+            "type": "string"
+          },
+          "url": {
+            "description": "The url of the account to create.",
+            "type": "string"
+          },
+          "account_type": {
+            "description": "The type of account.",
+            "type": "string",
+            "$ref": "AccountType",
+            "optional": true
+          },
+          "interval": {
+            "type": "integer",
+            "optional": true,
+            "description": "The interval how often this account should poll. In seconds."
+          }
+        }
+      },
+      {
+        "id": "Account",
+        "type": "object",
+        "description": "An object describing calendar account.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for the account. IDs are unique within the current profile, and they remain valid even after the browser is restarted."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the account."
+          },
+          "username": {
+            "type": "string",
+            "name": "description",
+            "description": "The username of the account."
+          },
+          "url": {
+            "type": "string",
+            "name": "description",
+            "description": "The base url of the account."
+          },
+          "account_type": {
+            "description": "The type of account.",
+            "type": "string",
+            "$ref": "AccountType",
+            "optional": true
+          },
+          "interval": {
+            "type": "integer",
+            "optional": true,
+            "description": "The interval how often this account should poll. In seconds."
+          }
+        }
+      },
+      {
+        "id": "EventTemplate",
+        "type": "object",
+        "description": "A event template object.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minimum": 0,
+            "description": "The unique identifier for the event template."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the event template."
+          },
+          "ical": {
+            "type": "string",
+            "description": "The ical of the event template."
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "getAllEvents",
+        "type": "function",
+        "description": "Retrieves all events in calendar.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": {
+                "$ref": "CalendarEvent"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "getAllEventTypes",
+        "type": "function",
+        "description": "Retrieves all event types.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": {
+                "$ref": "EventType"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "getAllNotifications",
+        "type": "function",
+        "description": "Retrieves all notifications.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": {
+                "$ref": "Notification"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "eventCreate",
+        "type": "function",
+        "description": "Creates a event in the specified calendar.",
+        "parameters": [
+          {
+            "$ref": "CreateDetails",
+            "name": "event"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "CalendarEvent"
+            }
+          ]
+        }
+      },
+      {
+        "name": "eventsCreate",
+        "type": "function",
+        "description": "Creates multiple events.",
+        "parameters": [
+          {
+            "name": "eventsList",
+            "type": "array",
+            "items": {
+              "$ref": "CreateDetails"
+            },
+            "minItems": 1
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "description": "Object stating how many creation attempt succeeded and how many failed.",
+              "$ref": "CreateEventsResults"
+            }
+          ]
+        }
+      },
+      {
+        "name": "deleteEvent",
+        "type": "function",
+        "description": "Deletes an event.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "deleteEventException",
+        "type": "function",
+        "description": "Deletes an recurring event exception.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "exception_id",
+            "description": "The id of the exception to delete."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "CalendarEvent",
+              "description": "The calendar event after removing the event exception."
+            }
+          ]
+        }
+      },
+      {
+        "name": "updateRecurrenceException",
+        "type": "function",
+        "description": "Updates the recurrence exception of an event. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "recurrenceId"
+          },
+          {
+            "type": "object",
+            "name": "changes",
+            "properties": {
+              "cancelled": {
+                "type": "boolean",
+                "optional": true,
+                "description": "If a certain instance of recurring event is cancelled."
+              },
+              "date": {
+                "type": "number",
+                "optional": true,
+                "description": "The date of a recurring event that an exception should be added to. In milliseconds since the epoch."
+              },
+              "exception_event_id": {
+                "type": "string",
+                "optional": true,
+                "description": "The id of the event that serves as exception to the event in a recurrence series."
+              },
+              "parent_event_id": {
+                "type": "string",
+                "optional": true,
+                "description": "The id of the event that is parent to all the others events in the recurrence series."
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "CalendarEvent",
+              "description": "The calendar event after updating the event exception."
+            }
+          ]
+        }
+      },
+      {
+        "name": "updateEvent",
+        "type": "function",
+        "description": "Updates the properties of an event. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          },
+          {
+            "type": "object",
+            "name": "changes",
+            "properties": {
+              "calendarId": {
+                "description": "The updated calendar id of event.",
+                "type": "string",
+                "optional": true
+              },
+              "alarmId": {
+                "description": "The updated alarm id of event.",
+                "type": "string",
+                "optional": true
+              },
+              "title": {
+                "description": "The updated title of event.",
+                "type": "string",
+                "optional": true
+              },
+              "description": {
+                "description": "The updated description of event.",
+                "type": "string",
+                "optional": true
+              },
+              "start": {
+                "description": "When this event shoud starts, in milliseconds since the epoch.",
+                "type": "number",
+                "optional": true
+              },
+              "end": {
+                "description": "Updated time when this event should end, in milliseconds since the epoch.",
+                "type": "number",
+                "optional": true
+              },
+              "allDay": {
+                "description": "Is this all day event.",
+                "type": "boolean",
+                "optional": true
+              },
+              "location": {
+                "description": "The location of the event.",
+                "type": "string",
+                "optional": true
+              },
+              "is_recurring": {
+                "description": "Is this a recurring event.",
+                "type": "boolean",
+                "optional": true
+              },
+              "url": {
+                "description": "The url of the event.",
+                "type": "string",
+                "optional": true
+              },
+              "etag": {
+                "description": "The CalDAV.etag of the event.",
+                "type": "string",
+                "optional": true
+              },
+              "href": {
+                "description": "The href id of the event.",
+                "type": "string",
+                "optional": true
+              },
+              "uid": {
+                "description": "The event uid.",
+                "type": "string",
+                "optional": true
+              },
+              "eventTypeId": {
+                "description": "The event type id.",
+                "type": "string",
+                "optional": true
+              },
+              "task": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Whether this event is a task. Tasks can be marked as completed."
+              },
+              "complete": {
+                "type": "boolean",
+                "optional": true,
+                "description": "If this event is a task type you can mark it as complete."
+              },
+              "trash": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Is this event trashed."
+              },
+              "sequence": {
+                "description": "iCal sequence field according to: https://tools.ietf.org/html/rfc5545#section-3.8.7.4.",
+                "type": "integer",
+                "optional": true
+              },
+              "ical": {
+                "type": "string",
+                "optional": true,
+                "description": "The original ical message."
+              },
+              "rrule": {
+                "type": "string",
+                "optional": true,
+                "description": "The recurring rule. In iCalendar format."
+              },
+              "organizer": {
+                "type": "string",
+                "optional": true,
+                "description": "The organizer of the event."
+              },
+              "timezone": {
+                "type": "string",
+                "optional": true,
+                "description": "The timezone of the event."
+              },
+              "priority": {
+                "type": "integer",
+                "optional": true,
+                "description": "Priority of event or task. Must be in the range [0..9]. 0 is equivalent of no priority."
+              },
+              "status": {
+                "type": "string",
+                "optional": true,
+                "description": "The overall status or confirmation for the event or todo."
+              },
+              "percentage_complete": {
+                "type": "integer",
+                "optional": true,
+                "description": "The percent completion of a todo to the Organizer."
+              },
+              "categories": {
+                "type": "string",
+                "optional": true,
+                "description": "Event or todo categories. A comma separated list."
+              },
+              "component_class": {
+                "type": "string",
+                "optional": true,
+                "description": "Access classification for a event or todo."
+              },
+              "attachment": {
+                "type": "string",
+                "optional": true,
+                "description": "Access classification for a event or todo."
+              },
+              "completed": {
+                "type": "number",
+                "optional": true,
+                "description": "The date and time that a todo was actually completed."
+              },
+              "syncPending": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Does this event have any pending sync changes."
+              },
+              "deletePending": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Should the event be deleted locally once server deletion is completed."
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "CalendarEvent"
+            }
+          ]
+        }
+      },
+      {
+        "name": "create",
+        "type": "function",
+        "description": "Creates a calendar.",
+        "parameters": [
+          {
+            "$ref": "CreateCalendarDetails",
+            "name": "calendar"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "Calendar"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getAll",
+        "type": "function",
+        "description": "Returns all calendars.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": {
+                "$ref": "Calendar"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "delete",
+        "type": "function",
+        "description": "Deletes a calendar, with all its events and event exceptions.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "description": "The id of the calendar to be deleted."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "update",
+        "type": "function",
+        "description": "Updates the properties of an calendar. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          },
+          {
+            "name": "changes",
+            "$ref": "updateCalendar"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "description": "Was the calendar updated successfully?",
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "eventTypeCreate",
+        "type": "function",
+        "description": "Creates a event type.",
+        "parameters": [
+          {
+            "$ref": "CreateEventType",
+            "name": "event_type"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "EventType"
+            }
+          ]
+        }
+      },
+      {
+        "name": "eventTypeUpdate",
+        "type": "function",
+        "description": "Updates the properties of an event type. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          },
+          {
+            "type": "object",
+            "name": "changes",
+            "properties": {
+              "name": {
+                "name": "The updated name of the event type",
+                "type": "string",
+                "optional": true
+              },
+              "color": {
+                "description": "The updated color of the event type.",
+                "type": "string",
+                "optional": true
+              },
+              "iconindex": {
+                "description": "The iconindex of the event type.",
+                "type": "integer",
+                "optional": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "deleteEventType",
+        "type": "function",
+        "description": "Deletes an event type.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "createEventException",
+        "type": "function",
+        "description": "Creates an exception to event instance in recurring series.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "parent_event_id",
+            "description": "The parent id of the event in the recurrence series."
+          },
+          {
+            "type": "string",
+            "name": "exception_event_id",
+            "description": "The id of the event that serves as exception to the event in a recurrence series.",
+            "optional": true
+          },
+          {
+            "type": "boolean",
+            "name": "cancelled",
+            "description": "Cancel this instance of recurring event."
+          },
+          {
+            "name": "date",
+            "type": "number",
+            "optional": true,
+            "description": "When the exception should happen. In milliseconds since the epoch."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "CalendarEvent"
+            }
+          ]
+        }
+      },
+      {
+        "name": "createNotification",
+        "type": "function",
+        "description": "Creates a notification.",
+        "parameters": [
+          {
+            "type": "object",
+            "name": "createNotification",
+            "properties": {
+              "event_id": {
+                "type": "string",
+                "optional": true,
+                "description": "The event id of the event to create the notification for."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the notification."
+              },
+              "description": {
+                "type": "string",
+                "optional": true,
+                "description": "The description of the notification."
+              },
+              "when": {
+                "type": "number",
+                "description": "When the notification should fire. In milliseconds since the epoch."
+              },
+              "period": {
+                "type": "number",
+                "optional": true,
+                "description": "If not null, when the notification will fire. In milliseconds since the epoch."
+              },
+              "delay": {
+                "type": "integer",
+                "optional": true,
+                "description": "The notification will fire after delay minutes from now. Can not be used together with when."
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "notification",
+              "$ref": "Notification"
+            }
+          ]
+        }
+      },
+      {
+        "name": "updateNotification",
+        "type": "function",
+        "description": "Updates the properties of a notification. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The id of the notification to update.",
+            "name": "id"
+          },
+          {
+            "type": "object",
+            "name": "changes",
+            "properties": {
+              "name": {
+                "type": "string",
+                "optional": true,
+                "description": "The name of the notification."
+              },
+              "description": {
+                "type": "string",
+                "optional": true,
+                "description": "The description of the notification."
+              },
+              "when": {
+                "type": "number",
+                "optional": true,
+                "description": "When the notification should fire. In milliseconds since the epoch."
+              },
+              "period": {
+                "type": "number",
+                "optional": true,
+                "description": "If not null, when the notification will fire. In milliseconds since the epoch."
+              },
+              "delay": {
+                "type": "integer",
+                "optional": true,
+                "description": "The notification will fire after delay minutes from now. Can not be used together with when."
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "notification",
+              "$ref": "Notification"
+            }
+          ]
+        }
+      },
+      {
+        "name": "deleteNotification",
+        "type": "function",
+        "description": "Deletes a notification.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "createInvite",
+        "type": "function",
+        "description": "Creates an invite for event.",
+        "parameters": [
+          {
+            "type": "object",
+            "name": "createInvite",
+            "properties": {
+              "event_id": {
+                "type": "string",
+                "description": "The event id of the event to create the invite for."
+              },
+              "address": {
+                "type": "string",
+                "description": "The email address to send the invite to."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the persion to send the invite to."
+              },
+              "partstat": {
+                "type": "string",
+                "optional": true,
+                "description": "The participation status for the event invite"
+              },
+              "sent": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Has the invite been sent."
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "invite",
+              "$ref": "Invite"
+            }
+          ]
+        }
+      },
+      {
+        "name": "deleteInvite",
+        "type": "function",
+        "description": "Deletes an invite.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "description": "The invite id to delete."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "updateInvite",
+        "type": "function",
+        "description": "Updates an invite for event.",
+        "parameters": [
+          {
+            "type": "object",
+            "name": "updateInvite",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The id of the invite to update."
+              },
+              "address": {
+                "type": "string",
+                "optional": true,
+                "description": "The email address to send the invite to."
+              },
+              "name": {
+                "type": "string",
+                "optional": true,
+                "description": "The name of the persion to send the invite to."
+              },
+              "partstat": {
+                "type": "string",
+                "optional": true,
+                "description": "The participation status for the event invite."
+              },
+              "sent": {
+                "type": "boolean",
+                "optional": true,
+                "description": "Has the invite been sent."
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "invite",
+              "$ref": "Invite"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getAllAccounts",
+        "type": "function",
+        "description": "Retrieves all calendar accounts.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": {
+                "$ref": "Account"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "createAccount",
+        "type": "function",
+        "description": "Creates an account.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "toCreate",
+            "$ref": "createdAccount"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "optional": true,
+            "parameters": [
+              {
+                "name": "createAccount",
+                "$ref": "Account"
+              },
+              {
+                "name": "result",
+                "type": "boolean"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "updateAccount",
+        "type": "function",
+        "description": "Updates the properties of an account. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id"
+          },
+          {
+            "name": "changes",
+            "$ref": "updatedAccount"
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "optional": true,
+            "parameters": [
+              {
+                "name": "result",
+                "$ref": "Account"
+              },
+              {
+                "name": "res",
+                "type": "string",
+                "optional": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "deleteAccount",
+        "type": "function",
+        "description": "Deletes an account and its calendars, events, recurring_exceptions, notifications etc",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "description": "The account id to be deleted"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "createEventTemplate",
+        "type": "function",
+        "description": "Creates an event template.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "name",
+            "description": "The event template name."
+          },
+          {
+            "type": "string",
+            "name": "ical",
+            "description": "The event template ical."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "EventTemplate"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getAllEventTemplates",
+        "type": "function",
+        "description": "Retrieves all event templates.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": {
+                "$ref": "EventTemplate"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "updateEventTemplate",
+        "type": "function",
+        "description": "Updates the properties of an event template. Specify only the properties that you want to change. Unspecified properties will be left unchanged.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "description": "The id of the event template to update."
+          },
+          {
+            "type": "object",
+            "name": "changes",
+            "properties": {
+              "name": {
+                "description": "The updated name of the event template.",
+                "type": "string",
+                "optional": true
+              },
+              "ical": {
+                "description": "The updated ical of the event template.",
+                "type": "string",
+                "optional": true
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "EventTemplate"
+            }
+          ]
+        }
+      },
+      {
+        "name": "deleteEventTemplate",
+        "type": "function",
+        "description": "Deletes an event template.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+	    "description": "The id of the event template to delete."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onIcsFileOpened",
+        "type": "function",
+        "description": "Called when the user opens a downloaded ics file",
+        "parameters": [
+          {
+            "name": "filePath",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "onWebcalUrlOpened",
+        "type": "function",
+        "description": "Called when the user opens a webcal link",
+        "parameters": [
+          {
+            "name": "url",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "onMailtoOpened",
+        "type": "function",
+        "description": "Called when the user opens a mailto link",
+        "parameters": [
+          {
+            "name": "mailto",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "onEventCreated",
+        "type": "function",
+        "description": "Fired when a event is created.",
+        "parameters": [
+          {
+            "name": "createdEvent",
+            "$ref": "CalendarEvent",
+            "description": "The created event."
+          }
+        ]
+      },
+      {
+        "name": "onNotificationChanged",
+        "type": "function",
+        "description": "Fired when notification is created, updated or deleted.",
+        "parameters": [
+          {
+            "name": "changedNotification",
+            "$ref": "Notification",
+            "description": "The created, changed or updated notification."
+          }
+        ]
+      },
+      {
+        "name": "onCalendarDataChanged",
+        "type": "function",
+        "description": "Fired when the calendar datamodel should be reloaded."
+      }
+    ]
+  }
+]

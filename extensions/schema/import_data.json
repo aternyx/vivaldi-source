@@ -1,0 +1,324 @@
+// Copyright (c) 2015 Vivaldi Technologies AS. All rights reserved
+
+[
+  {
+    "namespace": "importData",
+    "description": "Use the <code>vivaldi.importData.getProfiles</code> to display installed browsers.",
+    "types": [
+      {
+        "id": "import_types",
+        "type": "string",
+        "enum": [
+          "internet_explorer",
+          "firefox",
+          "safari",
+          "bookmarks_file",
+          "opera",
+          "opera_bookmark",
+          "chrome",
+          "chromium",
+          "vivaldi",
+          "yandex",
+          "opera_opium_beta",
+          "opera_opium_dev",
+          "brave",
+          "edge",
+          "edge_chromium",
+          "thunderbird",
+          "opera_opium",
+          "unknown"
+        ]
+      },
+      {
+        "id": "UserProfileItem",
+        "type": "object",
+        "description": "UserProfileItem. Contains info for userprofile",
+        "properties": {
+          "profileDisplayName": {
+            "type": "string",
+            "description": "The profile display name."
+          },
+          "profileName": {
+            "type": "string",
+            "description": "The profile name."
+          }
+        }
+      },
+      {
+        "id": "ProfileItem",
+        "type": "object",
+        "description": "ProfileItem.",
+        "properties": {
+          "import_type": {
+            "description": "The type of import profile item",
+            "$ref": "import_types"
+          },
+          "name": {
+            "type": "string",
+            "description": "Import item name."
+          },
+          "index": {
+            "type": "integer",
+            "description": "The profile item index."
+          },
+          "history": {
+            "type": "boolean",
+            "description": "Does profile support history."
+          },
+          "favorites": {
+            "type": "boolean",
+            "description": "Does profile support favorites."
+          },
+          "passwords": {
+            "type": "boolean",
+            "description": "Does profile support passwords."
+          },
+          "supportsMasterPassword": {
+            "type": "boolean",
+            "description": "Does profile support a master password to decode passwords."
+          },
+          "speeddial": {
+            "type": "boolean",
+            "description": "Does profile support Speed Dial."
+          },
+          "notes": {
+            "type": "boolean",
+            "description": "Does profile support notes."
+          },
+          "email": {
+            "type": "boolean",
+            "description": "Does profile support email."
+          },
+          "contacts": {
+            "type": "boolean",
+            "description": "Does profile support contacts."
+          },
+          "supportsStandaloneImport": {
+            "type": "boolean",
+            "description": "Does profile support standalone import with a dialog."
+          },
+          "hasDefaultInstall": {
+            "type": "boolean",
+            "description": "Is a default installation detected (for Opera 12 and Vivaldi)."
+          },
+          "willShowDialogType": {
+            "type": "string",
+            "description": "When import starts and custom profile or file import is selected, this returns what dialog will be shown, if any. Possible values are 'file', 'folder' and 'none'."
+          },
+          "profilePath": {
+            "type": "string",
+            "description": "Is the path on disk to the detected profile"
+          },
+          "mailPath": {
+            "type": "string",
+            "description": "The path on disk to the detected mail profile"
+          },
+          "UserProfiles": {
+            "name": "Profiles",
+            "type": "array",
+            "items": {
+              "$ref": "UserProfileItem"
+            }
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "getProfiles",
+        "type": "function",
+        "description": "Retrieves import data profiles.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "results",
+              "type": "array",
+              "items": { "$ref": "ProfileItem" }
+            }
+          ]
+        }
+      },
+      {
+        "name": "startImport",
+        "type": "function",
+        "description": "Start import process.",
+        "parameters": [
+          {
+            "name": "profileIndex",
+            "type": "integer",
+            "description": "Index of the profile we want to import. This is a null based index of results from getProfiles."
+          },
+          {
+            "name": "askUserForFileLocation",
+            "type": "boolean",
+            "description": "Show file dialog to user."
+          },
+          {
+            "name": "profileName",
+            "type": "string",
+            "description": "Name of profile."
+          },
+          {
+            "name": "typesToImport",
+            "type": "object",
+            "properties": {
+              "history": {
+                "type": "boolean"
+              },
+              "favorites": {
+                "type": "boolean"
+              },
+              "passwords": {
+                "type": "boolean"
+              },
+              "speeddial": {
+                "type": "boolean"
+              },
+              "notes": {
+                "type": "boolean"
+              }
+            }
+          },
+          {
+            "name": "masterPassword",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "name": "importPath",
+            "type": "string",
+            "optional": true
+          },
+          {
+            "type": "function",
+            "name": "callback",
+            "parameters": []
+          }
+        ]
+      },
+      {
+        "name": "openThunderbirdMailbox",
+        "type": "function",
+        "description": "Opens Thunderbird mailbox from disk and seek to seekPosition. If called with already opened file it only seeks to seekPosition. If called with a new path it closes the current file and opens the new one.",
+        "parameters": [
+          {
+            "name": "path",
+            "type": "string",
+            "description": "Path to mailbox."
+          },
+          {
+            "name": "seekPosition",
+            "type": "string",
+            "optional": "true",
+            "description": "Seek to this position after opening, serialized as a string because V8's integer type is too small for large mbox files."
+          },
+          {
+            "name": "callback",
+            "type": "function",
+            "description": "Callback function returning file size.",
+            "parameters": [
+              {
+                "name": "fileSize",
+                "type": "string",
+                "description": "Size of mailbox file in bytes. Suitable for using seekPosition/fileSize as a  status indicator ratio. Serialized as a string because V8's integer type is too small for large mbox files."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "closeThunderbirdMailbox",
+        "type": "function",
+        "description": "Closes currently open thunderbird mailbox, if any",
+        "parameters": []
+      },
+      {
+        "name": "readMessageFromThunderbirdMailbox",
+        "type": "function",
+        "description": "Read one message from currently open Thunderbird mailbox.",
+        "parameters": [
+          {
+            "name": "callback",
+            "type": "function",
+            "description": "Callback function containing message",
+            "parameters": [
+              {
+                "name": "message",
+                "type": "string",
+                "description": "Contents of the message just read"
+              },
+              {
+                "name": "seekPosition",
+                "type": "string",
+                "description": "Seek position in file after reading. Returns -1 if all messages have been read. Serialized as a string because V8's integer type is too small for large mbox files."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "name": "onImportStarted",
+        "type": "function",
+        "description": "Fired when a import session has started.",
+        "parameters": []
+      },
+      {
+        "name": "onImportEnded",
+        "type": "function",
+        "description": "Fired when a import session has ended.",
+        "parameters": [
+          {
+            "name": "error_count",
+            "type": "integer",
+            "description": "Number of data types that failed to import."
+          }
+        ]
+      },
+      {
+        "name": "onImportItemStarted",
+        "type": "function",
+        "description": "Fired when a import session for a data type has started.",
+        "parameters": [
+          {
+            "name": "item",
+            "type": "string",
+            "description": "Name of data type."
+          }
+        ]
+      },
+      {
+        "name": "onImportItemEnded",
+        "type": "function",
+        "description": "Fired when a import session for a data type has ended.",
+        "parameters": [
+          {
+            "name": "item",
+            "type": "string",
+            "description": "Name of data type."
+          }
+        ]
+      },
+      {
+        "name": "onImportItemFailed",
+        "type": "function",
+        "description": "Fired when a import session for a data type has failed.",
+        "parameters": [
+          {
+            "name": "item",
+            "type": "string",
+            "description": "Name of data type."
+          },
+          {
+            "name": "error",
+            "type": "string",
+            "description": "Error message that can be shown to the user."
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,37 @@
+
+# This is separated from datautils to avoid dependency on //chrome and
+# simplify the unit test config.
+source_set("data_url_utils") {
+  sources = [
+    "vivaldi_data_url_utils.cc",
+    "vivaldi_data_url_utils.h",
+  ]
+  deps = [
+    "//base:base",
+    "//url:url",
+  ]
+}
+
+source_set("resource_reader") {
+  sources = [
+    "resource_reader.cc",
+    "resource_reader.h",
+  ]
+  deps = [
+    ":data_url_utils",
+    "//base:base",
+    "//third_party/widevine/cdm:buildflags",
+  ]
+}
+
+source_set("dataurl_unit_tests") {
+  testonly = true
+  sources = [
+    "vivaldi_data_url_utils_unittests.cc",
+  ]
+  deps = [
+    ":data_url_utils",
+    "//base:base",
+    "//base/test:test_support",
+  ]
+}

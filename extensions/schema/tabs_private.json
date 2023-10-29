@@ -1,0 +1,969 @@
+// Copyright (c) 2016 Vivaldi Technologies AS. All rights reserved
+
+[
+  {
+    "namespace": "tabsPrivate",
+    "description": "Use the <code>vivaldi.tabsPrivate</code> API to update tabs",
+    "compiler_options": {
+      "implemented_in": "extensions/api/tabs/tabs_private_api.h"
+    },
+    "types": [
+      {
+        "id": "TabAlertState",
+        "type": "string",
+        "description": "The active media type.",
+        "enum": [ "recording", "capturing", "playing", "muting", "bluetooth", "usb",
+                  "pip", "desktop_capturing", "vr_presenting_in_headset", "serial_connected" ]
+      },
+      {
+        "id":  "TranslateStep",
+        "type":  "string",
+        "description": "Denotes which state the page is in with respect to translate.",
+        "enum": ["idle", "before_translate", "translating", "after_translate", "translate_error"]
+      },
+      {
+        "id":  "TranslateError",
+        "type":  "string",
+        "description": "Signals translation errors.",
+        "enum": [
+          "no_error",               // No error
+          "network",                // No connectivity.
+          "init_error",             // The translation script failed to initialize.
+          "unknown_language",       // The page's language could not be detected.
+          "unsupported_language",   // The server detected a language that the browser does not know.
+          "identical_languages",    // The original and target languages are the same.
+          "translation_error",      // An error was reported by the translation script during translation.
+          "translation_timeout",    // The library doesn't finish initialization.
+          "unexpected_script_error",  // The library raises an unexpected exception.
+          "bad_origin",             // The library is blocked because of bad origin.
+          "script_load_error"       // Loader fails to load a dependent JavaScript.
+        ]
+      },
+      {
+        "id": "UpdateTabInfo",
+        "type": "object",
+        "description": "Object passed to the update and returned in the get function function.",
+        "properties": {
+          "showImages": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Show images for all pages loaded in this tab. Default is true."
+          },
+          "loadFromCacheOnly": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Only load the page from cache. Default is false."
+          },
+          "mimeType": {
+            "type": "string",
+            "optional": true,
+            "description": "The current documents mimetype."
+          },
+          "muteTab": {
+            "type": "boolean",
+            "optional": true,
+            "description": "If the tab should be quiet."
+          }
+        }
+      },
+      {
+        "id": "DragData",
+        "type": "object",
+        "description": "Provides custom drag data.",
+        "properties": {
+          "windowId": {
+            "type": "integer"
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "The mime type to use for the custom data."
+          },
+          "customData": {
+            "type": "string",
+            "description": "The custom data."
+          },
+          "url": {
+            "type": "string",
+            "description": "The url for the data. Needed for the html5 drag and drop engine. Not set in the onDropEnd event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title for the data. Needed for the html5 drag and drop engine. Not set in the onDropEnd event."
+          },
+          "imageData": {
+            "type": "binary",
+            "optional": true,
+            "description": "The raw image data in RGBA format for the image to use during drag drop instead of a tab capture."
+          },
+          "posX": {
+            "type": "number",
+            "optional": true,
+            "description": "X offset inside the given app window in the UI coordinates."
+          },
+          "posY": {
+            "type": "number",
+            "optional": true,
+            "description": "Y offset inside the given app window in the UI coordinates."
+          },
+          "width": {
+            "type": "number",
+            "description": "Width of the capture in the UI coordinates."
+          },
+          "height": {
+            "type": "number",
+            "description": "Height of the capture in the UI coordinates."
+          },
+          "cursorX": {
+            "type": "integer",
+            "description": "X offset into the image for the cursor during drag."
+          },
+          "cursorY": {
+            "type": "integer",
+            "description": "Y offset into the image for the cursor during drag."
+          },
+          "isFromTouch": {
+            "type": "boolean",
+            "optional": true,
+            "description": "True if the drag was initiated from touch. Default is false."
+          }
+        }
+      },
+      {
+        "id": "NavigationRect",
+        "type": "object",
+        "description": "Rect struct for spatial navigation.",
+        "properties": {
+          "left": {
+            "type": "integer",
+            "description": "left"
+          },
+          "top": {
+            "type": "integer",
+            "description": "top"
+          },
+          "width": {
+            "type": "integer",
+            "description": "width"
+          },
+          "height": {
+            "type": "integer",
+            "description": "height"
+          },
+          "right": {
+            "type": "integer",
+            "description": "right"
+          },
+          "bottom": {
+            "type": "integer",
+            "description": "bottom"
+          },
+          "href": {
+            "type": "string",
+            "description": "Url of focused element in case it's a link."
+          }
+        }
+      },
+      {
+        "id": "NavigationDirection",
+        "type": "string",
+        "description": "Which direction to move the current spatnav rect.",
+        "enum": ["left", "right", "up", "down"]
+      },
+      {
+        "id": "LanguageDetectionDetails",
+        "type": "object",
+        "description": "Details the language detection for the current page. Corresponds to LanguageDetectionDetails in C++.",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The url of the page detected was done on."
+          },
+          "contentLanguage": {
+            "type": "string",
+            "description": "The language detected by the content (Content-Language)."
+          },
+          "cldLanguage": {
+            "type": "string",
+            "description": "The language detected by CLD (Chromium's Compact Language Detector library)."
+          },
+          "isCldReliable": {
+            "type": "boolean",
+            "description": "true if the CLD detection is reliable, otherwise false."
+          },
+          "hasNoTranslate": {
+            "type": "boolean",
+            "description": "Whether the notranslate is specified in head tag as a meta; <meta name='google' value='notranslate'> or <meta name='google' content='notranslate'>"
+          },
+          "htmlRootLanguage": {
+            "type": "string",
+            "description": "The language written in the lang attribute of the html element."
+          },
+          "adoptedLanguage": {
+            "type": "string",
+            "description": "The adopted language, usually a authoritive decision on the different language tags in a document."
+          }
+        }
+      },
+      {
+        "id": "CloseSpatnavParams",
+        "type": "object",
+        "description": "Reports layout change and element null check",
+        "properties": {
+          "layout_changed": {
+            "type": "boolean",
+            "description": "True if layout changed"
+          },
+          "current_element_valid": {
+            "type": "boolean",
+            "description": "True is current element is not null. Currently used to see if previous escape closed a menu that made our current element disappear."
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "update",
+        "type": "function",
+        "description": "Update the given tab with Vivaldi-specific properties.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          },
+          {
+            "name": "tabInfo",
+            "$ref": "UpdateTabInfo"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "tabInfo",
+              "$ref": "UpdateTabInfo",
+              "description": "Return value with the updated tab info."
+            }
+          ]
+        }
+      },
+      {
+        "name": "get",
+        "type": "function",
+        "description": "Get Vivaldi-specific properties from the tab.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "tabInfo",
+              "$ref": "UpdateTabInfo"
+            }
+          ]
+        }
+      },
+      {
+        "name": "insertText",
+        "type": "function",
+        "description": "Insert text into editable fields.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          },
+          {
+            "type": "string",
+            "name": "text",
+            "description": "The text to insert"
+          }
+        ]
+      },
+      {
+        "name": "startDrag",
+        "type": "function",
+        "description": "Starts the HTML5 drag of the given tabs.",
+        "parameters": [
+          {
+            "$ref": "DragData",
+            "name": "dragData",
+            "description": "The drag data to be transported in the dataobject."
+          }
+        ]
+      },
+      {
+        "name": "scrollPage",
+        "type": "function",
+        "description": "Scrolls the page up or down, depending on a parameter",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "name": "scrollType",
+            "type": "string",
+            "description": "Whether to scroll up or down, and by how much"
+          },
+          {
+            "name": "scrollAmount",
+            "type": "integer",
+            "optional": "true",
+            "description": "The amount to scroll by"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "description": "Callback function used for error handling",
+          "parameters": []
+        }
+      },
+      {
+        "name": "moveSpatnavRect",
+        "type": "function",
+        "description": "Move current spatnav rect in |direction|",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "name": "direction",
+            "$ref": "NavigationDirection"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": "true",
+          "parameters": [
+            {
+              "name": "currentRect",
+              "$ref": "NavigationRect"
+            }
+          ]
+        }
+      },
+      {
+        "name": "activateSpatnavElement",
+        "type": "function",
+        "description": "Activate currently focused spatnav element",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum":0
+          },
+          {
+            "name": "modifiers",
+            "type": "integer",
+            "minimum": 0,
+            "description": "Keyboard modifiers to simulate shift or ctrl-clicking"
+          }
+        ]
+      },
+      {
+        "name": "closeSpatnavOrCurrentOpenMenu",
+        "type": "function",
+        "description": "Returns true if layout changes by un-hovering the current spatnav element.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "params",
+              "$ref": "CloseSpatnavParams"
+            }
+          ]
+        }
+      },
+      {
+        "name": "hasBeforeUnloadOrUnload",
+        "type": "function",
+        "description": "Check if a page contains a beforeunload or unload handler.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "hasHandler",
+              "type": "boolean",
+              "description": "true if the page has a beforeunload or unload handler, blocking a quick termination of the tab."
+            }
+          ]
+        }
+      },
+      {
+        "name": "translatePage",
+        "type": "function",
+        "description": "Attempts to translate the given page.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0
+          },
+          {
+            "name": "srcLang",
+            "type": "string",
+            "description": "Source language code to translate from. May be omitted."
+          },
+          {
+            "name": "destLang",
+            "type": "string",
+            "description": "Destination language code to translate to. Must be present."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean",
+              "description": "Immediate errors will be given in the callback, eg. for invalid or missing language codes, pages that cannot be translated (eg. devtools, blank pages), etc."
+            }
+          ]
+        }
+      },
+      {
+        "name": "revertTranslatePage",
+        "type": "function",
+        "description": "Attempts to revert the translating of the given page.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean",
+              "description": "true if the page can be reverted, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "determineTextLanguage",
+        "type": "function",
+        "description": "Attempts to determined the language of the given text.",
+        "parameters": [
+          {
+            "name": "tabId",
+            "type": "integer",
+            "minimum": 0,
+            "description": "Any valid tabId can be used here, it is only used to determine which renderer to use."
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "description": "String to determine the language for. If the string is too short, this operation might not yield a language code."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "langCode",
+              "type": "string",
+              "description": "Contains the language code for the given text, or empty string if language could not be determined."
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onMediaStateChanged",
+        "type": "function",
+        "description": "Fired when the media state changes on the tab.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "minimum": 0
+          },
+          {
+            "name": "tabState",
+            "type": "array",
+            "items": { "$ref": "TabAlertState" },
+            "description": "All the active media states for this tab."
+          }
+        ]
+      },
+      {
+        "name": "onThemeColorChanged",
+        "type": "function",
+        "description": "Fired when a meta theme-color has a value from the web page.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          },
+          {
+            "type": "string",
+            "name": "rgb",
+            "description": "Fired when the theme-color in the meta header field has changed. Format is #rrggbb and provided in css hex."
+          }
+        ]
+      },
+      {
+        "name": "onTabUpdated",
+        "type": "function",
+        "description": "Fires when a |WebContent| is changed in some way.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "minimum": -1
+          },
+          {
+            "name": "tabInfo",
+            "$ref": "UpdateTabInfo"
+          }
+        ]
+      },
+      {
+        "name": "onDragEnd",
+        "type": "function",
+        "description": "Fires when tab dragging ends.",
+        "parameters": [
+          {
+            "name": "dragAborted",
+            "type": "boolean",
+            "description": "This is an aborted drag (using ESC or similar)."
+          },
+          {
+            "name": "dropOutsideWindow",
+            "type": "boolean",
+            "description": "This is a valid drop outside any app window."
+          },
+          {
+            "name": "posX",
+            "type": "integer",
+            "description": "X position of the drop in screen coordinates."
+          },
+          {
+            "name": "posY",
+            "type": "integer",
+            "description": "Y position of the drop in screen coordinates."
+          }
+        ]
+      },
+      {
+        "name": "onPermissionAccessed",
+        "type": "function",
+        "description": "Fires when a |permission| is accessed.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0
+          },
+          {
+            "type": "string",
+            "name": "permission"
+          },
+          {
+            "type": "string",
+            "name": "origin"
+          },
+          {
+            "type": "string",
+            "description": "Current permission setting. 'allow', 'block', 'ask' or 'default'",
+            "name": "blocked"
+          }
+        ]
+      },
+      {
+        "name": "onKeyboardChanged",
+        "type": "function",
+        "description": "Fires for all keyboard changes that have not been consumed by the browser",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the browser window this keyboard event originates from."
+          },
+          {
+            "type": "boolean",
+            "name": "down",
+            "description": "True when pressed, false when released"
+          },
+          {
+            "type": "integer",
+            "name": "modifiers",
+            "description": "Modifier state when change occured"
+          },
+          {
+            "type": "integer",
+            "name": "windowsKeyCode",
+            "description": "Value of key that changed"
+          },
+          {
+            "type": "boolean",
+            "name": "afterGesture",
+            "description": "True when the keyboard event completed a mouse or wheel gesture"
+          },
+          {
+            "type": "boolean",
+            "name": "autoRepeat",
+            "description": "True if the event is a result of automatic keyboard repeat."
+          }
+        ]
+      },
+      {
+        "name": "onMouseChanged",
+        "type": "function",
+        "description": "Fires when mouse state has changed.",
+        "parameters": [
+          {
+            "type": "boolean",
+            "name": "motion",
+            "description": "True when mouse has moved, false when mouse is pressed/released."
+          }
+        ]
+      },
+      {
+        "name": "onKeyboardShortcut",
+        "type": "function",
+        "description": "Fires when on a keystroke that hasn't been consumed by the browser",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the browser window this keyboard event originates from."
+          },
+          {
+            "type": "string",
+            "name": "shortcutText",
+            "description": "String representation of a keyboard shortcut"
+          },
+          {
+            "type": "boolean",
+            "name": "autoRepeat",
+            "description": "True if the shortcut is generated as a result of automatic keyboard repeat"
+          },
+          {
+            "type": "boolean",
+            "name": "fromDevtools",
+            "description": "True if the shortcut comes from a devtools window"
+          }
+        ]
+      },
+      {
+        "name": "onTabIsDetached",
+        "type": "function",
+        "description": "Fired when a tab that is moved out of a window detaches from the source-window. This is used to make sure two WebViews don't try to use the same WebContents.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0,
+            "description": "Tab id used for Tabstrip WebContents retrieval."
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "minimum": 0,
+            "description": "Target WindowId that the message is intended. As in not the window it is detached from, but the window it is attached to."
+          }
+        ]
+      },
+      {
+        "name": "onTabIsAttached",
+        "type": "function",
+        "description": "Fired when a WebContents is attached to an embedder. This is used to make sure two WebViews don't try to use the same WebContents.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0,
+            "description": "Tab id used for Tabstrip WebContents retrieval."
+          },
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "WindowId of the embedder."
+          }
+        ]
+      },
+      {
+        "name": "onMouseGestureDetection",
+        "type": "function",
+        "description": "Fires when we detect a possible start of a mouse-gesture related event",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the Vivaldi window where the event was originated"
+          }
+        ]
+      },
+      {
+        "name": "onMouseGesture",
+        "type": "function",
+        "description": "Fires when the user triggered a mouse gesture",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the Vivaldi window where the event was originated"
+          },
+          {
+            "type": "number",
+            "name": "clientX",
+            "description": "X-coordinate of the gesture start point"
+          },
+          {
+            "type": "number",
+            "name": "clientY",
+            "description": "Y-coordinate of the gesture start point"
+          },
+          {
+            "type": "string",
+            "name": "gestureDirections",
+            "description": "Sequence of gesture directions"
+          }
+        ]
+      },
+      {
+        "name": "onTabSwitchEnd",
+        "type": "function",
+        "description": "Fires when the tab switch using mouse wheel terminates",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the Vivaldi window where the event was originated"
+          }
+        ]
+      },
+      {
+        "name": "onRockerGesture",
+        "type": "function",
+        "description": "Fires when the user triggered a rocker gesture",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the Vivaldi window where the event was originated"
+          },
+          {
+            "type": "boolean",
+            "name": "isLeft",
+            "description": "True if this is the left rocker gesture"
+          }
+        ]
+      },
+      {
+        "name": "onWebviewClickCheck",
+        "type": "function",
+        "description": "Fires to check if the user clicks on a webview.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the Vivaldi window where the event was originated"
+          },
+          {
+            "type": "boolean",
+            "name": "mousedown",
+            "description": "true if this is a mousedown event, false for mouseup"
+          },
+          {
+            "type": "integer",
+            "name": "button",
+            "description": "the mouse button that was pressed, the values match DOM's MouseEvent.button"
+          },
+          {
+            "type": "number",
+            "name": "clientX",
+            "description": "X-coordinates of the click"
+          },
+          {
+            "type": "number",
+            "name": "clientY",
+            "description": "Y-coordinates of the click"
+          }
+        ]
+      },
+      {
+        "name": "onPageZoom",
+        "type": "function",
+        "description": "Fires on page zoom events",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "Id of the Vivaldi window where the event was originated"
+          },
+          {
+            "type": "number",
+            "name": "steps",
+            "description": "Number of basic steps to increase or decrease zoom."
+          },
+          {
+            "type": "number",
+            "name": "clientX",
+            "description": "X-coordinates of the pointer position"
+          },
+          {
+            "type": "number",
+            "name": "clientY",
+            "description": "Y-coordinates of the pointer position"
+          }
+        ]
+      },
+      {
+        "name": "onBeforeUnloadDialogClosed",
+        "type": "function",
+        "description": "Fired when a beforeunload dialog has been closed.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "minimum": 0,
+            "description": "Window Id containg the tab Id."
+          },
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 0,
+            "description": "Tab id for the beforeunload dialog."
+          },
+          {
+            "type": "boolean",
+            "name": "proceed",
+            "description": "If true, the tab operation that triggered the dialog has been allowed to proceed."
+          }
+        ]
+      },
+      {
+        "name": "onLanguageDetermined",
+        "type": "function",
+        "description": "Fired when the language of the current page has been determined.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 1,
+            "description": "The tab Id."
+          },
+          {
+            "name": "details",
+            "$ref": "LanguageDetectionDetails"
+          }
+        ]
+      },
+      {
+        "name": "onShowTranslationUI",
+        "type": "function",
+        "description": "Fired when we should show translation UI. The status decides what UI we should show.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 1,
+            "description": "The tab Id."
+          },
+          {
+            "name": "step",
+            "$ref": "TranslateStep"
+          },
+          {
+            "name": "error",
+            "$ref": "TranslateError"
+          },
+          {
+            "type": "boolean",
+            "name": "automaticTranslation",
+            "description": "true if this was triggered by an automatic translation."
+          }
+        ]
+      },
+      {
+        "name": "onPageTranslated",
+        "type": "function",
+        "description": "Fired when a translation has been completed on a page.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 1,
+            "description": "The tab Id."
+          },
+          {
+            "name": "srcLang",
+            "type": "string",
+            "description": "Source language code it was translated from."
+          },
+          {
+            "name": "destLang",
+            "type": "string",
+            "description": "Destination language code it was translated to."
+          },
+          {
+            "name": "error",
+            "$ref": "TranslateError"
+          }
+        ]
+      },
+      {
+        "name": "onIsPageTranslatedChanged",
+        "type": "function",
+        "description": "Fired when a translation state has changed on a page, eg. revert has been used.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "tabId",
+            "minimum": 1,
+            "description": "The tab Id."
+          },
+          {
+            "type": "boolean",
+            "name": "isTranslated",
+            "description": "The translation state has changed. For eg. revert, it will be false after revert has been invoked."
+          }
+        ]
+      }
+
+    ]
+  }
+]

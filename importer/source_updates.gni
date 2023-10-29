@@ -1,0 +1,33 @@
+import("//vivaldi/testing/testing.gni")
+
+if (vivaldi_build_tests) {
+  update_target("//chrome/test:browser_tests") {
+    sources += [
+      "//vivaldi/importer/viv_importer_browsertest.cpp",
+    ]
+  }
+}
+
+if (!is_android) {
+  update_target("//chrome/browser:browser") {
+    sources += [
+      "//vivaldi/importer/vivaldi_external_process_importer_client.cc",
+      "//vivaldi/importer/vivaldi_external_process_importer_host.cc",
+      "//vivaldi/importer/vivaldi_in_process_importer_bridge.cc",
+      "//vivaldi/importer/vivaldi_profile_writer.cc",
+    ]
+  }
+
+  update_target("//chrome/utility:utility") {
+    sources += [
+      "//vivaldi/importer/vivaldi_external_process_importer_bridge.cc",
+    ]
+  }
+}
+
+update_target("//chrome/common:common_lib") {
+  sources += [
+    "//vivaldi/importer/profile_vivaldi_import_process_param_traits.cc",
+    "//vivaldi/importer/profile_vivaldi_import_process_param_traits_macros.h",
+  ]
+}

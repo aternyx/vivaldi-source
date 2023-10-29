@@ -1,0 +1,25 @@
+
+source_set("bookmark_locales_include") {
+  if (is_vivaldi_polestar) {
+    default_path = "default-bookmarks/custom/Polestar/bookmark-locales.json"
+  } else if (is_vivaldi_mercedes) {
+    default_path = "default-bookmarks/custom/Mercedes/bookmark-locales.json"
+  } else if (is_vivaldi_lynkco) {
+    default_path = "default-bookmarks/custom/LynkCo/bookmark-locales.json"
+  } else if (is_vivaldi_volvo) {
+    default_path = "default-bookmarks/custom/Volvo/bookmark-locales.json"
+  } else if (is_vivaldi_gas) {
+    default_path = "default-bookmarks/custom/Detroit/bookmark-locales.json"
+  } else {
+    default_path = "default-bookmarks/bookmark-locales.json"
+  }
+  bookmark_locales = read_file("//vivaldi/vivapp/src/$default_path", "json")
+  include_file = "$target_gen_dir/bookmark_locales.inc"
+  lines = []
+  foreach (locale, bookmark_locales.locales) {
+    lines += ["    \"" + locale + "\"," ]
+  }
+  write_file(include_file, lines)
+
+  sources = [ include_file ]
+}

@@ -1,0 +1,268 @@
+// Copyright (c) 2015 Vivaldi Technologies AS. All rights reserved
+
+[
+  {
+    "namespace": "bookmarksPrivate",
+    "description": "Use the <code>vivaldi.bookmarksPrivate.updateSpeedDialsForWindowsJumplist</code> API to update bookmarks",
+    "compiler_options": {
+      "implemented_in": "extensions/api/bookmarks/bookmarks_private_api.h"
+    },
+    "types": [
+      {
+        "id": "SpeedDialInfo",
+        "type": "object",
+        "description": "Object passed to the updateSpeedDialsForWindowsJumplist function.",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "id": "BookmarkTreeNode",
+        "type": "object",
+        "description": "Copied from bookmarks.json",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minimum": 0,
+            "description": "The unique identifier for the node. IDs are unique within the current profile, and they remain valid even after the browser is restarted."
+          },
+          "parentId": {
+            "type": "string",
+            "minimum": 0,
+            "optional": true,
+            "description": "The <code>id</code> of the parent folder.  Omitted for the root node."
+          },
+          "index": {
+            "type": "integer",
+            "optional": true,
+            "description": "The 0-based position of this node within its parent folder."
+          },
+          "url": {
+            "type": "string",
+            "optional": true,
+            "description": "The URL navigated to when a user clicks the bookmark. Omitted for folders."
+          },
+          "title": {
+            "type": "string",
+            "description": "The text displayed for the node."
+          },
+          "nickname": {
+            "type": "string",
+            "description": "The nickname for the node. Vivaldi extended property"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description text for the node. Vivaldi extended property"
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "chrome://thumb/<url> pointing to the stored url of the thumbnail"
+          },
+          "partner": {
+            "type": "string",
+            "description": "Partner id for the node. Vivaldi extended property"
+          },
+          "speeddial": {
+            "type": "boolean",
+            "description": "Boolean variable, stating if a folder is a speeddial folder"
+          },
+          "themeColor": {
+            "type": "string",
+            "description": "The theme color from the website, to use as the background of the speed dials thumbnail, if no other thumbnail is available"
+          },
+          "bookmarkbar": {
+            "type": "boolean",
+            "description": "Boolean variable, stating if a folder is a bookmark bar folder"
+          },
+          "trash": {
+            "type": "boolean",
+            "description": "true if this is the trash folder. Read only."
+          },
+          "dateAdded": {
+            "type": "number",
+            "optional": true,
+            "description": "When this node was created, in milliseconds since the epoch (<code>new Date(dateAdded)</code>)."
+          },
+          "dateGroupModified": {
+            "type": "number",
+            "optional": true,
+            "description": "When the contents of this folder last changed, in milliseconds since the epoch."
+          },
+          "faviconUrl": {
+            "type": "string",
+            "optional": true,
+            "description": "If present this url should be used to retrive a favicon."
+          },
+          "children": {
+            "type": "array",
+            "optional": true,
+            "items": { "$ref": "BookmarkTreeNode" },
+            "description": "An ordered list of children of this node."
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "updateSpeedDialsForWindowsJumplist",
+        "type": "function",
+        "description": "Update the speed dial list in Windows 7+ jumplist.",
+        "parameters": [
+          {
+            "name": "speedDials",
+            "type": "array",
+            "items": { "$ref": "SpeedDialInfo" }
+          }
+        ]
+      },
+      {
+        "name": "emptyTrash",
+        "type": "function",
+        "description": "Empty the bookmarks trash folder.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean",
+              "description": "true if the operation was successful, otherwise false."
+            }
+          ]
+        }
+      },
+      {
+        "name": "updatePartners",
+        "type": "function",
+        "description": "Update default bookmarks",
+        "parameters": [
+          {
+            "name": "callback",
+            "type": "function",
+            "parameters": [
+              {
+                "name": "ok",
+                "type": "boolean"
+              },
+              {
+                "name": "noVersion",
+                "type": "boolean",
+                "description": "The version is missing indicating perhaps an older setup."
+              },
+              {
+                "name": "locale",
+                "type": "string",
+                "description": "The locale of the used bookmark file."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "isCustomThumbnail",
+        "type": "function",
+        "description": "Check if the bookmark has a custom thumbnail from a local file or resource.",
+        "parameters": [
+          {
+            "name": "bookmarkId",
+            "type": "string",
+            "description": "the id of the bookmark"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean",
+              "description": "true if the bookmark has a custom thumbnail"
+            }
+          ]
+        }
+      },
+      {
+        "name": "export",
+        "type": "function",
+        "description": "Exports bookmarks to a Chrome html bookmark file",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "windowId",
+            "description": "The file selector will be modal to this window."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": []
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onFaviconChanged",
+        "type": "function",
+        "description": "Fired when a favicon changes.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "description": "Bookmark id"
+          },
+          {
+            "type": "string",
+            "name": "favicon_url",
+            "description": "The favicon's url"
+          }
+        ]
+      },
+      {
+        "name": "onMetaInfoChanged",
+        "type": "function",
+        "description": "Fired when meta info changes.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "description": "Bookmark id"
+          },
+          {
+            "type": "object",
+            "name": "changeInfo",
+            "properties": {
+              "nickname": {
+                "type": "string",
+                "optional": true
+              },
+              "description": {
+                "type": "string",
+                "optional": true
+              },
+              "thumbnail": {
+                "type": "string",
+                "optional": true
+              },
+              "speeddial": {
+                "type": "boolean",
+                "optional": true
+              },
+              "bookmarkbar": {
+                "type": "boolean",
+                "optional": true
+              },
+              "themeColor": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

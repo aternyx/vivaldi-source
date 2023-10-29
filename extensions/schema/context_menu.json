@@ -1,0 +1,358 @@
+//
+// Copyright (c) 2019 Vivaldi Technologies AS. All rights reserved.
+//
+
+[
+  {
+    "namespace": "contextMenu",
+    "description": "Use the <code>vivaldi.contextMenu</code> API to show a popup-menu.",
+    "types": [
+      {
+        "id": "Rect",
+        "type": "object",
+        "description": "Position and size of item that opens menu",
+        "properties": {
+          "x": {"type": "number", "description": "Left position of item that opens menu, screen coordinates."},
+          "y": {"type": "number", "description": "Top position of item that opens menu, screen coordinates."},
+          "width": {"type": "number", "description": "Width of item that opens menu."},
+          "height": {"type": "number", "description": "Height of item that opens menu."}
+        }
+      },
+      {
+        "id": "Origin",
+        "type": "string",
+        "description": "Menu location with respect to rectangle. With pointer the size and height is ignored.",
+        "enum": ["pointer", "topLeft", "bottomLeft", "topRight", "bottomRight"]
+      },
+      {
+        "id": "ItemType",
+        "type": "string",
+        "description": "What kind of item.",
+        "enum": [ "command", "checkbox", "radio", "folder"]
+      },
+      {
+        "id": "Icons",
+        "type": "array",
+        "description": "Icons encoded as base64.",
+        "items": { "type": "string" }
+      },
+      {
+        "id": "ContainerMode",
+        "type": "string",
+        "description": "Defines container layouts.",
+        "enum": [ "inline", "folder"]
+      },
+      {
+        "id": "ContainerContent",
+        "type": "string",
+        "description": "Defines functionality to set up on the C++ side. One or more menu items may be created.",
+        "enum": ["extensions", "imageinprofile", "linkinprofile", "linktohighlight", "notes", "pwa", "linkinpwa", "sendlinktodevices", "sendpagetodevices", "spellcheck", "spellcheckoptions", "speech"]
+      },
+      {
+        "id": "Item",
+        "type": "object",
+        "description": "One menu item.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Text in item."
+          },
+          "id": {
+            "type": "integer",
+            "description": "The unique id of item."
+          },
+          "type": {
+            "$ref": "ItemType",
+            "optional": false,
+            "description": "The kind of menu element"
+          },
+          "action": {
+            "type": "string",
+            "optional": true,
+            "description": "Action to execute. This is used for actions that needs to execute in C++. The value must be well defined"
+          },
+          "radiogroup": {
+            "type": "integer",
+            "optional": true,
+            "description": "The radiobutton group this item belongs to."
+          },
+          "checked": {
+            "type": "boolean",
+            "optional": true,
+            "description": "true if the checkbox is checked, otherwise false. Only applies for type='checkbox'."
+          },
+          "enabled": {
+            "type": "boolean",
+            "optional": true,
+            "description": "true if the item is enabled."
+          },
+          "url": {
+            "type": "string",
+            "optional": true,
+            "description": "Url that can be used to determine a corresponding icon."
+          },
+          "shortcut": {
+            "type": "string",
+            "optional": true,
+            "description": "A shortcut displayed next to the name. No binding is added."
+          },
+          "showshortcut": {
+            "type": "boolean",
+            "optional": true,
+            "description": "Controls if a shortcut shall be shown. Needed for elements where shortcut is set up in C++ code"
+          },
+          "icons": {
+            "$ref": "Icons",
+            "optional": true,
+            "description": "Icon in PNG format encoded as base64."
+          }
+        }
+      },
+      {
+        "id": "Container",
+        "type": "object",
+        "description": "Container to expand",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The unique id of item."
+          },
+          "name": {
+            "type": "string",
+            "description": "Text in item when mode is folder"
+          },
+          "content": {
+            "$ref": "ContainerContent",
+            "description": "Specifies an element to expand in C++ to one or more elements. How it is expanded is implementation specific."
+          },
+          "mode": {
+            "$ref": "ContainerMode",
+            "description": "Container content format"
+          }
+        }
+      },
+      {
+        "id": "Separator",
+        "type": "object",
+        "description": "One separator",
+        "properties": {
+          "label": {"type": "string", "optional": true, "description": "Text in item."}
+        }
+      },
+      {
+        "id": "Element",
+        "type": "object",
+        "description": "One element in menu. All optional, but one and only one of 'item', 'separator' or 'container' should be set. 'children' is only considered when 'item' is set.",
+        "properties": {
+          "item": {"$ref": "Item", "optional": true},
+          "container": {"$ref": "Container", "optional": true},
+          "separator": {"$ref": "Separator", "optional": true},
+          "children": {"type": "array", "items": {"$ref": "Element"}, "optional": true, "description": "Child menu items."}
+        }
+      },
+      {
+        "id": "DocumentType",
+        "type": "string",
+        "description": "The kind of document menu.",
+        "enum": ["page", "link", "image", "selection"]
+      },
+      {
+        "id": "TextfieldType",
+        "type": "string",
+        "description": "Defines the type of textfield",
+        "enum": ["addressfield", "searchfield", "regular", "document"]
+      },
+      {
+        "id": "DocumentSupport",
+        "type": "object",
+        "properties": {
+          "copy": {
+            "type": "boolean",
+            "description": "For elements outside editor"
+          },
+          "audio": {
+            "type": "boolean"
+          },
+          "canvas": {
+            "type": "boolean"
+          },
+          "editoptions":{
+            "type": "boolean"
+          },
+          "emoji": {
+            "type": "boolean"
+          },
+          "extensions": {
+            "type": "boolean"
+          },
+          "highlight": {
+            "type": "boolean"
+          },
+          "pictureinpicture": {
+            "type": "boolean"
+          },
+          "password": {
+            "type": "boolean"
+          },
+          "passwordgeneration": {
+            "type": "boolean"
+          },
+          "passwordshowall": {
+            "type": "boolean"
+          },
+          "paste": {
+            "type": "boolean"
+          },
+          "plugin": {
+            "type": "boolean"
+          },
+          "qrcode": {
+            "type": "boolean"
+          },
+          "sendlinktodevices": {
+            "type": "boolean"
+          },
+          "sendpagetodevices": {
+            "type": "boolean"
+          },
+          "video": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "id": "DocumentArea",
+        "type": "object",
+        "properties": {
+          "devtools": {
+            "type": "boolean"
+          },
+          "editor": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "boolean"
+          },
+          "frame": {
+            "type": "boolean"
+          },
+          "webpanel": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "id": "DocumentParams",
+        "type": "object",
+        "description": "Properties of the document that requests a menu",
+        "properties": {
+          "linkurl": {
+            "type": "string"
+          },
+          "linktitle": {
+            "type": "string"
+          },
+          "pageurl": {
+            "type": "string"
+          },
+          "pagetitle": {
+            "type": "string"
+          },
+          "srcurl": {
+            "type": "string"
+          },
+          "selection": {
+            "type": "string"
+          },
+          "printableselection": {
+            "type": "string"
+          },
+          "selectionurl": {
+            "type": "string"
+          },
+          "keywordurl": {
+            "type": "string"
+          },
+          "isdevtools": {
+            "type": "boolean"
+          },
+          "iseditable": {
+            "type": "boolean"
+          },
+          "isimage": {
+            "type": "boolean"
+          },
+          "isframe": {
+            "type": "boolean"
+          },
+          "ismailcontent": {
+            "type": "boolean"
+          },
+          "iswebpanel": {
+            "type": "boolean"
+          },
+          "ismailto": {
+            "type": "boolean"
+          },
+          "support": {"$ref": "DocumentSupport"},
+          "textfield": {
+            "optional": true,
+            "$ref": "TextfieldType"
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "show",
+        "type": "function",
+        "description": "Shows a new context menu.",
+        "parameters": [
+          {
+            "name": "properties",
+            "type": "object",
+            "properties": {
+              "children": {"type": "array", "items": {"$ref": "Element"}},
+              "rect": {"$ref": "Rect"},
+              "origin": {"$ref": "Origin"},
+              "documentId": {"type": "integer"},
+              "windowId": {"type": "integer"},
+              "icons": {"$ref": "Icons", "description": "Default and folder icons."}
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "description": "Notifies caller that menu has closed.",
+          "parameters": []
+          }
+      }
+    ],
+    "events": [
+      {
+        "name": "onDocumentMenu",
+        "type": "function",
+        "description": "Fires when a document menu is requested.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "window",
+            "minimum": 0,
+            "description": "id of window where command occurred."
+          },
+          {
+            "type": "integer",
+            "name": "document",
+            "minimum": 0,
+            "description": "id of the document requesting this menu."
+          },
+          {
+            "$ref": "DocumentParams",
+            "name": "state",
+            "description": "Document data for the given type of menu."
+          }
+        ]
+      }
+    ]
+  }
+]

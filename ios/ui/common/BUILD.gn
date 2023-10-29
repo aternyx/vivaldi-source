@@ -1,0 +1,18 @@
+# Copyright 2023 Vivaldi Technologies. All rights reserved.
+
+
+source_set("vivaldi_common") {
+  sources = [
+    "vivaldi_url_constants.h",
+    "vivaldi_url_constants.mm",
+  ]
+
+  deps = [
+   "//base",
+  ]
+
+ frameworks = [
+  "Foundation.framework",
+  "UIKit.framework",
+ ]
+}

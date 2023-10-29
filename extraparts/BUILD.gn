@@ -1,0 +1,67 @@
+
+source_set("extraparts") {
+  sources = [
+    "vivaldi_browser_main_extra_parts.cc",
+    "vivaldi_browser_main_extra_parts.h",
+    "vivaldi_content_browser_client.cc",
+    "vivaldi_content_browser_client.h",
+  ]
+  if (is_linux) {
+    sources += [
+      "vivaldi_browser_main_extra_parts_linux.h",
+      "vivaldi_browser_main_extra_parts_linux.cc",
+    ]
+  }
+  if (is_mac) {
+    sources += [
+      "vivaldi_browser_main_extra_parts_mac.h",
+      "vivaldi_browser_main_extra_parts_mac.mm",
+      "vivaldi_keychain_util.h",
+      "vivaldi_keychain_util.mm",
+    ]
+  }
+  if (is_win) {
+    sources += [
+      "vivaldi_browser_main_extra_parts_win.h",
+      "vivaldi_browser_main_extra_parts_win.cc",
+    ]
+  }
+  if (is_android) {
+    sources += [
+      "vivaldi_browser_main_extra_parts_android.h",
+      "vivaldi_browser_main_extra_parts_android.cc",
+    ]
+  }
+  deps = [
+    "//base:base",
+    #"//chrome/browser",
+    "//chrome/common:constants",
+    "//components/sessions",
+    "//components/translate/core/browser",
+    #"//content/browser",
+    "//content/public/browser",
+    "//content/public/common",
+    "//extensions/buildflags",
+    "//skia",
+    "//third_party/blink/public:blink_headers",
+    "//vivaldi/browser",
+    "//vivaldi/browser:stats_reporter",
+    "//vivaldi/calendar",
+    "//vivaldi/components/db/mail_client",
+    "//vivaldi/components/request_filter/adblock_filter/interstitial",
+    "//vivaldi/contact",
+    "//vivaldi/components:adverse_adblocking",
+    "//vivaldi/prefs",
+    "//vivaldi/notes:browser",
+    "//vivaldi/ui",
+  ]
+  if (!is_android) {
+    deps += [
+      "//vivaldi/browser:default_bookmarks",
+      "//vivaldi/extensions",
+      "//vivaldi/extensions/api:apis",
+      "//vivaldi/extensions/schema",
+      "//vivaldi/extensions/tools",
+    ]
+  }
+}

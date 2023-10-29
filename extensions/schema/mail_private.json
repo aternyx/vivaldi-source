@@ -1,0 +1,529 @@
+// Copyright (c) 2018 Vivaldi Technologies AS. All rights reserved.
+
+[
+  {
+    "namespace": "mailPrivate",
+    "description": "Vivaldi mail api. API for reading/writing mails.",
+    "compiler_options": {
+      "implemented_in": "extensions/api/mail/mail_private_api.h"
+    },
+    "types": [
+      {
+        "id": "message",
+        "type": "object",
+        "description": "Message object. Used to create message in full text database table.",
+        "properties": {
+          "searchListId": {
+            "name": "The search list id of the message.",
+            "type": "integer"
+          },
+          "subject": {
+            "optional": "true",
+            "description": "The message subject.",
+            "type": "string"
+          },
+          "body": {
+            "optional": "true",
+            "type": "string",
+            "description": "The message body."
+          },
+          "to": {
+            "optional": "true",
+            "description": "The message to address .",
+            "type": "string"
+          },
+          "cc": {
+            "optional": "true",
+            "type": "string",
+            "description": "The message cc address ."
+          },
+          "from": {
+            "optional": "true",
+            "type": "string",
+            "description": "The message from address ."
+          },
+          "replyTo": {
+            "optional": "true",
+            "type": "string",
+            "description": "The message reply address ."
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "getFilePaths",
+        "type": "function",
+        "description": "Returns array of file paths under a given directory.",
+        "parameters": [
+          {
+            "name": "path",
+            "type": "string",
+            "description": "The root folder from where to build up the file paths."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "paths",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Paths to mail files"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "getFullPath",
+        "type": "function",
+        "description": "Given a file entry, return full path of the file",
+        "parameters": [
+          {
+            "name": "filesystem",
+            "type": "string",
+            "description": "The file entry to be looked up"
+          },
+          {
+            "name": "path",
+            "type": "string",
+            "description": "The path"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "path",
+              "type": "string",
+              "description": "The full path of the file entry"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getMailFilePaths",
+        "type": "function",
+        "description": "Returns array of file paths under the  default profile /Mail directory.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "paths",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Paths to mail files"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "writeTextToMessageFile",
+        "type": "function",
+        "description": "Saves a mail to disk. The root folder location is the profile directory of the current running instance /Mail",
+        "parameters": [
+          {
+            "name": "paths",
+            "type": "array",
+            "description": "String array that is used to create a folder structure, starting at user default profile /Mail The function returns error if empty",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "type": "string",
+            "description": "The file name to be created/saved/overridden."
+          },
+          {
+            "name": "raw",
+            "type": "string",
+            "description": "The raw mail content."
+          },
+          {
+            "name": "append",
+            "type": "boolean",
+            "optional": true,
+            "description": "Whether to append to file instead of write."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "writeBufferToMessageFile",
+        "type": "function",
+        "description": "Saves a mail to disk. The root folder location is the profile directory of the current running instance /Mail",
+        "parameters": [
+          {
+            "name": "paths",
+            "type": "array",
+            "description": "String array that is used to create a folder structure, starting at user default profile /Mail The function returns error if empty",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "type": "string",
+            "description": "The file name to be created/saved/overridden."
+          },
+          {
+            "name": "raw",
+            "type": "binary",
+            "description": "The raw mail content as arrayBuffer"
+          },
+          {
+            "name": "append",
+            "type": "boolean",
+            "optional": true,
+            "description": "Whether to append to file instead of write."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": []
+        }
+      },
+      {
+        "name": "deleteMessageFile",
+        "type": "function",
+        "description": "Deletes a file. The root folder location is the profile directory of the current running instance /Mail",
+        "parameters": [
+          {
+            "name": "paths",
+            "type": "array",
+            "description": "String array that is used to build path to the file. Starting at user default profile/Mail.",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "type": "string",
+            "description": "The file name to be deleted. With ending."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "readFileToBuffer",
+        "type": "function",
+        "description": "Reads the contents of a file. Returns the content as arrayBuffer",
+        "parameters": [
+          {
+            "name": "fileName",
+            "type": "string",
+            "description": "Absoloute path to the file to be read."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "raw",
+              "type": "binary",
+              "description": "The file raw content as arrayBuffer."
+            }
+          ]
+        }
+      },
+      {
+        "name": "readMessageFileToBuffer",
+        "type": "function",
+        "description": "Reads a mail. The root folder location is the profile directory of the current running instance /Mail",
+        "parameters": [
+          {
+            "name": "paths",
+            "type": "array",
+            "description": "String array that is used to build path to the file. Starting at user default profile/Mail.",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "type": "string",
+            "description": "The file name to be read."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "raw",
+              "type": "binary",
+              "description": "The mail raw content. as arrayBuffer"
+            }
+          ]
+        }
+      },
+      {
+        "name": "messageFileExists",
+        "type": "function",
+        "description": "Check if file exists.Returns true if the file exists.",
+        "parameters": [
+          {
+            "name": "paths",
+            "type": "array",
+            "description": "String array that is used to build path to the file. Starting at user default profile/Mail.",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "type": "string",
+            "description": "The file name to be checked."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "fileFexists",
+              "type": "boolean",
+              "description": "Returns true if the file exists."
+            }
+          ]
+        }
+      },
+      {
+        "name": "readFileToText",
+        "type": "function",
+        "description": "Reads a file. Returns the file content as text.",
+        "parameters": [
+          {
+            "name": "path",
+            "type": "string",
+            "description": "Absoulout path to the file to be read."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "raw",
+              "type": "string",
+              "description": "The file raw content."
+            }
+          ]
+        }
+      },
+      {
+        "name": "getFileDirectory",
+        "type": "function",
+        "description": "Returns the user mail data directory and verfies that the directory exists.",
+        "parameters": [
+          {
+            "name": "hashedAccountId",
+            "type": "string",
+            "description": "First 6 characters from the MD5 hash of the accountId. Appended to the end of the default mail data directory"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "paths",
+              "type": "string",
+              "description": "The directory path to the user mail data directory."
+            }
+          ]
+        }
+      },
+      {
+        "name": "createFileDirectory",
+        "type": "function",
+        "description": "Creates the user mail data directory.",
+        "parameters": [
+          {
+            "name": "hashedAccountId",
+            "type": "string",
+            "description": "First 6 characters from the MD5 hash of the accountId. Appended to the end of the default mail data directory"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "createMessages",
+        "type": "function",
+        "description": "Creates messages for full text search.",
+        "parameters": [
+          {
+            "name": "messages",
+            "type": "array",
+            "items": {
+              "$ref": "message"
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean",
+              "description": "Returns true if the operation is successful, false otherwise."
+            }
+          ]
+        }
+      },
+      {
+        "name": "deleteMessages",
+        "type": "function",
+        "description": "Deletes messages from full text search.",
+        "parameters": [
+          {
+            "name": "searchListIds",
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean",
+              "description": "Returns true if the operation is successful, false otherwise."
+            }
+          ]
+        }
+      },
+      {
+        "name": "addMessageBody",
+        "type": "function",
+        "description": "Adds a message body to the message.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "searchListId",
+            "description": "The searchListId of the message to be deleted"
+          },
+          {
+            "type": "string",
+            "name": "body",
+            "description": "The message body to add"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "searchMessages",
+        "type": "function",
+        "description": "Searches messages with certain query.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "searchValue",
+            "description": "The value to search for"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "results",
+              "description": "Messages matching the search value",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "matchMessage",
+        "type": "function",
+        "description": "Does search value match certain message.",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "searchListId",
+            "description": "The searchListId of the message to be checked."
+          },
+          {
+            "type": "string",
+            "name": "searchValue",
+            "description": "The value to search for"
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "rebuildAndVacuumDatabase",
+        "type": "function",
+        "description": "Rebuilds the full text database index. Defragments and frees up unused space in the db file. This can be very slow.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "optional": true,
+          "parameters": [
+            {
+              "name": "result",
+              "type": "boolean",
+              "description": "Returns true if the operation is successful, false otherwise."
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

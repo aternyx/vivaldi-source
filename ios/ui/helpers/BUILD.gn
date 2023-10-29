@@ -1,0 +1,26 @@
+# Copyright 2023 Vivaldi Technologies. All rights reserved.
+
+source_set("helpers") {
+  sources = [
+    "vivaldi_colors_helper.h",
+    "vivaldi_colors_helper.mm",
+    "vivaldi_uiview_layout_helper.h",
+    "vivaldi_uiview_layout_helper.mm",
+    "vivaldi_uiview_style_helper.h",
+    "vivaldi_uiview_style_helper.mm",
+    "vivaldi_global_helpers.h",
+    "vivaldi_global_helpers.mm",
+  ]
+
+  deps = [
+   "//base",
+   "//url",
+   "//components/url_formatter",
+  ]
+
+ frameworks = [
+  "ImageIO.framework",
+  "UIKit.framework",
+  "Foundation.framework",
+ ]
+}

@@ -1,0 +1,21 @@
+
+if (is_win) {
+  update_target("//chrome/installer/setup:setup") {
+    deps -= ["//build/win:default_exe_manifest"]
+    deps += [
+      "//base:base_static",
+      "//components/version_info",
+      "//vivaldi/installer/win:dpi_aware_exe_manifest",
+    ]
+    libs += [ "comctl32.lib" ]
+  }
+  update_target("//chrome/installer/util:with_no_strings") {
+    deps += [ "//vivaldi/installer/win:language_names_include" ]
+  }
+}
+
+if (is_linux && !is_component_build) {
+  update_target("//chrome/installer/linux:linux") {
+    deps -= [":beta"]
+  }
+}

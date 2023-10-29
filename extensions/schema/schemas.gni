@@ -1,0 +1,58 @@
+# Copyright 2014 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//build/config/features.gni")
+
+# Common sources that are both bundled and compiled.
+schema_sources = [
+  "access_keys.json",
+  "autoupdate.json",
+  "bookmark_context_menu.json",
+  "bookmarks_private.json",
+  "browser_action_utilities.json",
+  "calendar.json",
+  "contacts.json",
+  "content_blocking.json",
+  "context_menu.json",
+  "devtools_private.json",
+  "editcommand.json",
+  "history_private.json",
+  "import_data.json",
+  "infobars.json",
+  "mail_private.json",
+  "menu_content.json",
+  "menubar.json",
+  "menubar_menu.json",
+  "mousegestures.json",
+  "notes.json",
+  "page_actions.json",
+  "pip_private.json",
+  "prefs.json",
+  "reading_list_private.json",
+  "runtime_private.json",
+  "savedpasswords.json",
+  "search_engines.json",
+  "settings.json",
+  "sync.json",
+  "tabs_private.json",
+  "theme_private.json",
+  "thumbnails.json",
+  "translate_history.json",
+  "vivaldi_account.json",
+  "vivaldi_sessions.json",
+  "vivaldi_utilities.json",
+  "web_view_private.json",
+  "window_private.json",
+  "zoom.json",
+]
+
+uncompiled_sources = []
+
+root_namespace = "extensions::vivaldi::%(namespace)s"
+extensions_api_schema_include_rules =
+    "//vivaldi/extensions/api:extensions::vivaldi::%(namespace)s"
+schema_dependencies = [
+  "//crypto:crypto",
+  "//third_party/blink/public:blink_headers",
+]

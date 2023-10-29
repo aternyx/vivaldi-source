@@ -1,0 +1,29 @@
+# Copyright 2022 Vivaldi Technologies AS. All rights reserved.
+
+import("//build/config/ios/asset_catalog.gni")
+
+
+imageset("launchscreen_app_logo") {
+  sources = [
+    "launchscreen_app_logo.imageset/Contents.json",
+    "launchscreen_app_logo.imageset/launch_screen_icon_vivaldi.pdf",
+  ]
+}
+
+imageset("launchscreen_brand_name") {
+  sources = [
+    "launchscreen_brand_name.imageset/Contents.json",
+    "launchscreen_brand_name.imageset/launchscreen_brand_name_dark@2x.png",
+    "launchscreen_brand_name.imageset/launchscreen_brand_name_dark@3x.png",
+    "launchscreen_brand_name.imageset/launchscreen_brand_name_light@2x.png",
+    "launchscreen_brand_name.imageset/launchscreen_brand_name_light@3x.png",
+  ]
+}
+
+group("launchscreen_assets") {
+  public_deps = [
+    ":launchscreen_app_logo",
+    ":launchscreen_brand_name",
+    "//ios/chrome/common/ui/colors/resources:background_color",
+  ]
+}
