@@ -1,0 +1,88 @@
+import("//base/win/embedded_i18n/generate_embedded_i18n.gni")
+import("//build/config/locales.gni")
+import("//build/config/win/console_app.gni")
+import("//build/config/win/manifest.gni")
+import("//chrome/process_version_rc_template.gni")
+
+import("//vivaldi/gn/config/locales.gni")
+
+executable("update_notifier") {
+    deps = [
+      ":strings",
+      ":update_notifier_version",
+      "//base",
+      "//build/win:default_exe_manifest",
+      "//chrome/common:constants",
+      "//chrome/installer/util:with_no_strings",
+      "//chrome/install_static:install_static_util",
+      "//components/language/core/browser",
+      "//components/version_info:generate_version_info",
+      "//vivaldi/app:resources",
+      "//vivaldi/app:vivaldi_icon",
+      "//vivaldi/browser:init_sparkle",
+      "thirdparty/winsparkle/src:winsparkle"
+    ]
+
+    sources = [
+      "native_menu.cc",
+      "native_menu.h",
+      "update_notifier.rc",
+      "update_notifier_main.cc",
+      "update_notifier_manager.cc",
+      "update_notifier_manager.h",
+      "update_notifier_resources.h",
+      "update_notifier_window.cc",
+      "update_notifier_window.h",
+    ]
+
+    libs = [
+      "comctl32.lib",
+    ]
+
+    configs -= [ "//build/config/win:console" ]
+    configs += [ "//build/config/win:windowed" ]
+}
+
+process_version_rc_template("update_notifier_version") {
+  sources = [
+    "update_notifier.ver",
+  ]
+  output = "$target_gen_dir/update_notifier_version.rc"
+}
+
+generate_embedded_i18n("generate_strings") {
+  languages_json = read_file(
+      "//vivaldi/vivapp/src/constants/language-list.json", "json"
+  )
+  languages = languages_json.languages
+  vivaldi_translation_locales = [ ]
+  foreach(code_and_names, languages.list) {
+    vivaldi_translation_locales += [ string_replace(code_and_names[0], "@", "-") ]
+  }
+  vivaldi_translation_locales -= [ "en-US" ]
+
+  extractor_datafile = "create_update_notifier_strings_rc.py"
+
+  grd_files_info = [ [
+      "//vivaldi/app/native_resources/",
+      "vivaldi_native_strings",
+      "strings",
+      vivaldi_translation_locales,
+      ] ]
+
+  output_file_name_base = "update_notifier_strings"
+
+  # generate_embedded_i18n does not support generating dependency information
+  # for *.grdp files it includes. So add this manually to the list of input
+  # files.
+  inputs = [
+    "//vivaldi/app/native_resources/vivaldi_update_notifier_strings.grdp"
+  ]
+
+}
+
+# Compile the generated .rc file.
+source_set("strings") {
+  sources = get_target_outputs(":generate_strings")
+  public_deps = [ ":generate_strings" ]
+}

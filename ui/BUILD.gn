@@ -1,0 +1,89 @@
+# Copyright 2020 Vivaldi Technologies AS. All rights reserved.
+#
+import("//build/buildflag_header.gni")
+import("//vivaldi/gn/config/product.gni")
+
+buildflag_header("buildflags") {
+  header = "buildflags.h"
+  header_dir = "ui"
+  flags = [ "FORCE_SOPRANOS_BUILD=$force_sopranos_build" ]
+}
+
+static_library("ui") {
+  sources = [
+    "vivaldi_browser_window.h",
+    "webui/vivaldi_web_ui_controller_factory.cc",
+    "webui/vivaldi_web_ui_controller_factory.h",
+    "webui/game_ui.cc",
+    "webui/game_ui.h",
+  ]
+  if (is_win) {
+    sources += [
+      "lights/razer_chroma_platform_driver_win.cc",
+      "lights/razer_chroma_platform_driver_win.h",
+    ]
+  }
+
+  public_configs = [ "//third_party/protobuf:using_proto" ]
+  public_deps = [
+    "//components/renderer_context_menu",
+  ]
+  deps = [
+    ":buildflags",
+    "//base:base",
+    "//chrome/browser/devtools",
+    "//chrome/common:buildflags",
+    "//components/keyed_service/content",
+    "//components/translate/content/browser",
+    "//content/public/browser",
+    "//skia",
+    "//vivaldi/prefs:prefs_files_generator",
+  ]
+  if (!is_android) {
+    sources += [
+      "lazy_load_service_factory.cc",
+      "lazy_load_service_factory.h",
+      "lazy_load_service.cc",
+      "lazy_load_service.h",
+      "devtools/devtools_connector.cc",
+      "devtools/devtools_connector.h",
+      "lights/razer_chroma_handler.cc",
+      "lights/razer_chroma_handler.h",
+      "vivaldi_document_loader.cc",
+      "vivaldi_document_loader.h",
+      "vivaldi_rootdocument_handler.cc",
+      "vivaldi_rootdocument_handler.h",
+      "window_registry_service_factory.cc",
+      "window_registry_service_factory.h",
+      "window_registry_service.cc",
+      "window_registry_service.h",
+    ]
+    deps += [
+      "//chrome/browser/extensions:extensions",
+      "//chrome/browser/web_applications",
+      "//components/web_modal",
+      "//extensions/browser",
+      "//ui/views",
+      "//vivaldi/extensions/schema",
+    ]
+  }
+  if (is_mac) {
+    sources += [
+      "vivaldi_bookmark_menu_mac.h",
+      "vivaldi_bookmark_menu_mac.mm",
+    ]
+  }
+}
+
+static_library("skia_utils") {
+  deps = [
+    "//base:base",
+    "//skia:skia",
+    "//ui/gfx/codec:codec",
+    "//ui/gfx:gfx",
+  ]
+  sources = [
+    "vivaldi_skia_utils.cc",
+    "vivaldi_skia_utils.h",
+  ]
+}
