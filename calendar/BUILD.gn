@@ -1,0 +1,82 @@
+# Copyright (c) 2015-2017 Vivaldi Technologies AS. All rights reserved
+
+static_library("calendar") {
+  sources = [
+    "account_table.cc",
+    "account_table.h",
+    "account_type.cc",
+    "account_type.h",
+    "calendar_backend.cc",
+    "calendar_backend.h",
+    "calendar_backend_notifier.h",
+    "calendar_constants.cc",
+    "calendar_constants.h",
+    "calendar_database.cc",
+    "calendar_database.h",
+    "calendar_database_params.cc",
+    "calendar_database_params.h",
+    "calendar_model_loaded_observer.cc",
+    "calendar_model_loaded_observer.h",
+    "calendar_model_observer.h",
+    "calendar_service.cc",
+    "calendar_service.h",
+    "calendar_service_factory.cc",
+    "calendar_service_factory.h",
+    "calendar_table.cc",
+    "calendar_table.h",
+    "calendar_type.cc",
+    "calendar_type.h",
+    "event_database.cc",
+    "event_database.h",
+    "event_template_table.cc",
+    "event_template_table.h",
+    "event_template_type.cc",
+    "event_template_type.h",
+    "event_type.cc",
+    "event_type.h",
+    "event_type_database.cc",
+    "event_type_database.h",
+    "invite_table.cc",
+    "invite_table.h",
+    "invite_type.cc",
+    "invite_type.h",
+    "notification_table.cc",
+    "notification_table.h",
+    "notification_type.cc",
+    "notification_type.h",
+    "recurrence_exception_table.cc",
+    "recurrence_exception_table.h",
+    "recurrence_exception_type.cc",
+    "recurrence_exception_type.h",
+  ]
+
+  if (!is_android) {
+    sources += [
+      "calendar_util.cc",
+      "calendar_util.h",
+    ]
+  }
+
+  deps = [
+    "//base:base",
+    "//chrome:strings",
+    "//chrome/common:constants",
+    "//components/keyed_service/core:core",
+    "//components/keyed_service/content:content",
+    "//components/prefs",
+    "//components/variations",
+    "//content/public/browser",
+    "//sql",
+    "//vivaldi/app:resources",
+    "//vivaldi/prefs:prefs_strings",
+  ]
+  if (!is_android) {
+    deps += [
+      "//vivaldi/extensions/schema",
+    ]
+  }
+  public_deps = [
+    #"//components/sync/protocol",
+    #"//vivaldi/sync",
+  ]
+}

@@ -1,0 +1,257 @@
+import("//vivaldi/gn/config/version.gni")
+import("//chrome/version.gni")
+import("//extensions/buildflags/buildflags.gni")
+
+static_library("browser") {
+  public_deps = [
+    "//vivaldi/app",
+    "//vivaldi/clientparts",
+    "//vivaldi/importer:browser",
+    "//vivaldi/prefs:prefs_files_generator",
+    "//vivaldi/ui",
+  ]
+  if (!is_android) {
+    public_deps += [
+      "//vivaldi/extensions",
+      "//vivaldi/extensions/api:apis",
+      "//vivaldi/extensions/schema",
+      "//vivaldi/vivapp:vivaldi_app",
+    ]
+  }
+  deps = [
+    ":default_bookmarks",
+    "//vivaldi/prefs:browser_prefs",
+
+    #"//vivaldi/base",
+    "//base:base",
+    "//chrome/app:chromium_strings",
+    "//chrome/app:command_ids",
+    "//chrome/app:generated_resources",
+    "//chrome/app:chromium_strings",
+    "//chrome/browser:resources",
+    "//chrome/browser:theme_properties",
+    "//chrome/browser/devtools",
+    "//chrome/common:buildflags",
+    "//chrome/common:non_code_constants",
+
+    "//components/keyed_service/content",
+    "//components/os_crypt/sync:os_crypt",
+    "//components/renderer_context_menu",
+    "//components/search_engines",
+    "//components/strings:components_chromium_strings",
+    "//components/strings:components_strings",
+   # "//content/browser",
+    "//crypto:crypto",
+    "//skia:skia",
+    "//third_party/blink/public:blink_headers",
+    "//ui/events:events_base",
+    "//vivaldi/components:adverse_adblocking",
+    "//vivaldi/prefs:prefs_strings",
+  ]
+  if (!is_android) {
+    deps += [
+      "//components/guest_view/browser",
+      "//ui/views",
+    ]
+  }
+  if (enable_extensions) {
+    deps += [
+      "//chrome/browser/web_applications/extensions",
+      "//chrome/browser/extensions",
+    ]
+  }
+  allow_circular_includes_from = [
+    "//components/renderer_context_menu",
+    "//vivaldi/app",
+  ]
+  if (enable_extensions) {
+    allow_circular_includes_from += [
+      "//chrome/browser/extensions",
+      "//vivaldi/extensions/api:apis",
+    ]
+  }
+  sources = [
+    "../components/adverse_adblocking/adverse_ad_filter_list_factory.cc",
+    "../components/adverse_adblocking/adverse_ad_filter_list_factory.h",
+    "../components/ping_block/ping_block.cc",
+    "../components/ping_block/ping_block.h",
+    "translate/vivaldi_translate_language_list.cc",
+    "translate/vivaldi_translate_language_list.h",
+    "translate/vivaldi_translate_server_request.cc",
+    "translate/vivaldi_translate_server_request.h",
+    "translate/vivaldi_translate_client.cc",
+    "translate/vivaldi_translate_client.h",
+    "translate/vivaldi_translate_frame_binder.cc",
+    "translate/vivaldi_translate_frame_binder.h",
+    "vivaldi_default_bookmarks_updater_client_impl.cc",
+    "vivaldi_default_bookmarks_updater_client_impl.h",
+    "vivaldi_gitignore.cc",
+  ]
+
+  if (!is_android) {
+    sources += [
+      "../app/vivaldi_command_controller.cpp",
+      "../app/vivaldi_command_controller.h",
+      "../app/vivaldi_commands.h",
+      "menus/vivaldi_bookmark_context_menu.cpp",
+      "menus/vivaldi_bookmark_context_menu.h",
+      "menus/vivaldi_context_menu_controller.h",
+      "menus/vivaldi_context_menu_controller.cc",
+      "menus/vivaldi_developertools_menu_controller.h",
+      "menus/vivaldi_developertools_menu_controller.cc",
+      "menus/vivaldi_device_menu_controller.h",
+      "menus/vivaldi_device_menu_controller.cc",
+      "menus/vivaldi_extensions_menu_controller.h",
+      "menus/vivaldi_extensions_menu_controller.cc",
+      "menus/vivaldi_menus.cpp",
+      "menus/vivaldi_menus.h",
+      "menus/vivaldi_menubar.cc",
+      "menus/vivaldi_menubar.h",
+      "menus/vivaldi_profile_menu_controller.h",
+      "menus/vivaldi_profile_menu_controller.cc",
+      "menus/vivaldi_pwa_link_menu_controller.h",
+      "menus/vivaldi_pwa_link_menu_controller.cc",
+      "menus/vivaldi_pwa_menu_controller.h",
+      "menus/vivaldi_pwa_menu_controller.cc",
+      "menus/vivaldi_render_view_context_menu.h",
+      "menus/vivaldi_render_view_context_menu.cc",
+      "vivaldi_browser_finder.cc",
+      "vivaldi_browser_finder.h",
+      "vivaldi_webcontents_util.cc",
+      "vivaldi_webcontents_util.h",
+    ]
+  }
+  if (is_mac) {
+    sources += [
+      "menus/vivaldi_speech_menu_controller.h",
+      "menus/vivaldi_speech_menu_controller.cc",
+      "vivaldi_app_observer.h",
+      "vivaldi_app_observer.mm",
+    ]
+  } else {
+    #deps += [ "//chrome/utility" ]
+  }
+  if (is_android) {
+    sources += [
+      "android/media/vivaldi_background_media_playback_enabler.h",
+      "android/media/vivaldi_background_media_playback_enabler.cc",
+    ]
+  }
+}
+
+source_set("internal_handlers") {
+  sources = [
+    "vivaldi_internal_handlers.cc",
+    "vivaldi_internal_handlers_util.h",
+  ]
+
+  deps = [ "//components/download/public/common:public" ]
+}
+
+static_library("clipboard") {
+  sources = [
+    "vivaldi_clipboard_utils.cc",
+    "vivaldi_clipboard_utils.h",
+  ]
+
+  deps= [ "//third_party/blink/public:blink_headers" ]
+}
+
+source_set("init_sparkle") {
+  sources = [
+    "init_sparkle.cc",
+    "init_sparkle.h",
+  ]
+
+  deps = [
+    "//base",
+    "//base:i18n",
+    "//base:base_static",
+    "//url",
+  ]
+}
+
+source_set("default_bookmarks") {
+  sources = [
+    "vivaldi_default_bookmarks.cc",
+    "vivaldi_default_bookmarks.h",
+    "removed_partners_tracker.cc",
+    "removed_partners_tracker.h",
+  ]
+
+  public_deps=[
+    "//vivaldi/components/bookmarks:bookmark_locales_include",
+    "//components/bookmarks/browser",
+  ]
+
+  deps= [
+    "//base:base",
+    "//components/favicon/core",
+    "//components/prefs",
+    "//ui/base",
+    "//vivaldi/components/datasource:resource_reader",
+    "//vivaldi/prefs:prefs_files_generator",
+  ]
+}
+
+source_set("stats_reporter") {
+  sources= [
+    "stats_reporter_impl.cc",
+    "stats_reporter_impl.h",
+    "stats_reporter.cc",
+    "stats_reporter.h",
+  ]
+
+  if (is_android) {
+    sources += [
+      "stats_reporter_impl_android.cc",
+    ]
+  }
+  if (is_linux) {
+    sources += [
+      "stats_reporter_impl_linux.cc",
+    ]
+  }
+  if (is_mac) {
+    sources += [
+      "stats_reporter_impl_mac.mm",
+    ]
+  }
+  if (is_win) {
+    sources += [
+      "stats_reporter_impl_win.cc",
+    ]
+  }
+
+  deps= [
+    "//base",
+    "//components/metrics",
+    "//components/prefs",
+    "//components/version_info:generate_version_info",
+    "//net",
+    "//net/traffic_annotation",
+    "//services/network/public/cpp",
+    "//ui/display:display",
+    "//vivaldi/prefs:prefs_strings",
+  ]
+
+  if (!is_ios) {
+    sources += [
+      "stats_reporter_impl_content.cc",
+    ]
+
+    deps += [
+      "//chrome/browser:browser_process",
+      "//components/embedder_support:browser_util",
+    ]
+  } else {
+    sources += [
+      "stats_reporter_impl_ios.mm",
+    ]
+
+    deps += [
+      "//ios/chrome/browser/application_context/model",
+      "//ios/web/public",
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+import("//build/config/ui.gni")
+
+if (!is_android && !is_mac) {
+  update_target("//chrome:chrome_initial") {
+    if (is_linux && current_cpu == "x86") {
+      ldflags += [
+        "-z",
+        "notext",
+      ]
+    }
+  }
+}
+
+if (is_win) {
+  update_target("//chrome:chrome_dll") {
+    deps += [
+      "//vivaldi/browser",
+    ]
+  }
+  update_target("//chrome:chrome_initial") {
+    data_deps -= [
+      "//chrome/chrome_proxy",
+      "//chrome/elevation_service",
+    ]
+    data_deps += [ "//vivaldi/tools/vivaldi_proxy" ]
+    deps += [
+      "//chrome/installer/util:with_no_strings"
+    ]
+  }
+  update_target("//chrome/installer/mini_installer:chrome_runtime_deps") {
+    data_deps -= [
+      "//chrome/chrome_proxy",
+    ]
+    data_deps += [ "//vivaldi/tools/vivaldi_proxy" ]
+  }
+  update_target("//chrome/notification_helper:notification_helper") {
+    deps += [
+      "//chrome/installer/util:with_no_strings",
+    ]
+  }
+}
+
+update_target("//chrome:dependencies") {
+  public_deps += [
+    "//vivaldi/browser",
+  ]
+}
+
+if (is_android) {
+  update_target("//chrome:chrome_android_core") {
+    deps += [
+      "//vivaldi/browser",
+    ]
+  }
+}
+
+update_target("//chrome/browser:browser") {
+  public_deps += [
+    "//vivaldi/browser",
+    "//vivaldi/browser:internal_handlers"
+  ]
+  allow_circular_includes_from += [
+    "//vivaldi/browser",
+  ]
+}
+
+update_target("//chrome/browser/ui:ui") {
+  public_deps += [
+    "//components/sessions:sessions",
+    "//vivaldi/browser",
+    "//vivaldi/prefs:prefs_strings",
+  ]
+  if (is_mac) {
+    public_deps += [ "//vivaldi/browser:init_sparkle" ]
+  }
+  allow_circular_includes_from += [
+    "//vivaldi/browser",
+  ]
+  if (enable_extensions) {
+    allow_circular_includes_from += [
+      "//components/guest_view/browser",
+    ]
+  }
+  deps += [
+    "//chrome/services/sharing/public/proto",
+  ]
+}
+
+update_target("//content/browser:browser") {
+  if (ozone_platform_x11) {
+    public_deps += [ "//ui/events/keycodes:x11" ]
+  }
+  public_deps += [ "//vivaldi/browser:clipboard" ]
+}
+
+update_target("//chrome/browser/safe_browsing:safe_browsing") {
+  deps += [
+    "//chrome/browser:ntp_background_proto",
+  ]
+}
