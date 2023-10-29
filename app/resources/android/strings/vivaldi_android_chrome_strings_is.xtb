@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE translationbundle>
+<translationbundle lang="is">
+<translation id="1397811292916898096">Leita með <ph name="PRODUCT_NAME" /> 1</translation>
+<translation id="1456207338570705181">Að ýta til þess að leita er aðgerð, sem bara er í boði þegar Google er valin sem sjálfgefin leitarvél í Vivaldi. Þá er orðið og samhengi þessi sent inn í leitarvél Google. Slökkva má á því í <ph name="BEGIN_LINK" />stillingum<ph name="END_LINK" />.</translation>
+<translation id="1598449788754183301">Skiptu á milli venjulegra/einka flipa</translation>
+<translation id="1644574205037202324">Saga</translation>
+<translation id="17513872634828108">Opnir flipar</translation>
+<translation id="1829244130665387512">Leita á síðunni</translation>
+<translation id="1910514478706885609">Opna í nýjum flipabunka</translation>
+<translation id="1925021887439448749">Færðu inn sérsniðna vefslóð</translation>
+<translation id="2038563949887743358">Kveiktu á borðtölvuútgáfu</translation>
+<translation id="2139186145475833000">Bæta við á aðalskjá</translation>
+<translation id="2149973817440762519">Breyta bókamerki</translation>
+<translation id="2306442503286132111">Bókamerki vistað í <ph name="FOLDER_NAME" /> möppu</translation>
+<translation id="2433507940547922241">Útlit</translation>
+<translation id="2501278716633472235">Fara til baka</translation>
+<translation id="2633278372998075009">Einkaflipar</translation>
+<translation id="2951071800649516099">Bæta síðum á leslistann þinn til síðari nota</translation>
+<translation id="3060635849835183725">{BOOKMARKS_COUNT, plural,
+          =1 {<ph name="BOOKMARKS_COUNT_ONE" /> bókamerki}
+          other {<ph name="BOOKMARKS_COUNT_MANY" /> bókamerki}}</translation>
+<translation id="3076631378407175873">Höfundarréttur <ph name="YEAR" /> Vivaldi Technologies AS. Öll réttindi áskilin.</translation>
+<translation id="3234355010754616171">Nýr einkaflipi</translation>
+<translation id="3377025655491224618">Einkaflipi</translation>
+<translation id="3504699618187058974">Flipabunkar</translation>
+<translation id="3518985090088779359">Samþykkja og halda áfram</translation>
+<translation id="3571177741182643350">Ólesnar greinar - Aðgengilegar án nettengingar:</translation>
+<translation id="3700829948786686853">Velkomin/n í Vivaldi</translation>
+<translation id="3719826155360621982">Heimasíða</translation>
+<translation id="385051799172605136">Til baka</translation>
+<translation id="399014816462153200">Lestu greinar:</translation>
+<translation id="4121750346708795461">Með því að nota þetta forrit, samþykkir þú <ph name="BEGIN_LINK1" />Notendaleyfi Vivaldi<ph name="END_LINK1" /> og <ph name="BEGIN_LINK2" /> Persónuverndarstefnu<ph name="END_LINK2" />.</translation>
+<translation id="4137746084635924146">Núverandi tungumál tækis</translation>
+<translation id="4167670741834902166">Nýr einkaflipi</translation>
+<translation id="4195643157523330669">Opna í nýjum flipa</translation>
+<translation id="4243710787042215766">Opna í einkaglugga</translation>
+<translation id="451872707440238414">Leita í bókamerkjunum þínum</translation>
+<translation id="4526803704855831732">Einkaflipar</translation>
+<translation id="4719086422742491124">Kynntu þér efni vefsíða án þess að yfirgefa síðuna. Veldu eitt eða fleiri orð á síðunni, til þess að leita þeirra.
+
+Að ýta til þess að leita er aðgerð, sem bara er í boði þegar Google er valin sem sjálfgefin leitarvél í Vivaldi.</translation>
+<translation id="4759238208242260848">Niðurhöl</translation>
+<translation id="4850886885716139402">Sjá</translation>
+<translation id="4883379392681899581">Fara úr einkaham</translation>
+<translation id="4943872375798546930">Engin niðurstaða</translation>
+<translation id="49576331685473090">Innihaldssía</translation>
+<translation id="5079259810715830221">Þegar Google síða biður um að fá að forsækja tengt efni þá mun Vivaldi dulkóða og sækja efni frá Google án þess að nota kökur. Þetta gerir tengdum síðum ókleyft að sjá persónuauðkenni þín.</translation>
+<translation id="5118676864324397542"><ph name="APP_NAME" /> geymslusvæði</translation>
+<translation id="5186185447130319458">Einka</translation>
+<translation id="5233638681132016545">Nýr flipi</translation>
+<translation id="5375131951310889874">Kynntu þér efni vefsíða án þess að yfirgefa síðuna. Að ýta til þess að leita er aðgerð, sem bara er í boði þegar Google er valin sem sjálfgefin leitarvél í Vivaldi. Þá er orðið og samhengi þessi sent inn í leitarvél Google, sem skilar þá skilgreiningum, myndum, leitarniðurstöðum, og fleiru.
+
+Ýttu lengi til að velja leitarorð. Fyrir nákvæmari leitarskilyrði má draga spjald alla leið upp og slá á leitarboxið.</translation>
+<translation id="572328651809341494">Nýlegir flipar</translation>
+<translation id="6150320133806434356">Bókamerki vistað</translation>
+<translation id="6336451774241870485">Nýr einkaflipi</translation>
+<translation id="6404511346730675251">Breyta bókamerki</translation>
+<translation id="6585139692466700358">Bjóða upp á að þýða síður af erlendum tungumálum með þýðingarþjónustu Vivaldi</translation>
+<translation id="6593061639179217415">Nota borðtölvuútlit</translation>
+<translation id="6610147964972079463">Loka einkagluggum</translation>
+<translation id="7029995644714925509">Þegar síða biður um að fá að forsækja tengt efni þá mun Vivaldi dulkóða og sækja efni frá Google án þess að nota kökur. Þetta gerir tengdum síðum ókleyft að sjá persónuauðkenni þín.</translation>
+<translation id="706339621163631076">Persónuverndarstefna vafrans</translation>
+<translation id="732145680195464316">Bókamerki vistað í <ph name="PRODUCT_NAME" /></translation>
+<translation id="7427132068601343474">Um Vivaldi</translation>
+<translation id="7465104139234185284">Loka öllum einkagluggum</translation>
+<translation id="7481312909269577407">Áfram</translation>
+<translation id="7583262514280211622">Þú finnur leslistann þinn hér</translation>
+<translation id="7968014550143838305">Bætt við leslista</translation>
+<translation id="804786196054284061">Leyfisskilmálar notenda</translation>
+<translation id="8127542551745560481">Breyta heimasíðu</translation>
+<translation id="8560602726703398413">Finndu leslistann þinn í bókamerkjum</translation>
+<translation id="85991616550051997">Fara á heimasíðu</translation>
+<translation id="8820817407110198400">Bókamerki</translation>
+<translation id="9063523880881406963">Slökktu á borðtölvuútgáfu</translation>
+<translation id="9080642952018487277">Fara í einkaham</translation>
+<translation id="96681097142096641">Skoða einfaldaða síðu?</translation>
+</translationbundle>

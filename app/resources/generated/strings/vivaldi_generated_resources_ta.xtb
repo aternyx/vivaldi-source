@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE translationbundle>
+<translationbundle lang="ta">
+<translation id="1056898198331236512">எச்சரிக்கை</translation>
+<translation id="1165039591588034296">பிழை</translation>
+<translation id="1175364870820465910">&amp;அச்சிடு...</translation>
+<translation id="1244303850296295656">நீட்டிப்புப் பிழை</translation>
+<translation id="1546280085599573572">முகப்புப் பொத்தானைக் கிளிக் செய்யும் போது காண்பிக்கப்படும் பக்கத்தை இந்த நீட்டிப்பு மாற்றியுள்ளது.</translation>
+<translation id="1588438908519853928">இயல்பு</translation>
+<translation id="1635033183663317347">பாதுகாப்பாளர் நிறுவியது.</translation>
+<translation id="1729533290416704613">சர்வபுலத்திலிருந்து தேடலை மேற்கொள்ளும்போது காண்பிக்கப்படும் பக்கத்தையும் இது கட்டுப்படுத்துகிறது.</translation>
+<translation id="2087822576218954668">அச்சிடு: <ph name="PRINT_NAME" /></translation>
+<translation id="2177950615300672361">மறைநிலைத் தாவல்: <ph name="TAB_NAME" /></translation>
+<translation id="219008588003277019">இயல்பான கிளையண்ட் தொகுதிக்கூறு: <ph name="NEXE_NAME" /></translation>
+<translation id="2282146716419988068">GPU செயல்முறை</translation>
+<translation id="2301382460326681002">நீட்டிப்பு மூல கோப்பகம் செல்லாதது.</translation>
+<translation id="2327492829706409234">பயன்பாட்டை இயக்கு</translation>
+<translation id="2344028582131185878">தானியக்கப் பதிவிறக்கங்கள்</translation>
+<translation id="2348176352564285430">பயன்பாடு: <ph name="ARC_PROCESS_NAME" /></translation>
+<translation id="2378982052244864789">நீட்டிப்பு கோப்பகத்தைத் தேர்ந்தெடு.</translation>
+<translation id="241082044617551207">அறியப்படாத செருகுநிரல்</translation>
+<translation id="2439110203301358333">உங்கள் கணினியில் உள்ள மற்றொரு நிரலானது, Vivaldi வேலைசெய்யும் வழியை மாற்றும் நீட்டிப்பைச் சேர்த்துள்ளது.</translation>
+<translation id="2445081178310039857">நீட்டிப்பு மூல கோப்பகம் தேவை.</translation>
+<translation id="2470702053775288986">ஆதரிக்கப்படாத நீட்டிப்புகள் முடக்கப்பட்டன</translation>
+<translation id="2662876636500006917">Chrome Web Store</translation>
+<translation id="2678063897982469759">மீண்டும் இயக்கு</translation>
+<translation id="2809586584051668049">மேலும் <ph name="NUMBER_ADDITIONAL_DISABLED" /></translation>
+<translation id="2850541429955027218">தீமினைச் சேர்</translation>
+<translation id="2861941300086904918">Native Client பாதுகாப்பு நிர்வாகி</translation>
+<translation id="2932883381142163287">முறைகேடெனப் புகாரளி</translation>
+<translation id="2941112035454246133">குறைவு</translation>
+<translation id="2972581237482394796">&amp;மீண்டும் செய்</translation>
+<translation id="3080207940057008665">உங்கள் கணினியில் உள்ள மற்றொரு நிரலானது, Vivaldi வேலைசெய்யும் வழியை மாற்றும் தீம் ஐச் சேர்த்துள்ளது.</translation>
+<translation id="3122464029669770682">CPU</translation>
+<translation id="3222066309010235055">முன்செயலாக்கம்: <ph name="PRERENDER_CONTENTS_NAME" /></translation>
+<translation id="3241680850019875542">தொகுக்க வேண்டிய நீட்டிப்பின் மூல இருப்பிடத்தைத் தேர்ந்தெடு. ஒரு நீட்டிப்பைப் புதுப்பிக்க, மீண்டும் பயன்படுத்துவதற்கு தனிப்பட்ட விசைக் கோப்பையும் தேர்ந்தெடு.</translation>
+<translation id="3288047731229977326">டெவெலப்பர் பயன்முறையில் இயங்கிக்கொண்டிருக்கும் நீட்டிப்புகள் உங்கள் கணினிக்குத் தீங்கு விளைவிக்கலாம். நீங்கள் டெவெலப்பர் இல்லையென்றால், பாதுகாப்பாக இருப்பதற்கு டெவெலப்பர் பயன்முறையில் இயங்கிக்கொண்டிருக்கும் இந்த நீட்டிப்புகளை முடக்க வேண்டும்.</translation>
+<translation id="3378572629723696641">இந்த நீட்டிப்பு சேதமடைந்திருக்கலாம்.</translation>
+<translation id="3505030558724226696">சாதன அணுகலை ரத்துசெய்</translation>
+<translation id="3678156199662914018">நீட்டிப்பு: <ph name="EXTENSION_NAME" /></translation>
+<translation id="3905761538810670789">பயன்பாட்டை பழுதுநீக்கு</translation>
+<translation id="3908501907586732282">நீட்டிப்பை இயக்கு</translation>
+<translation id="3909791450649380159">வெட்&amp;டு</translation>
+<translation id="3927932062596804919">மறு</translation>
+<translation id="3943582379552582368">&amp;முந்தைய பக்கம்</translation>
+<translation id="3979395879372752341">புதிய நீட்டிப்பு சேர்க்கப்பட்டது (<ph name="EXTENSION_NAME" />)</translation>
+<translation id="4021279097213088397">–</translation>
+<translation id="4087089424473531098">இந்த நீட்டிப்பு உருவாக்கப்பட்டது:
+
+<ph name="EXTENSION_FILE" /></translation>
+<translation id="4096508467498758490">டெவெலப்பர் பயன்முறை நீட்டிப்புகளை முடக்கவும்</translation>
+<translation id="4100839878934973028">உங்கள் கணினியில் உள்ள மற்றொரு நிரலானது, Vivaldi வேலைசெய்யும் வழியை மாற்றும் பயன்பாட்டைச் சேர்த்துள்ளது.</translation>
+<translation id="4130207949184424187">சர்வபுலத்திலிருந்து தேடும் போது காண்பிக்கப்படும் பக்கத்தை இந்த நீட்டிப்பு மாற்றியுள்ளது.</translation>
+<translation id="4176463684765177261">முடக்கப்பட்டது</translation>
+<translation id="4309420042698375243"><ph name="NUM_KILOBYTES" />K (<ph name="NUM_KILOBYTES_LIVE" />K பயன்பாட்டில்)</translation>
+<translation id="4384652540891215547">நீட்டிப்பைச் செயல்படுத்து</translation>
+<translation id="4394049700291259645">முடக்கு</translation>
+<translation id="4593021220803146968"><ph name="URL" /> க்குச் &amp;செல்க</translation>
+<translation id="4595560905247879544">பயன்பாடுகளையும் நீட்டிப்புகளையும் நிர்வாகியால் (<ph name="CUSTODIAN_NAME" />) மட்டுமே மாற்ற முடியும்.</translation>
+<translation id="4613271546271159013">புதிய தாவலைத் திறக்கும்போது காண்பிக்கப்படும் பக்கத்தை நீட்டிப்பு மாற்றியுள்ளது.</translation>
+<translation id="488785315393301722">விவரங்களைக் காண்பி</translation>
+<translation id="5027562294707732951">நீட்டிப்பைச் சேர்</translation>
+<translation id="5039804452771397117">அனுமதி</translation>
+<translation id="5143374789336132547">முகப்புப் பொத்தானைக் கிளிக் செய்யும் போது காண்பிக்கப்படும் பக்கத்தை, "<ph name="EXTENSION_NAME" />" நீட்டிப்பு மாற்றியுள்ளது.</translation>
+<translation id="5233231016133573565">செயலாக்க ID</translation>
+<translation id="52912272896845572">தனிப்பட்ட விசை கோப்பு செல்லாதது.</translation>
+<translation id="5301954838959518834">சரி, புரிந்தது</translation>
+<translation id="5355926466126177564">சர்வபுலத்திலிருந்து தேடும் போது காண்பிக்கப்படும் பக்கத்தை "<ph name="EXTENSION_NAME" />" நீட்டிப்பு மாற்றியுள்ளது.</translation>
+<translation id="5362741141255528695">தனிப்பட்ட விசை கோப்பைத் தேர்ந்தெடு.</translation>
+<translation id="5370819323174483825">&amp;மீண்டும் ஏற்று</translation>
+<translation id="5483785310822538350">கோப்பு மற்றும் சாதன அணுகலை ரத்துசெய்</translation>
+<translation id="5485102783864353244">பயன்பாட்டைச் சேர்</translation>
+<translation id="5521078259930077036">இந்த முகப்புப் பக்கம் நீங்கள் எதிர்பார்த்தது போன்று உள்ளதா?</translation>
+<translation id="5542132724887566711">சுயவிவரம்</translation>
+<translation id="5556459405103347317">மீண்டும் ஏற்று</translation>
+<translation id="5575473780076478375">மறைநிலை நீட்டிப்பு: <ph name="EXTENSION_NAME" /></translation>
+<translation id="5627086634964711283">முகப்புப் பொத்தானைக் கிளிக் செய்யும்போது காண்பிக்கப்படும் பக்கத்தையும் இது கட்டுப்படுத்துகிறது.</translation>
+<translation id="5715711091495208045">செருகுநிரல் புரோக்கர்: <ph name="PLUGIN_NAME" /></translation>
+<translation id="583281660410589416">தெரியாதது</translation>
+<translation id="5956585768868398362">இந்தத் தேடல் பக்கம் நீங்கள் எதிர்பார்த்தது போன்று உள்ளதா?</translation>
+<translation id="5963453369025043595"><ph name="NUM_HANDLES" /> (<ph name="NUM_KILOBYTES_LIVE" /> உச்சம்)</translation>
+<translation id="5965661248935608907">முகப்புப் பொத்தானைக் கிளிக் செய்யும்போது அல்லது சர்வபுலத்திலிருந்து தேடலை மேற்கொள்ளும்போது காண்பிக்கப்படும் பக்கத்தையும் இது கட்டுப்படுத்துகிறது.</translation>
+<translation id="6101226222197207147">புதிய பயன்பாடு சேர்க்கப்பட்டது (<ph name="EXTENSION_NAME" />)</translation>
+<translation id="6122081475643980456">உங்கள் இணைய இணைப்பு கட்டுப்படுத்தப்படுகிறது</translation>
+<translation id="6196854373336333322"><ph name="EXTENSION_NAME" /> நீட்டிப்பு உங்கள் ப்ராக்ஸி அமைப்புகளைக் கட்டுப்படுத்துகிறது, அதாவது நீங்கள் ஆன்லைனில் செய்யும் எல்லாவற்றையும் அதனால் மாற்ற முடியும், தடுக்க முடியும் அல்லது ஒட்டுக் கேட்க முடியும். இது ஏன் நடந்தது எனத் தெரியவில்லை எனில், உங்களுக்கு இது தேவைப்படாத ஒன்றாக இருக்கும்.</translation>
+<translation id="6247802389331535091">சிஸ்டம்: <ph name="ARC_PROCESS_NAME" /></translation>
+<translation id="6445450263907939268">உங்களுக்கு இந்த மாற்றங்கள் பிடிக்கவில்லை எனில், முந்தைய அமைப்புகளை நீங்கள் மீட்டெடுக்கலாம்.</translation>
+<translation id="6447842834002726250">குக்கீகள்</translation>
+<translation id="6498249116389603658">&amp;உங்கள் எல்லா மொழிகளும்</translation>
+<translation id="6503077044568424649">அதிகமாகப் பார்வையிடப்பட்டது</translation>
+<translation id="6508261954199872201">பயன்பாடு: <ph name="APP_NAME" /></translation>
+<translation id="6691936601825168937">&amp;அடுத்த பக்கம்</translation>
+<translation id="6798954102094737107">செருகுநிரல்: <ph name="PLUGIN_NAME" /></translation>
+<translation id="6900284862687837908">பின்னணிப் பயன்பாடு: <ph name="BACKGROUND_APP_URL" /></translation>
+<translation id="6904344821472985372">கோப்பின் அணுகலை அகற்றுதல்</translation>
+<translation id="7287143125007575591">அணுகல் மறுக்கப்பட்டது.</translation>
+<translation id="7427348830195639090">பின்புல பக்கம்: <ph name="BACKGROUND_PAGE_URL" /></translation>
+<translation id="7629827748548208700">தாவல்: <ph name="TAB_NAME" /></translation>
+<translation id="7663719505383602579">ரிசீவர்: <ph name="ARC_PROCESS_NAME" /></translation>
+<translation id="7704305437604973648">காரியம்</translation>
+<translation id="7760004034676677601">இந்தத் துவக்கப் பக்கத்தைத்தான் எதிர்பார்த்தீர்களா?</translation>
+<translation id="7791543448312431591">சேர்</translation>
+<translation id="7818135753970109980">புதிய தீம் சேர்க்கப்பட்டது (<ph name="EXTENSION_NAME" />)</translation>
+<translation id="7857949311770343000">இந்தப் புதிய தாவல் பக்கத்தைத்தான் எதிர்பார்த்தீர்களா?</translation>
+<translation id="786073089922909430">சேவை: <ph name="ARC_PROCESS_NAME" /></translation>
+<translation id="7903925330883316394">கருவி: <ph name="UTILITY_TYPE" /></translation>
+<translation id="7978412674231730200">தனிப்பட்ட விசை</translation>
+<translation id="7982789257301363584">நெட்வொர்க்</translation>
+<translation id="7999229196265990314">பின்வரும் கோப்புகள் உருவாக்கப்பட்டன:
+
+நீட்டிப்பு: <ph name="EXTENSION_FILE" />
+முக்கிய கோப்பு: <ph name="KEY_FILE" />
+
+உங்கள் முக்கிய கோப்பை பாதுகாப்பான இடத்தில் வையுங்கள். உங்கள் நீட்டிப்பின் புதிய பதிப்புகளை நீங்கள் உருவாக்க வேண்டி ஏற்படும்.</translation>
+<translation id="8004582292198964060">உலாவி</translation>
+<translation id="8135557862853121765"><ph name="NUM_KILOBYTES" />K</translation>
+<translation id="8261378640211443080">இந்த நீட்டிப்பு <ph name="IDS_EXTENSION_WEB_STORE_TITLE" /> இல் பட்டியலிடப்படவில்லை, மேலும் அது உங்களுக்குத் தெரியாமல் சேர்க்கப்பட்டிருக்கலாம்.</translation>
+<translation id="8351419472474436977">உங்கள் ப்ராக்ஸி அமைப்புகளின் கட்டுப்பாட்டை இந்த நீட்டிப்பு கட்டுப்படுத்துகிறது, அதாவது நீங்கள் ஆன்லைனில் செய்யும் எல்லாவற்றையும் அதனால் மாற்றமுடியும், தடுக்க முடியும் அல்லது ஒட்டுக் கேட்க முடியும். இது ஏன் நடந்தது என்பது தெரியவில்லை எனில், உங்களுக்கு இது தேவைப்படாத ஒன்றாக இருக்கும்.</translation>
+<translation id="8615618338313291042">மறைநிலை பயன்பாடு: <ph name="APP_NAME" /></translation>
+<translation id="8808478386290700967">Web Store</translation>
+<translation id="8859174528519900719">துணைச்சட்டகம்: <ph name="SUBFRAME_SITE" /></translation>
+<translation id="8916476537757519021">மறைநிலை துணைச்சட்டகம்: <ph name="SUBFRAME_SITE" /></translation>
+<translation id="8962083179518285172">விவரங்களை மறை</translation>
+<translation id="9170848237812810038">&amp;செயல்தவிர்</translation>
+<translation id="9215293857209265904">"<ph name="EXTENSION_NAME" />" சேர்க்கப்பட்டது</translation>
+<translation id="93766956588638423">நீட்டிப்பைப் பழுதுநீக்கு</translation>
+<translation id="994289308992179865">&amp;சுழற்சி</translation>
+<translation id="998747458861718449">க&amp;ண்காணி</translation>
+</translationbundle>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE translationbundle>
+<translationbundle lang="fy">
+<translation id="1397811292916898096">Sykje mei <ph name="PRODUCT_NAME" /></translation>
+<translation id="1456207338570705181">Taast om te sykjen is in funksje dy allinne beskikber is wannear Google ynsteld is as de standert sykmotor yn Vivaldi. it stjoerd in wurd en de omringende kontekst nei GoogleSykjen en bringt defenysjes, ôfbyldingen, resultaten fan it sykjen en oare details wer werom. Jo kinne it útsette yn <ph name="BEGIN_LINK" />Ymnstellingen<ph name="END_LINK" />.</translation>
+<translation id="1598449788754183301">Normale/Privee ljeppers wikselje</translation>
+<translation id="1644574205037202324">Skiednis</translation>
+<translation id="17513872634828108">Ljeppers iepenje</translation>
+<translation id="1829244130665387512">Sykje yn side</translation>
+<translation id="1910514478706885609">Iepenje yn ljeppergroep</translation>
+<translation id="1925021887439448749">Oanpast web adres opjaan</translation>
+<translation id="2038563949887743358">Buroblêd webstee opfreegje ynskeakelje</translation>
+<translation id="2139186145475833000">Oan start skerm taheakje</translation>
+<translation id="2149973817440762519">Blêdwizer bewurkje</translation>
+<translation id="2306442503286132111">Blêdwizer bewarre yn map <ph name="FOLDER_NAME" /></translation>
+<translation id="2433507940547922241">Uterlik</translation>
+<translation id="2501278716633472235">Gean tebek</translation>
+<translation id="2633278372998075009">Privee ljeppers</translation>
+<translation id="2951071800649516099">Siden taheakje oan jo lêslist foar letter</translation>
+<translation id="3060635849835183725">{BOOKMARKS_COUNT, plural,
+          =1 {<ph name="BOOKMARKS_COUNT_ONE" /> blêdwizer}
+          other {<ph name="BOOKMARKS_COUNT_MANY" /> blêdwizers}}</translation>
+<translation id="3076631378407175873">Copyright <ph name="YEAR" /> Vivaldi Technologies AS. Alle rjochten foarbehâlden.</translation>
+<translation id="3234355010754616171">Nije privee ljepper</translation>
+<translation id="3377025655491224618">Privee ljepper</translation>
+<translation id="3504699618187058974">Ljeppergroepen</translation>
+<translation id="3518985090088779359">Akseptearje en trochgean</translation>
+<translation id="3571177741182643350">Net lêzen artikelen - Beskikber sûnder ferbining:</translation>
+<translation id="3700829948786686853">Welkom by Vivaldi</translation>
+<translation id="3719826155360621982">Thúsblêd</translation>
+<translation id="385051799172605136">Tebek</translation>
+<translation id="399014816462153200">Te lêzen artikelen:</translation>
+<translation id="4121750346708795461">Troch it brûken fan dit programma, geane jo akkoard mei Vivaldi's <ph name="BEGIN_LINK1" />Lisinsjeoerienkomst foar einbrûkers<ph name="END_LINK1" /> en <ph name="BEGIN_LINK2" />Privacy belied<ph name="END_LINK2" />.</translation>
+<translation id="4137746084635924146">Aktyf apparaat taal</translation>
+<translation id="4167670741834902166">Nije privee ljepper</translation>
+<translation id="4195643157523330669">Iepenje yn in nije ljepper</translation>
+<translation id="4243710787042215766">Yn privee ljepper iepenje</translation>
+<translation id="451872707440238414">Blêdwizer troch sykje</translation>
+<translation id="4526803704855831732">Privee ljeppers</translation>
+<translation id="4719086422742491124">Leer mear oer ûnderwerpen fan websteeën sûnder siden te ferlitten. Selektearje ien of meardere wurde op de webstee om nei har te sykjen.
+
+Taast om te sykjen is in funksje dy allinne beskikber is wannear Google ynsteld is as de standert sykmotor yn Vivaldi.</translation>
+<translation id="4759238208242260848">Ynladen</translation>
+<translation id="4850886885716139402">Werjefte</translation>
+<translation id="4883379392681899581">Privee modus ferlitte</translation>
+<translation id="4943872375798546930">Gjin resultaat</translation>
+<translation id="49576331685473090">Ynhâld tsjinkearder</translation>
+<translation id="5079259810715830221">As in Google webstee freget om keppelingen fan har siden foarút te laden, dan fersiferet Vivaldi en laad dizze siden sûnder koekjes fan de Google tsjinners. Hjirtroch bliuwt dyn identiteit ferburgen foar de foarôf laden webstee.</translation>
+<translation id="5118676864324397542"><ph name="APP_NAME" /> bewarring</translation>
+<translation id="5186185447130319458">Privee</translation>
+<translation id="5233638681132016545">Nije ljepper</translation>
+<translation id="5375131951310889874">Leer mear oer ûnderwerpen fan websteeën sûnder siden te ferlitten. Taast om te sykjen is in funksje dy allinne beskikber is wannear Google ynsteld is as de standert sykmotor yn Vivaldi. it stjoerd in wurd en de omringende kontekst nei GoogleSykjen en bringt defenysjes, ôfbyldingen, resultaten fan it sykjen en oare details wer werom.
+
+Druk lang op de syk term, om it te selektearjen. Om it sykjen te ferbetterjen, skow it paniel hielendal nei boppe en tik op it fjild fan it sykjen.</translation>
+<translation id="572328651809341494">Resinte ljeppers</translation>
+<translation id="6150320133806434356">Blêdwizer bewarre</translation>
+<translation id="6336451774241870485">Nije privee ljepper</translation>
+<translation id="6404511346730675251">Blêdwizer bewurkje</translation>
+<translation id="6585139692466700358">Bied oan om siden oer te setten yn oare talen mei help fan Vivaldi's oerset tsjinst</translation>
+<translation id="6593061639179217415">Buroblêd webstee</translation>
+<translation id="6610147964972079463">Privee ljeppers slute</translation>
+<translation id="7029995644714925509">As in webstee freget om keppelingen fan har siden foarút te laden, dan fersiferet Vivaldi en laad dizze siden sûnder koekjes fan de Google tsjinners. Hjirtroch bliuwt dyn identiteit ferburgen foar de foarôf laden webstee.</translation>
+<translation id="706339621163631076">Sneuper privacy belied</translation>
+<translation id="732145680195464316">Blêdwizer bewarre yn <ph name="PRODUCT_NAME" /></translation>
+<translation id="7427132068601343474">Ynfo oer Vivaldi</translation>
+<translation id="7465104139234185284">Alle privee ljeppers slute</translation>
+<translation id="7481312909269577407">Foarút</translation>
+<translation id="7583262514280211622">Hjir is de lêslist</translation>
+<translation id="7968014550143838305">Taheake oan lês list</translation>
+<translation id="804786196054284061">Lisinsjeoerienkomst foar einbrûkers</translation>
+<translation id="8127542551745560481">Webstree bewurkje</translation>
+<translation id="8560602726703398413">De lêslist besjen yn de blêdwizers</translation>
+<translation id="85991616550051997">Gean nei thúsblêd</translation>
+<translation id="8820817407110198400">Blêdwizers</translation>
+<translation id="9063523880881406963">Buroblêd webstee opfreegje útskeakelje</translation>
+<translation id="9080642952018487277">Privee modus yngean</translation>
+<translation id="96681097142096641">Side yn ynfâldige lêswerjefte besjen?</translation>
+</translationbundle>

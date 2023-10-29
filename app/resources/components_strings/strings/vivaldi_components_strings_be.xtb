@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE translationbundle>
+<translationbundle lang="be">
+<translation id="1038842779957582377">невядомая назва</translation>
+<translation id="1089439967362294234">Змяніць пароль</translation>
+<translation id="1110994991967754504">Абраць правы доступу для <ph name="PERMISSION_NAME" /></translation>
+<translation id="1158211211994409885">Сервер <ph name="HOST_NAME" /> нечакана разарваў злучэнне.</translation>
+<translation id="1161325031994447685">Падлучыцеся да WI-FI яшчэ раз</translation>
+<translation id="1175364870820465910">&amp;Друк...</translation>
+<translation id="129863573139666797"><ph name="BEGIN_LINK" />Паспрабуйце выдаліць файлы cookie <ph name="END_LINK" /></translation>
+<translation id="1375198122581997741">Звесткі пра версію</translation>
+<translation id="139305205187523129"><ph name="HOST_NAME" /> не адправіў даных.</translation>
+<translation id="1559528461873125649">Такога файла або каталога няма</translation>
+<translation id="1640244768702815859">Паспрабуйце <ph name="BEGIN_LINK" /> адкрыць галоўную старонку сайта <ph name="END_LINK" />.</translation>
+<translation id="1645368109819982629">Пратакол не падтрымліваецца</translation>
+<translation id="1710259589646384581">Аперацыйная сістэма</translation>
+<translation id="1728677426644403582">Вы праглядаеце код старонкі</translation>
+<translation id="1734878702283171397">Звярніцеся да сістэмнага адміністратара.</translation>
+<translation id="1768211456781949159"><ph name="BEGIN_LINK" />Паспрабуйце запусціць дыягностыку сеткі Windows<ph name="END_LINK" />.</translation>
+<translation id="1834321415901700177">Гэты сайт змяшчае шкоднаснае праграмнае забеспячэнне</translation>
+<translation id="1916770123977586577">Каб налады ўжыліся, перазагрузіце старонку</translation>
+<translation id="1974060860693918893">Падрабязней</translation>
+<translation id="2032962459168915086"><ph name="BEGIN_LINK" />Праверце налады проксі-сервера і брандмаўэра<ph name="END_LINK" /></translation>
+<translation id="2119505898009119320">Выдадзена: <ph name="ORGANIZATION" /> [<ph name="JURISDICTION" />]</translation>
+<translation id="2166378884831602661">З гэтым сайтам немагчыма наладзіць бяспечнае злучэнне</translation>
+<translation id="2187317261103489799">Выяўляць (прадвызначана)</translation>
+<translation id="2224337661447660594">Няма злучэння з інтэрнэтам</translation>
+<translation id="2292556288342944218">Доступ у інтэрнэт заблакаваны</translation>
+<translation id="2317259163369394535"><ph name="DOMAIN" /> патрабуе імя карыстальніка і пароль.</translation>
+<translation id="2337852623177822836">Параметр кантралюецца адміністратарам</translation>
+<translation id="2355395290879513365">Злачынцы могуць бачыць выявы, якія бачыце вы, і змяняць іх у злачынных мэтах.</translation>
+<translation id="2356070529366658676">Пытацца</translation>
+<translation id="2359808026110333948">Працягнуць</translation>
+<translation id="2467694685043708798"><ph name="BEGIN_LINK" />Запуск дыягностыкі сеткі<ph name="END_LINK" /></translation>
+<translation id="2491414235131909199">Старонка была заблакаваная пашырэннем</translation>
+<translation id="2501278716633472235">Назад</translation>
+<translation id="2539524384386349900">Выяўляць</translation>
+<translation id="255002559098805027"><ph name="HOST_NAME" /> адправіў хібны адказ.</translation>
+<translation id="2634124572758952069">Не ўдалося знайсці IP-адрас сервера <ph name="HOST_NAME" /> .</translation>
+<translation id="2649204054376361687"><ph name="CITY" />, <ph name="COUNTRY" /></translation>
+<translation id="2650446666397867134">Доступ да файла забаронены</translation>
+<translation id="2705137772291741111">Немагчыма прачытаць копію сайта, захаваную ў кэшы.</translation>
+<translation id="2730326759066348565"><ph name="BEGIN_LINK" />Запуск дыягностыкі злучэння <ph name="END_LINK" /></translation>
+<translation id="2784949926578158345">Злучэнне скінута.</translation>
+<translation id="2826760142808435982">Злучэнне зашыфравана і праверана з дапамогай <ph name="CIPHER" />. У якасці механізма абмену ключамі выкарыстоўваецца <ph name="KX" />.</translation>
+<translation id="2856444702002559011">Злачынцы могуць спрабаваць скрасці інфармацыю з сайта <ph name="BEGIN_BOLD" /> <ph name="SITE" /> <ph name="END_BOLD" /> (напрыклад, паролі, паведамленні, нумары банкаўскіх картак). <ph name="BEGIN_LEARN_MORE_LINK" /> Падрабязней <ph name="END_LEARN_MORE_LINK" /></translation>
+<translation id="2909946352844186028">Вы падлучыліся да іншай сеткі.</translation>
+<translation id="2948083400971632585">Вы можаце адключыць проксі-серверы ў наладах.</translation>
+<translation id="2991571918955627853">Зараз вы не можаце наведаць <ph name="SITE" />, бо ён выкарыстоўвае механізм HSTS. Збой мог адбыцца праз сеткавыя памылкі або дзейнасць злачынцаў. Хучэй за ўсе сайт пачне працаваць праз некаторы час.</translation>
+<translation id="3005723025932146533">Паказаць захаваную копію</translation>
+<translation id="301521992641321250">Аўтаматычна заблакавана</translation>
+<translation id="3041612393474885105">Звесткі пра сертыфікат</translation>
+<translation id="3109728660330352905">У вас няма правоў для прагляду гэтай старонкі.</translation>
+<translation id="31207688938192855"><ph name="BEGIN_LINK" />Паспрабуйце запусціць дыягностыку злучэння<ph name="END_LINK" />.</translation>
+<translation id="3154506275960390542">На старонцы ёсць неабароненая форма. Адпраўленыя вамі даныя могуць праглядацца трэцімі асобамі, або злачынцы могуць змяніць даныя перад адпраўленнем на сервер.</translation>
+<translation id="3176929007561373547">Праверце налады проксі-сервера альбо звярніцеся да адміністратара,
+      каб пераканацца, што проксі-сервер працуе. Калі не давяраеце, выкарыстоўвайце
+       проксі-сервер:
+      <ph name="PLATFORM_TEXT" /></translation>
+<translation id="3226128629678568754">Каб паўторна ўвесці даныя, неабходныя для загрузкі старонкі, неабходна яе перазагрузіць.</translation>
+<translation id="3234666976984236645">Заўседы выяўляць важнае змесціва на гэтым сайце</translation>
+<translation id="3308738399950580893">рэклама</translation>
+<translation id="3384522979010096022">Ваша арганізацыя не дазваляе вам праглядаць гэты сайт</translation>
+<translation id="3422472998109090673">Старонка <ph name="HOST_NAME" /> недаступная.</translation>
+<translation id="3427092606871434483">Дазваляць (прадвызначана)</translation>
+<translation id="3447661539832366887">Уладальнік гэтай прылады адключыў гульню з дыназаўрам.</translation>
+<translation id="3447884698081792621">Паказаць сертыфікат (выдавец <ph name="ISSUER" />)</translation>
+<translation id="3462200631372590220">Схаваць падрабязнасці</translation>
+<translation id="3484560055331845446">Вы можаце страціць доступ да акаўнта Google. Рэкамендуем змяніць пароль. Пасля гэтага спатрэбіцца зноў увайсці ў акаўнт.</translation>
+<translation id="3566021033012934673">Ваша злучэнне не абаронена</translation>
+<translation id="3574305903863751447"><ph name="CITY" />, <ph name="STATE" /> <ph name="COUNTRY" /></translation>
+<translation id="3586931643579894722">Схаваць падрабязнасці</translation>
+<translation id="3630155396527302611">Калі праграма ўваходзіць у спіс праграм, якім дазволены доступ да сеткі,
+…то выдаліце яе са спіса і дадайце зноў.</translation>
+<translation id="3658742229777143148">Рэвізія</translation>
+<translation id="3681007416295224113">Звесткі пра сертыфікат</translation>
+<translation id="3717027428350673159"><ph name="BEGIN_LINK" />Праверце канфігурацыю проксі-сервера, DNS і брандмаўэра<ph name="END_LINK" /></translation>
+<translation id="382518646247711829">Калі вы выкарыстоўваеце проксі-сервер…</translation>
+<translation id="3894751534882749287">Калі вы ўсё ж хочаце праглядзець гэтую старонку, змяніце налады блакавання адсочвання і націсніце кнопку "Дазволіць"</translation>
+<translation id="3950820424414687140">Увайсці</translation>
+<translation id="3973234410852337861"><ph name="HOST_NAME" /> заблакаваны</translation>
+<translation id="3987940399970879459">Менш за 1 МБ</translation>
+<translation id="4075732493274867456">Кліент і сервер не падтрымліваюць агульнай версіі пратакола SSL або шыфравання.</translation>
+<translation id="4116663294526079822">Заўсёды дазваляць на гэтым сайце</translation>
+<translation id="4130226655945681476">Праверце правады, мадэм і роўтар</translation>
+<translation id="4151403195736952345">Выкарыстоўаць глабальна (вызначаць)</translation>
+<translation id="4165986682804962316">Налады сайта</translation>
+<translation id="4203896806696719780"><ph name="BEGIN_LINK" />Праверце налады брандмаўэра і антывіруса<ph name="END_LINK" /></translation>
+<translation id="4226937834893929579"><ph name="BEGIN_LINK" />Паспрабуйце запусціць дыягностыку сеткі<ph name="END_LINK" />.</translation>
+<translation id="4235360514405112390">Дзейнічае</translation>
+<translation id="4250431568374086873">Злучэнне з гэтым сайтам слаба абаронена</translation>
+<translation id="4265872034478892965">Дазволена адміністратарам</translation>
+<translation id="4305666528087210886">Не ўдалося атрымаць доступ да файла</translation>
+<translation id="4312866146174492540">Блакаваць (прадвызначана)</translation>
+<translation id="4356973930735388585">Злачынцы могуць выкарыстоўваць гэты сайт, каб усталяваць на вашым камп'ютары шкоднаснае праграмнае забеспячэнне, якое скрадзе ці выдаліць вашыя даныя (фотаздымкі, паролі, паведамленні, рэквізіты банкаўскіх картак і інш.).</translation>
+<translation id="4408413947728134509">Cookie <ph name="NUM_COOKIES" /></translation>
+<translation id="4432688616882109544"><ph name="HOST_NAME" /> адхіліў ваш сертыфікат, або ён не быў выдадзены.</translation>
+<translation id="4506599922270137252">Звярніцеся да адміністратара</translation>
+<translation id="4522570452068850558">Падрабязней</translation>
+<translation id="4558551763791394412">Паспрабуйце адключыць пашырэнні.</translation>
+<translation id="4592951414987517459">Злучэнне з <ph name="DOMAIN" /> зашыфравана з дапамогай сучасных шыфраў.</translation>
+<translation id="4701488924964507374"><ph name="SENTENCE1" /> <ph name="SENTENCE2" /></translation>
+<translation id="4708268264240856090">Злучэнне перапынена</translation>
+<translation id="4722547256916164131"><ph name="BEGIN_LINK" />Запуск дыягностыкі сеткі Windows<ph name="END_LINK" /></translation>
+<translation id="4736016046474602958">Блакаванне адсочвання</translation>
+<translation id="4744603770635761495">Шлях да запускальнага файла</translation>
+<translation id="4750917950439032686">Прыватныя звесткі (напрыклад, пароль, або нумар карткі), якія вы адпраўляеце на сайт, абароненыя.</translation>
+<translation id="4764776831041365478">Старонка па адрасе <ph name="URL" /> , часова недасягальная або перамешчаная па новым адрасе.</translation>
+<translation id="483241715238664915">Уключыць папярэджанні</translation>
+<translation id="4943872375798546930">Нічога не знойдзена</translation>
+<translation id="5023310440958281426">Праверце правілы, прызначаныя адміністратарам</translation>
+<translation id="5039804452771397117">Дазволіць</translation>
+<translation id="5068778127327928576">{NUM_COOKIES,plural, =1{(выкарыстоўваецца 1 файл cookie)}one{(выкарыстоўваецца # файл cookie)}few{(выкарыстоўваецца # файлы cookie)}many{(выкарыстоўваецца # файлаў cookie)}other{(выкарыстоўваецца # файлаў cookie)}}</translation>
+<translation id="5070335125961472645"><ph name="BEGIN_LINK" />Праверце адрас проксі-сервера<ph name="END_LINK" /></translation>
+<translation id="5115563688576182185">(64 бітны)</translation>
+<translation id="5355557959165512791">Вы не можаце наведаць сайт <ph name="SITE" />, бо яго сертыфікат быў адкліканы. Збой мог адбыцца праз сеткавыя памылкі або дзейнасць злачынцаў. Хучэй за ўсе сайт хутка пачне працаваць.</translation>
+<translation id="5386426401304769735">Сярод сертыфікатаў гэтага сайта ёсць сертыфікат, які падпісаны з дапамогай алгарытма SHA1.</translation>
+<translation id="5452270690849572955">Старонка <ph name="HOST_NAME" /> не знойдзеная</translation>
+<translation id="5457113250005438886">Хібны</translation>
+<translation id="5492298309214877701">У гэтага сайта у сетцы арганізацыі або навучальнай установы такі самы URL, як і ў вэб-сайта ў інтэрнэце.
+…<ph name="LINE_BREAK" />
+…Звярніцеся да сістэмнага адміністратара.</translation>
+<translation id="5510766032865166053">Магчыма, ён быў перамешчаны ці выдалены.</translation>
+<translation id="5556459405103347317">Перазагрузіць</translation>
+<translation id="5610142619324316209">Праверце злучэнне</translation>
+<translation id="5617949217645503996">Старонка <ph name="HOST_NAME" /> перанакіравала вас занадта шмат разоў.</translation>
+<translation id="5675650730144413517">Старонка не працуе</translation>
+<translation id="5785756445106461925">Таксама на старонцы выяўлена небяспечнае змесціва. Гэтае змесціва падчас перадачы могуць праглядаць іншыя, а злачынцы могуць мадыфікаваць яго, каб змяніць паводзіны старонкі і яе выгляд.</translation>
+<translation id="5799902971440853357">Зараз вы не можаце наведаць <ph name="SITE" /> , бо сайт адправіў хібныя ўліковыя даныя. Часцей за ўсё памылкі сеткі або атакі злачынцаў носяць часовы характар.</translation>
+<translation id="5810442152076338065">Злучэнне з <ph name="DOMAIN" /> зашыфравана з дапамогай састарэлых шыфраў.</translation>
+<translation id="5838278095973806738">Не ўводзьце на гэтым сайце канфідэнцыйную інфармацыю (напрыклад, паролі і нумары банкаўскіх картак). Злачынцы могуць атрымаць доступ да гэтай інфармацыі.</translation>
+<translation id="5869405914158311789">Не ўдалося злучыцца з сайтам</translation>
+<translation id="5920262536204764679">{NUM_COOKIES, plural, =1 {Выкарыстоўваецца 1 файл cookie}few{Выкарыстоўваюцца # файлы cookie}many{Выкарыстоўваецца # файлаў cookie} other {Выкарыстоўваецца # файлы cookie}}</translation>
+<translation id="5932224571077948991">Сайт паказвае надакучлівую рэкламу</translation>
+<translation id="6051221802930200923">Зараз вы не можаце наведаць <ph name="SITE" />, бо на сайце выкарыстоўваецца замацаванне сертыфікатаў. Збой мог адбыцца праз сеткавыя памылкі або дзейнасць злачынцаў. Хучэй за ўсе сайт пачне працаваць праз некаторы час.</translation>
+<translation id="6146055958333702838">Праверце злучэнне правадоў, перазапусціце маршрутызатар, мадэм і
+…іншыя сеткавыя прылады.</translation>
+<translation id="614940544461990577">Паспрабуйце зрабіць наступнае:</translation>
+<translation id="6165508094623778733">Падрабязней</translation>
+<translation id="6177128806592000436">Злучэнне з гэтым сайтам не абаронена</translation>
+<translation id="6203231073485539293">Праверце злучэнне з інтэрнэтам</translation>
+<translation id="6225522625585012689">Каб праглядзець спіс заблакаваных URL-адрасоў і іншыя правілы, якія вызначае сістэмны адміністратар, наведайце &lt;strong&gt;vivaldi://policy&lt;/strong&gt;.</translation>
+<translation id="6264485186158353794">Вярнуцца да бяспечнага злучэння</translation>
+<translation id="6305205051461490394">Сайт <ph name="URL" /> недаступны.</translation>
+<translation id="6321917430147971392">Праверце налады DNS</translation>
+<translation id="6328639280570009161">Паспрабуйце адключыць прапанову сеткавых дзеянняў</translation>
+<translation id="6328786501058569169">Гэта несапраўдны сайт</translation>
+<translation id="6348220984832452017">Актыўныя варыянты</translation>
+<translation id="6358450015545214790">Што гэта азначае?</translation>
+<translation id="6433595998831338502"><ph name="HOST_NAME" /> не дазваляе падлучыцца.</translation>
+<translation id="6447842834002726250">Файлы сookie</translation>
+<translation id="6451458296329894277">Пацвердзіце паўторнае адпраўленне формы</translation>
+<translation id="6569060085658103619">Вы праглядаеце старонку пашырэння</translation>
+<translation id="6657585470893396449">Пароль</translation>
+<translation id="6711464428925977395">На проксі-серверы адбылася памылка або адрас хібны.</translation>
+<translation id="6757797048963528358">Ваша прылада перайшла ў рэжым сну.</translation>
+<translation id="6890956352250146925">Ппраметры файлаў cookie і даных сайтаў</translation>
+<translation id="6897140037006041989">Агент карыстальніка</translation>
+<translation id="7053983685419859001">Заблакаваць</translation>
+<translation id="7079718277001814089">Гэты сайт змяшчае шкоднаснае праграмнае забеспячэнне</translation>
+<translation id="7096937462164235847">Сапраўднасць гэтага вэб-сайта не спраўджаная.</translation>
+<translation id="7108819624672055576">Дазволена пашырэннем</translation>
+<translation id="7111012039238467737">(Дзейны)</translation>
+<translation id="7113310725918019676">Дазволіць <ph name="BLOCKED_TYPE" /> з <ph name="DOMAIN" /></translation>
+<translation id="7210863904660874423"><ph name="HOST_NAME" /> не адпавядае стандартам бяспекі.</translation>
+<translation id="7219179957768738017">У гэтым злучэнні выкарыстоўваецца <ph name="SSL_VERSION" />.</translation>
+<translation id="7221855153210829124">Паказваць апавяшчэнні</translation>
+<translation id="7353601530677266744">Загадны радок</translation>
+<translation id="7364115444476960850">Старонка, на якую вы хочаце перайсці, была заблакаваная Vivaldi<ph name="BLOCKER_NAME" /></translation>
+<translation id="7419106976560586862">Шлях да профілю</translation>
+<translation id="7445762425076701745">Немагчыма цалкам праверыць уліковыя даныя сервера, да якога вы падлучыліся. Вы падлучыліся да сервера пад назвай, якая сапраўдная толкі ў вашай сетцы, таму ўладальніка сервера немагчыма праверыць вонкавым цэнтрам сертыфікацыі. Некаторыя цэнтры сертыфікацыі могуць выдаваць сертыфікаты для падобных назваў, таму няма аніякіх гарантый, што гэта патрэбны вам сервер, а не сайт злачынцаў.</translation>
+<translation id="7455133967321480974">Выкарыстоўваць глабальна (блакаваць)</translation>
+<translation id="7518003948725431193">Па адрасе не знойдзена старонкі: <ph name="URL" /></translation>
+<translation id="7549584377607005141">Для карэктнага адлюстравання старонкі неабходныя ўведзеныя раней даныя. Іх можна адправіць паўторна, але дзеянні на старонцы выканаюцца зноў.</translation>
+<translation id="759889825892636187"><ph name="HOST_NAME" /> пакуль не можа апрацаваць гэты запыт.</translation>
+<translation id="7662298039739062396">Параметр кантралюецца пашырэннем</translation>
+<translation id="7663736086183791259">Сертыфікат <ph name="CERTIFICATE_VALIDITY" /></translation>
+<translation id="7669271284792375604">Злачынцы могуць выкарыстоўваць гэты сайт, каб усталяваць на вашым камп'ютары шкоднаснае праграмнае забеспячэнне, якое будзе перешкаджаць працы браўзера (напрыклад, зменіць пачатковую старонку або будзе паказваць дадатковую рэкламу на сайтах).</translation>
+<translation id="7714464543167945231">Сертыфікат</translation>
+<translation id="7716147886133743102">Заблакавана адміністратарам</translation>
+<translation id="7716424297397655342">Не ўдалося загрузіць сайт з кэшу</translation>
+<translation id="7758069387465995638">Магчыма, злучэнне заблакавана брандмаўарам ці антывірусам.</translation>
+<translation id="7800304661137206267">Злучэнне зашыфравана з дапамогай <ph name="CIPHER" />, для аўтэнтыфікацыі паведамленняў выкарыстоўваецца <ph name="MAC" />, для абмену ключамі выкарыстоўваецца <ph name="KX" />.</translation>
+<translation id="7834399512844817676">Звычайна сайт <ph name="SITE" /> для абароны вашых даных выкарыстоўвае шыфраванне. Але падчас злучэння <ph name="SITE" /> адправіў няправільныя ўліковыя даныя. Магчыма, злачынцы спрабавалі замаскіравацца пад сайт <ph name="SITE" /> або акно падлучэння да WiFi перарвала злучэнне. Вашыя даныя засталіся ў бяспецы, бо браўзер разарваў злучэнне да таго, як абмен адбыўся.</translation>
+<translation id="7878562273885520351">Злачынцы могуць даведацца ваш пароль</translation>
+<translation id="7951415247503192394">(32 бітны)</translation>
+<translation id="8025119109950072390">Злачынцы могуць выкарыстоўваць гэты сайт, каб усталяваць на вашым камп'ютары шкоднаснае праграмнае забеспячэнне або раскрыць вашу асабістую інфармацыю (паролі, нумары тэлефонаў або крэдытных картак).</translation>
+<translation id="8037357227543935929">Пытацца (прадвызначана)</translation>
+<translation id="8041940743680923270">Выкарыстоўваць глабальна (пытацца)</translation>
+<translation id="808894953321890993">Змяніць пароль</translation>
+<translation id="8119307142152921512">адсочванне і рэклама</translation>
+<translation id="8149426793427495338">Ваш камп'ютар перайшоў у рэжым сну.</translation>
+<translation id="8150722005171944719">Немагчыма прачытаць файл па адрасе <ph name="URL" />. Магчыма, ен быў выдалены, альбо ў вас няма права доступу да гэтага файла.</translation>
+<translation id="8184538546369750125">Выкарыстоўваць глабальна (дазваляць)</translation>
+<translation id="8211406090763984747">Злучэнне бяспечнае</translation>
+<translation id="8241707690549784388">Старонка змяшчала ўведзеныя вамі даныя. Можа спатрэбіцца зноў увесці даныя. Працягнуць?</translation>
+<translation id="8241712895048303527">Блакаваць на гэтым сайце</translation>
+<translation id="8286036467436129157">Увайсці</translation>
+<translation id="8288807391153049143">Паказаць сертыфікат</translation>
+<translation id="8289355894181816810">Звярніцеся да адміністратара сеткі, каб удакладніць інфармацыю.</translation>
+<translation id="8332188693563227489">Доступ да <ph name="HOST_NAME" /> забаронены</translation>
+<translation id="8498891568109133222">Сервер <ph name="HOST_NAME" /> занадта доўга не адказвае.</translation>
+<translation id="8503813439785031346">Імя карыстальніка</translation>
+<translation id="8703575177326907206">Злучэнне з <ph name="DOMAIN" /> не зашыфравана.</translation>
+<translation id="8740359287975076522">Не атрымліваецца знайсці &lt;abbr id="dnsDefinition"&gt;DNS-адрас&lt;/abbr&gt; сайта <ph name="HOST_NAME" /> . Выконваецца дыягностыка.</translation>
+<translation id="8820817407110198400">Закладкі</translation>
+<translation id="8940028675168378100">Заблакавана <ph name="BLOCKER_NAME" /></translation>
+<translation id="8963117664422609631">Перайсці да налад сайта</translation>
+<translation id="9001074447101275817">Проксі-сервер <ph name="DOMAIN" /> патрабуе імя карыстальніка і пароль.</translation>
+<translation id="9008201768610948239">Не зважаць</translation>
+<translation id="9025348182339809926">(хібны)</translation>
+<translation id="9039213469156557790">Таксама на старонцы выяўлена небяспечнае змесціва. Гэтае змесціва падчас перадачы могуць праглядаць іншыя, а злачынцы могуць мадыфікаваць яго, каб змяніць паводзіны старонкі.</translation>
+<translation id="9062620674789239642">Магчыма, ён быў перамешчаны, зменены або выдалены.</translation>
+<translation id="9069693763241529744">Заблакавана пашырэннем</translation>
+<translation id="9073799351042754113">Вы адключылі папярэджанні сістэмы бяспекі для гэтага сайта.</translation>
+<translation id="9169664750068251925">Заўседы блакаваць на гэтым сайце</translation>
+<translation id="9180553614777056266">Блакаванне рэкламы</translation>
+<translation id="9183425211371246419"><ph name="HOST_NAME" /> выкарыстоўвае пратакол, які не падтрымліваецца.</translation>
+<translation id="936602727769022409">Вы можаце страціць доступ да акаўнта Google. Рэкамендуем змяніць пароль. Пасля гэтага спатрэбіцца зноў увайсці ў акаўнт.</translation>
+<translation id="969892804517981540">Афіцыйная зборка</translation>
+<translation id="988159990683914416">Зборка для распрацоўнікаў</translation>
+</translationbundle>

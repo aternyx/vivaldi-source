@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grit base_dir="." latest_public_release="0" current_release="1"
+      source_lang_id="en" enc_check="möl">
+  <outputs>
+    <output filename="grit/vivaldi_native_resources.h" type="rc_header">
+      <emit emit_type='prepend'></emit>
+    </output>
+    <!--output filename="grit/vivaldi_native_resources_map.cc" type="resource_map_source" context="default_100_percent" /-->
+    <!--output filename="grit/vivaldi_native_resources.h" type="resource_map_header" context="default_100_percent" /-->
+    <output filename="vivaldi_native_resources_100_percent.pak" type="data_package" context="default_100_percent" />
+    <output filename="vivaldi_native_resources_200_percent.pak" type="data_package" context="default_200_percent" />
+  </outputs>
+  <release seq="1" allow_pseudo="false">
+    <includes>
+      <include name="VIVALDI_PIP_MANIFEST" file="../../components/picture-in-picture/manifest.json" type="BINDATA" />
+      <include name="VIVALDI_PIP_JS_MAIN" file="../../components/picture-in-picture/picture-in-picture.js" type="BINDATA" />
+      <include name="VIVALDI_PIP_JS_CSS" file="../../components/picture-in-picture/picture-in-picture.css" type="BINDATA" />
+      <include name="VIVALDI_PIP_JS_CONFIG" file="../../components/picture-in-picture/config.json" type="BINDATA" />
+      <include name="VIVALDI_TRANSLATE_JS" file="resources/vivaldi/translate-bundle.js" type="BINDATA" />
+      <include name="VIVALDI_THEMESTORE_MANIFEST" file="../../components/theme-store/manifest.json" type="BINDATA" />
+      <include name="VIVALDI_THEMESTORE_JS_MAIN" file="../../components/theme-store/theme-store.js" type="BINDATA" />
+    </includes>
+  </release>
+</grit>

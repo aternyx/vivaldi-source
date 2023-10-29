@@ -1,0 +1,134 @@
+# Copyright (c) 2016 Vivaldi Technologies AS. All rights reserved
+
+{
+  "SRCDIR": "../..",
+
+  "app/native_resources/vivaldi_native_resources.grd": {
+    "includes": [60000],
+    "structures": [60100],
+  },
+  "app/native_resources/vivaldi_native_unscaled.grd": {
+    "includes": [60200],
+    "structures": [60300],
+  },
+  "extensions/vivaldi_extension_resources.grd": {
+    "includes": [60400],
+    "structures": [60500],
+  },
+  "app/installer/vivaldi_installer_strings.grd": {
+    "messages": [60600],
+  },
+
+  # Long sections, hundreds of strings
+  "app/native_resources/vivaldi_native_strings.grd": {
+    "messages": [61000],
+  },
+  "app/android/vivaldi_android_strings.grd": {
+    "messages": [62000],
+  },
+
+
+  # Dummy values, since these are not actually used because
+  # the files are merged with their chromium counterparts
+  "app/resources/android-permissions/vivaldi_android_permissions_strings.grd": {
+    "messages": [90000],
+  },
+  "app/ios/vivaldi_ios_native_strings.grd": {
+    "messages": [40000],
+  },
+  "app/resources/strings/vivaldi_strings.grd": {
+    "messages": [90100],
+  },
+  "app/resources/ios_branding_strings/vivaldi_ios_branding_strings.grd": {
+    "messages": [500],
+  },
+  "app/resources/ios_strings/vivaldi_ios_strings.grd": {
+    "messages": [600],
+  },
+  "app/resources/generated/vivaldi_generated_resources.grd": {
+    "messages": [90200],
+  },
+  "app/resources/locale/vivaldi_locale_settings.grd": {
+    "messages": [90300],
+  },
+  "app/resources/theme/vivaldi_unscaled_resources.grd": {
+    "includes": [90400],
+  },
+  "app/resources/theme/vivaldi_theme_resources.grd": {
+    "structures": [90500],
+  },
+  "app/resources/components_strings/vivaldi_components_strings.grd": {
+    "messages": [90600],
+  },
+  "app/resources/components_locale_settings/vivaldi_components_locale_settings.grd": {
+    "includes": [90700],
+    "messages": [90800],
+  },
+  "app/resources/components/vivaldi_components.grd": {
+    "messages": [90900],
+  },
+  "app/resources/components_resources/vivaldi_components.grd": {
+    "includes": [91000],
+  },
+  "app/resources/components_scaled/vivaldi_components_scaled.grd": {
+    "structures": [91100],
+  },
+  "app/resources/content/vivaldi_content_strings.grd": {
+    "messages": [91200],
+  },
+  "app/resources/android/vivaldi_android_chrome_strings.grd": {
+    "messages": [91300]
+  },
+  "app/resources/renderer/vivaldi_renderer_resources.grd": {
+    "includes": [91400],
+    "structures": [91500],
+  },
+  "app/resources/platform_locale_settings/vivaldi_platform_locale_settings.grd": {
+    "messages": [91600],
+  },
+  "app/resources/ui/vivaldi_ui_resources.grd": {
+    "structures": [91700],
+  },
+  "app/resources/ui_strings/vivaldi_ui_strings.grd": {
+    "messages": [91800],
+  },
+  "app/resources/theme/vivaldi_theme.grd": {
+    "structures": [91900],
+  },
+  "app/resources/locale/vivaldi_locale_strings.grd": {
+    "messages": [92000],
+  },
+  "app/resources/android-tab-ui/vivaldi_android_chrome_tab_ui_strings.grd": {
+    "messages": [92100],
+  },
+  "app/resources/android-browser-ui/vivaldi_browser_ui_string.grd": {
+    "messages": [92200],
+  },
+  "app/resources/ios_share_extension_strings/vivaldi_ios_share_extension_strings.grd": {
+    "messages": [92300],
+  },
+  "app/resources/ios_search_extension_strings/vivaldi_ios_search_widget_extension_strings.grd": {
+    "messages": [92400],
+  },
+  "app/resources/ios_search_extension_google_chrome_strings/vivaldi_ios_search_widget_extension_google_chrome_strings.grd": {
+    "messages": [92500],
+  },
+  "app/resources/ios_content_extension_strings/vivaldi_ios_content_widget_extension_strings.grd": {
+    "messages": [92600],
+  },
+  "app/resources/ios_credential_extension_strings/vivaldi_ios_credential_provider_extension_strings.grd": {
+    "messages": [92700],
+  },
+  "app/resources/ios_widget_kit_extension_strings/vivaldi_ios_widget_kit_extension_strings.grd": {
+    "messages": [92800],
+  },
+  "app/resources/webui_resources/vivaldi_webui_resources.grd": {
+    "includes": [92900],
+  },
+  "app/resources/profile_picker/vivaldi_profile_picker.grd": {
+    "includes": [93000],
+  },
+  "app/resources/signin/vivaldi_signin.grd": {
+    "includes": [93100],
+  }
+}

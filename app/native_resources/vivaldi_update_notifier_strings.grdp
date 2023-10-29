@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Notes specific strings (included from vivaldi_native_strings.grd). -->
+<grit-part>
+  <message name="IDS_UPDATE_NOTIFIER_UPDATE_VIVALDI" desc="In Title Case: Context menu item that triggers a vivaldi update">
+    &amp;Update Vivaldi
+  </message>
+  <message name="IDS_UPDATE_NOTIFIER_IGNORE_UPDATE" desc="In Title Case: Context menu item that hides the notifier from the notification area">
+    &amp;Ignore Update
+  </message>
+  <message name="IDS_UPDATE_NOTIFIER_STOP_NOTIFYING" desc="In Title Case: Context menu item that closes and unregisters the notifier">
+    &amp;Don't show again
+  </message>
+  <message name="IDS_UPDATE_NOTIFIER_QUIT_MESSAGE_TITLE" desc="Title of the message box that appears when 'Don't show again' is clicked">
+    Disabling notifications
+  </message>
+  <message name="IDS_UPDATE_NOTIFIER_QUIT_MESSAGE_TEXT" desc="Text of the message box that appears when 'Don't show again' is clicked">
+    You will no longer see these notifications. You can enable them again from the vivaldi settings.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_TITLE" desc="Title of the ballon notification shown when a new Vivaldi update becomes available">
+    A new version of Vivaldi is available.
+  </message>
+  <message name="IDS_UPDATE_DOWNLOAD_NOTIFICATION_TITLE" desc="Title of the balloon notification shown when a new Vivaldi update was downloaded and is ready to be installed">
+    A new version of Vivaldi is ready to install.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_TEXT" desc="Text of the balloon notification shown when a new Vivaldi update becomes available">
+    Click here to update Vivaldi to version <ph name="VERSION">$1</ph>.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_TOOLTIP" desc="Text of the tooltip shown when hovering the notification icon in the notification area">
+    Click here to update Vivaldi.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_TITLE" desc="The title of the error notification dialog for updates">
+    Update Error!
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_CANCEL" desc="Aknowledge download cancellation by a user action">
+    The download was cancelled.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_NETWORK" desc="Text to show on network-related errors">
+    An error occurred while downloading update files. Please check your internet connection and try again later.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_STORAGE" desc="Text to show on storage-related errors">
+    An error occurred while trying to save a downloaded update. Please check that the computer has enough disk space and try again later.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_EXEC" desc="Text to show when failed to launch a downloaded update program">
+    Failed to launch the update installer. Please check that the computer has enough memory or disc space and try again later.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_VERIFY" desc="Text to show when failed to verify the downloaded update files. The user has already seen a system message about it.">
+    Failed to verify the digital signature of the downloaded files.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_ERROR_DETAILS" desc="Extra text to show the error details and ask to report the error.">
+    If the error persists, please report it and include the following details:
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_CLOSE_BUTTON"
+    desc="Text to show on a close button">
+    Close
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_CANCEL_BUTTON"
+    desc="Text to show on a cancel button">
+    Cancel
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_DIALOG_TITLE"
+    desc="The title of the main dialog window with steps tp install Vivaldi update">
+    Software Update
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_REALEASE_NOTES_LABEL"
+    desc="Label before the text with the release notes">
+    Release notes:
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_NEW_VERSION_TITLE"
+    desc="A title to inform the user that an update is available.">
+    A new version of Vivaldi is available!
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_NEW_VERSION_QUESTION"
+    desc="A message asking to confirm downloading of a new version of the browser">
+    Vivaldi <ph name="NEW_VERSION">$1<ex>3.6.2171</ex></ph> is now available (you have <ph name="OLD_VERSION">$2<ex>3.5.2010</ex></ph>). Would you like to download it now?
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_SKIP_VERSION_LABEL"
+    desc="Label for the button to skip installation of a particular version of Vivaldi">
+    Skip this version
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_REMIND_LATER_LABEL"
+    desc="Label for the button to close update notifier but ask to update to this version later">
+    Remind me later
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_GET_UPDATE_LABEL"
+    desc="Label for the button to start downloading and installing an update to Vivaldi">
+    Install update
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_SHOW_WEBSITE_LABEL"
+    desc="Label for the button to download the update via going to a particular web page">
+    Show update website
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_LAUNCH_INSTALLER_LABEL"
+    desc="Label for the button to launch the downloaded update. Pressing the button closes Vivaldi if it runs">
+    Close Vivaldi and install now
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_LAUNCH_INSTALLER_TEXT"
+    desc="Text to show when asking to confirm launching of the downloaded update installer">
+    Ready to install. Vivaldi will be closed and relaunched.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_LAUNCHING_MESSAGE"
+    desc="A message to show to the user while the launching the downloaded installer.">
+    Launching the installer...
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_CHECKING_MESSAGE"
+    desc="A message to show to the user while checking for an available update.">
+    Checking for updates...
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_DOWNLOADING_PROGRESS_DETAILS"
+    desc="Details about how much was downloaded and how much remains">
+    <ph name="DOWNLOADED">$1<ex>3.5 MB</ex></ph> of <ph name="TOTAL_SIZE_TO_DOWNLOAD">$2<ex>65 MB</ex></ph>
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_DOWNLOADING_MESSAGE"
+    desc="A message to show to the user while downloading an update.">
+    Downloading update...
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_VERIFYING_MESSAGE"
+    desc="A message to show to the user while verifying an update.">
+    Verifying update...
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_EXTRACTING_MESSAGE"
+    desc="A message to show to the user while extracting update files.">
+    Extracting update...
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_UPTODATE_TITLE"
+    desc="A title for the message window informing the user that the current version of the browser is up to date.">
+    You're up to date!
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_UPTODATE_TEXT"
+    desc="A message informing that the browser is up do date.">
+    Vivaldi <ph name="VERSION">$1<ex>3.6.2171</ex></ph> is currently the newest version available.
+  </message>
+  <message name="IDS_UPDATE_NOTIFICATION_PENDING_UPDATE_TEXT"
+    desc="A message informing that the latest update was already installed and will be activated after the user restarts the browser.">
+    Vivaldi <ph name="VERSION">$1<ex>3.6.2171</ex></ph> is already installed and will be activated after restarting the browser.
+  </message>
+</grit-part>

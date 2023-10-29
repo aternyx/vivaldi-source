@@ -1,0 +1,49 @@
+import("//build/config/locales.gni")
+import("//tools/grit/grit_rule.gni")
+import("//vivaldi/app/resources/untranslated.gni")
+import("//vivaldi/gn/config/locales.gni")
+
+template("vivaldi_strings_grit_action") {
+  assert(defined(invoker.source))
+  deps_list = []
+
+  source = invoker.source
+  source_dir = get_path_info(source, "dir")
+  source_name = get_path_info(source, "name")
+  output_header = "grit/$source_name.h"
+  source_translations = "${source_dir}/strings/${source_name}_"
+  if (generate_untranslated) {
+    name = "Extract_strings_$target_name"
+    deps_list += [ ":" + name ]
+    vivaldi_extract_untranslated(name) { }
+  }
+
+  name = "grit_$target_name"
+  deps_list += [ ":" + name ]
+  inputs = []
+  foreach(locale, platform_pak_locales + vivaldi_pending_locales + vivaldi_pending_mobile_locales + vivaldi_pending_ios_locales - ["en-US"] - ["ca@valencia"] + ["ca-valencia"]) {
+    if (is_ios) {
+      if (locale == "es-MX") {
+        locale = "es-419"
+      } else if (locale == "pt") {
+        locale = "pt-BR"
+      }
+    }
+    inputs += [ "$source_translations$locale.xtb" ]
+  }
+  outputs = [ output_header ]
+  foreach(locale, locales_with_pseudolocales + vivaldi_pending_locales + vivaldi_pending_mobile_locales + vivaldi_pending_ios_locales - ["ca@valencia"] + ["ca-valencia"]) {
+    outputs += [ "${source_name}_$locale.pak" ]
+  }
+  grit(name) {
+    forward_variables_from(invoker, [
+                             "defines",
+                             "output_dir",
+                             "resource_ids",
+                           ])
+  }
+
+  group(target_name) {
+    public_deps = deps_list
+  }
+}

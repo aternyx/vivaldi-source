@@ -1,0 +1,321 @@
+import("//vivaldi/gn/config/features.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/config/locales.gni")
+import("//build/config/locales.gni")
+import("//build/util/process_version.gni")
+import("//tools/grit/repack.gni")
+
+import("resources/vivaldi_grit.gni")
+import("resource_list.gni")
+
+if (!is_ios) {
+  import("//chrome/common/features.gni")
+}
+
+if (is_android) {
+  import("//build/config/android/rules.gni")
+}
+
+source_set("app") {
+  sources = [
+    "vivaldi.rc",
+  ]
+}
+
+group("resources") {
+  public_deps = [
+    ":vivaldi_native_resources",
+    ":vivaldi_native_strings",
+    ":vivaldi_unscaled_native_resources",
+  ]
+  if (is_win) {
+    public_deps += [
+      ":vivaldi_installer_strings",
+    ]
+  }
+}
+
+if (generate_untranslated) {
+  # Also extracting Android and ios strings
+  extract_deps = []
+  target_num = 0
+  foreach(_target_config, CHROMIUM_VIVALDI_RESOURCE_LIST + ANDROID_VIVALDI_RESOURCE_LIST + IOS_VIVALDI_RESOURCE_LIST) {
+    _target = _target_config[0]
+    _vivaldi_source = _target_config[1]
+    _flags = {
+    }
+    _flags = _target_config[2]
+    have_strings_flag =
+        !defined(_flags.have_strings_flag) || _flags.have_strings_flag
+
+    if (have_strings_flag && defined(_flags.source)) {
+      assert(defined(_flags.translation_dir_setting))
+      if (defined(_flags.vivaldi_translation_dir_setting)) {
+        vivaldi_translation_dir = _flags.vivaldi_translation_dir_setting
+      } else {
+        vivaldi_translation_dir = _flags.translation_dir_setting
+      }
+
+      target_num = target_num + 1
+      name = "Extract_strings_merge_"+ get_label_info(_target, "name") + "_$target_num"
+      extract_deps += [":$name"]
+      vivaldi_extract_untranslated(name) {
+        forward_variables_from(_flags, ["no_override_locales"])
+
+        if (defined(_flags.merge_extra_grit_defines)) {
+          grit_defines = _flags.merge_extra_grit_defines
+        }
+        source = get_label_info(_target, "dir") +"/"+ _flags.source
+        vivaldi_source = _vivaldi_source
+        _file_prefix = _flags.pak_file_prefix
+        if (defined(_flags.string_file_prefix)) {
+          _file_prefix = _flags.string_file_prefix
+        }
+        _vivaldi_file_prefix = "vivaldi_" + _file_prefix
+        if (defined(_flags.vivaldi_file_prefix)) {
+          _vivaldi_file_prefix = _flags.vivaldi_file_prefix
+        }
+        source_translations = get_path_info(source, "dir") +"/"+ _flags.translation_dir_setting + "/" + _file_prefix
+        vivaldi_translations = get_path_info(vivaldi_source, "dir") +"/${vivaldi_translation_dir}/${_vivaldi_file_prefix}"
+      }
+    }
+  }
+  vivaldi_extract_untranslated("Extract_strings_vivaldi_android_strings_grd") {
+    source = "android/vivaldi_android_strings.grd"
+    source_translations = "android/strings/vivaldi_android_strings_"
+  }
+  vivaldi_extract_untranslated("Extract_strings_vivaldi_ios_strings_grd") {
+    source = "ios/vivaldi_ios_native_strings.grd"
+    source_translations = "ios/strings/vivaldi_ios_strings_"
+  }
+  group("generate_untranslated") {
+    deps = [
+      ":Extract_strings_vivaldi_native_strings",
+      ":Extract_strings_vivaldi_android_strings_grd",
+      ":Extract_strings_vivaldi_ios_strings_grd",
+    ] + extract_deps
+    if (is_win || (generate_untranslated && !is_android)) {
+      deps += [
+        ":Extract_strings_vivaldi_installer_strings",
+      ]
+    }
+  }
+}
+
+vivaldi_strings_grit_action("vivaldi_native_strings") {
+  source = "native_resources/vivaldi_native_strings.grd"
+  resource_ids = "//vivaldi/app/gritsettings/resource_ids"
+}
+
+if (is_win || (generate_untranslated && !is_android)) {
+  vivaldi_strings_grit_action("vivaldi_installer_strings") {
+    source = "installer/vivaldi_installer_strings.grd"
+    resource_ids = "//vivaldi/app/gritsettings/resource_ids"
+  }
+}
+
+if (is_android) {
+  java_strings_grd("vivaldi_android_strings_grd") {
+    defines = chrome_grit_defines + extra_grit_defines
+    grd_file = "android/vivaldi_android_strings.grd"
+    outputs = [
+      "values/vivaldi_android_strings.xml",
+    ]
+    foreach(locale, android_bundle_locales_as_resources + vivaldi_pending_locales) {
+      if (locale == "en-GB") {
+        locale = "en-rGB"
+      } else if (locale == "de-CH") {
+        locale = "de-rCH"
+      } else if (locale == "pt-BR") {
+        locale = "pt-rBR"
+      } else if (locale == "pt-PT") {
+        locale = "pt-rPT"
+      } else if (locale == "zh-TW") {
+        locale = "zh-rTW"
+      } else if (locale == "zh-CN") {
+        locale = "zh-rCN"
+      } else if (locale == "es-419") {
+        locale = "es-rUS"
+      } else if (locale == "es-PE") {
+        locale = "es-rPE"
+      } else if (locale == "he") {
+        locale = "iw"
+      } else if (locale == "id") {
+        locale = "in"
+      } else if (locale == "ja-KS") {
+        locale = "ja-rKS"
+      } else if (locale == "fr-CA") {
+        locale = "fr-rCA"
+      } else if (locale == "zh-HK") {
+        locale = "zh-rHK"
+      } else if (locale == "sr-Latn") {
+        locale = "b+sr+Latn"
+      } else if (locale == "fil") {
+        locale = "tl"
+      } else if (locale == "ca-valencia" || locale == "ca@valencia") {
+        locale = "b+ca+valencia"
+      }
+      outputs += [ "values-$locale/vivaldi_android_strings.xml" ]
+    }
+  }
+}
+
+if (is_ios) {
+  grit("vivaldi_ios_native_strings") {
+    source = "ios/vivaldi_ios_native_strings.grd"
+    output_dir = "$root_gen_dir/vivaldi/ios/"
+    resource_ids = "//vivaldi/app/gritsettings/resource_ids"
+    outputs = [ "grit/vivaldi_ios_native_strings.h" ]
+    foreach(locale, locales_with_pseudolocales+vivaldi_pending_locales + vivaldi_pending_mobile_locales + vivaldi_pending_ios_locales) {
+      if (locale == "ca-valencia" || locale == "ca@valencia") {
+        locale = "ca-valencia"
+      }
+      outputs += [ "$root_gen_dir/vivaldi/ios/vivaldi_ios_native_strings_$locale.pak" ]
+    }
+  }
+}
+
+grit("vivaldi_native_resources") {
+  output_dir = "$root_gen_dir/vivaldi"
+  resource_ids = "//vivaldi/app/gritsettings/resource_ids"
+  source = "native_resources/vivaldi_native_resources.grd"
+  outputs = [
+    "grit/vivaldi_native_resources.h",
+    "vivaldi_native_resources_100_percent.pak",
+    "vivaldi_native_resources_200_percent.pak",
+  ]
+  deps = [
+    "//vivaldi/vivapp:bundle"
+  ]
+}
+
+grit("vivaldi_unscaled_native_resources") {
+  defines = [
+    "force_sopranos_build=$force_sopranos_build",
+    "is_official_build=$is_official_build",
+  ]
+  if (is_android) {
+    defines += [
+      "is_oem_automotive_build=$is_vivaldi_automotive",
+      "is_oem_preloaded_build=$is_vivaldi_preloaded",
+      "is_oem_polestar_build=$is_vivaldi_polestar",
+      "is_oem_renault_build=$is_vivaldi_renault",
+      "is_oem_lynkco_build=$is_vivaldi_lynkco",
+      "is_oem_mercedes_build=$is_vivaldi_mercedes",
+      "is_oem_volvo_build=$is_vivaldi_volvo",
+      "is_oem_gas_build=$is_vivaldi_gas",
+    ]
+  }
+  output_dir = "$root_gen_dir/vivaldi"
+  resource_ids = "//vivaldi/app/gritsettings/resource_ids"
+  source = "native_resources/vivaldi_native_unscaled.grd"
+  outputs = [
+    "grit/vivaldi_native_unscaled.h",
+    "vivaldi_native_unscaled.pak",
+  ]
+  deps = [
+    "//vivaldi/vivapp:bundle"
+  ]
+}
+
+action("write_translation_xml_generation_script") {
+  script = "//vivaldi/app/resources/gen_write_translations_script.py"
+  inputs = [ script ]
+  outputs = [ "$root_out_dir/generate_translation_xml.py" ]
+
+  args = rebase_path(outputs, root_out_dir) + all_chrome_locales + vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+}
+
+action("write_pakfile_xml_generation_script") {
+  script = "//vivaldi/app/resources/gen_write_pak_script.py"
+  inputs = [ script ]
+  outputs = [ "$root_out_dir/generate_pak_xml.py" ]
+
+  args = rebase_path(outputs, root_out_dir) + vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+}
+
+action("write_full_pakfile_xml_generation_script") {
+  script = "//vivaldi/app/resources/gen_write_pak_script.py"
+  inputs = [ script ]
+  outputs = [ "$root_out_dir/generate_full_pak_xml.py" ]
+
+  args = rebase_path(outputs, root_out_dir) + all_chrome_locales + vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+}
+
+config("vivaldi_app_config") {
+  include_dirs = ["$target_gen_dir/vivaldi"]
+}
+
+process_version("vivaldi_icon") {
+  template_file = "vivaldi_icon.h.in"
+  output = "$root_gen_dir/app/vivaldi_icon.h"
+  extra_args = [
+    "-e",
+    "VIVALDI_RELEASE_KIND=\"$VIVALDI_RELEASE_KIND\"",
+  ]
+}
+
+if(!is_ios) {
+  repack_locales("vivaldi_merge_repacks") {
+    if (is_mac) {
+      output_dir = "$root_gen_dir/repack"
+      copy_data_to_bundle = true
+    } else {
+      output_dir = "$root_out_dir/locales"
+    }
+
+    # Each input pak file should also have a deps line.
+    source_patterns = [
+      "${root_gen_dir}/components/strings/components_google_chrome_strings_",
+      "${root_gen_dir}/components/strings/components_strings_",
+      "${root_gen_dir}/components/strings/components_locale_settings_",
+      "${root_gen_dir}/third_party/blink/public/strings/blink_strings_",
+      "${root_gen_dir}/chrome/generated_resources_",
+      "${root_gen_dir}/chrome/google_chrome_strings_",
+      "${root_gen_dir}/chrome/platform_locale_settings_",
+      "${root_gen_dir}/ui/strings/ui_strings_",
+      "${root_gen_dir}/vivaldi/app/vivaldi_native_strings_",
+    ]
+    deps = [
+      "//chrome/app:generated_resources",
+      "//chrome/app:chromium_strings",
+      "//chrome/app/resources:platform_locale_settings",
+      "//components/strings:components_chromium_strings",
+      "//components/strings:components_strings",
+      "//components/strings:components_locale_settings",
+      "//third_party/blink/public/strings",
+      "//ui/strings",
+      "//vivaldi/app:vivaldi_native_strings",
+    ]
+    input_locales = vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+    output_locales = vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+  }
+}
+
+if(is_ios) {
+  repack_locales("vivaldi_ios_merge_repacks") {
+    source_patterns = [
+      "${root_gen_dir}/components/strings/components_google_chrome_strings_",
+      "${root_gen_dir}/components/strings/components_locale_settings_",
+      "${root_gen_dir}/components/strings/components_strings_",
+      "${root_gen_dir}/ios/chrome/ios_google_chrome_strings_",
+      "${root_gen_dir}/ios/chrome/ios_strings_",
+      "${root_gen_dir}/ui/strings/ui_strings_",
+      "${root_gen_dir}/vivaldi/app/vivaldi_native_strings_",
+      "${root_gen_dir}/vivaldi/ios/vivaldi_ios_native_strings_",
+    ]
+    deps = [
+      "//components/strings:components_chromium_strings",
+      "//components/strings:components_locale_settings",
+      "//components/strings:components_strings",
+      "//ios/chrome/app/strings:ios_chromium_strings",
+      "//ios/chrome/app/strings:ios_strings",
+      "//ui/strings:ui_strings",
+      "//vivaldi/app:vivaldi_native_strings",
+      "//vivaldi/app:vivaldi_ios_native_strings",
+    ]
+    input_locales = vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+    output_locales = vivaldi_pending_locales - ["ca@valencia"] + ["ca-valencia"]
+    copy_data_to_bundle = true
+  }
+}

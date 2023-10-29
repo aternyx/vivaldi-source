@@ -1,0 +1,100 @@
+import("//vivaldi/gn/config/features.gni")
+import("//vivaldi/gn/config/locales.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/config/version.gni")
+import("//vivaldi/app/resource_list.gni")
+
+import("//build/config/locales.gni")
+
+update_target("//chrome:visual_elements_resources") {
+  sources = []
+  sources += [
+    "//vivaldi/app/other_resources/$VIVALDI_RELEASE_KIND/win8/Logo.png",
+    "//vivaldi/app/other_resources/$VIVALDI_RELEASE_KIND/win8/SmallLogo.png",
+    "//vivaldi/app/other_resources/vivaldi.VisualElementsManifest.xml",
+  ]
+}
+
+update_target("//chrome/common:non_code_constants") {
+  sources += [
+    "//vivaldi/app/vivaldi_version_constants.cc",
+    "//vivaldi/app/vivaldi_version_constants.h",
+  ]
+}
+
+if (is_mac) {
+  update_target("//chrome:chrome_app_icon") {
+    sources -= [
+      "app/theme/$branding_path_component/mac/app.icns",
+    ]
+    sources += [
+      "//vivaldi/app/resources/theme/$VIVALDI_RELEASE_KIND/mac/app.icns",
+    ]
+  }
+
+  update_target("//chrome:chrome_resources") {
+    sources -= [
+      "app/theme/$branding_path_component/mac/document.icns",
+    ]
+    sources += [
+      "//vivaldi/app/resources/theme/$VIVALDI_RELEASE_KIND/mac/document.icns",
+    ]
+  }
+
+  update_target("//chrome:chrome_framework_resources") {
+    sources -= [
+      "app/theme/default_100_percent/$branding_path_component/product_logo_32.png",
+    ]
+    sources += [
+      "//vivaldi/app/resources/theme/default_100_percent/$VIVALDI_RELEASE_KIND/product_logo_32.png",
+    ]
+  }
+}
+
+if (is_win) {
+  update_template_instance("//chrome/installer/util:generate_strings") {
+    extractor_datafile =
+        "//vivaldi/installer/win/create_vivaldi_installer_string_rc.py"
+
+    _languages_json = read_file(
+        "//vivaldi/vivapp/src/constants/language-list.json", "json"
+    )
+    _languages = _languages_json.languages
+    _vivaldi_translation_locales = [ ]
+    foreach(code_and_names, _languages.list) {
+      _vivaldi_translation_locales += [  string_replace(code_and_names[0], "@", "-") ]
+    }
+    _vivaldi_translation_locales -= [ "en-US" ]
+
+    # Remove translations for Chromium installer strings for languages that we
+    # do not support.
+    chromium_strings = grd_files_info[0]
+    chromium_only_locales = chromium_strings[3] +
+        _vivaldi_translation_locales - _vivaldi_translation_locales
+    chromium_strings[3] -= chromium_only_locales
+
+    # The above removed "no" which Chromium grit files use for historical
+    # reasons instead of "nb" that we use in our files. Restore that.
+    chromium_strings[3] += ["no"]
+
+    grd_files_info = []
+    grd_files_info = [
+      chromium_strings,
+      [
+        "//vivaldi/app/installer/",
+        "vivaldi_installer_strings",
+        "strings",
+        _vivaldi_translation_locales
+      ],
+      [
+        "//vivaldi/app/resources/strings",
+        "vivaldi_strings",
+        "strings",
+        _vivaldi_translation_locales
+      ]
+    ]
+    deps = [
+      "//vivaldi/app:vivaldi_installer_strings",
+    ]
+  }
+}

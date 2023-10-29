@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE translationbundle>
+<translationbundle lang="no">
+<translation id="3830627370375585318">Tillat at Vivaldi bruker nettverket, i brannmur- eller antivirus-
+          innstillingene dine.</translation>
+<translation id="4200102020577305737">Gå til
+          Vivaldi-menyen &gt;
+          <ph name="SETTINGS_TITLE" />
+          &gt;
+          <ph name="ADVANCED_TITLE" />
+          &gt;
+          <ph name="PROXIES_TITLE" />
+          &gt;
+          Lokalnettsinnstillinger
+          og fjern avmerkingen for «Bruk en mellomtjener for lokalnettverket».</translation>
+<translation id="4932161901409251843">Gå til
+          Vivaldi-menyen &gt;
+          <ph name="SETTINGS_TITLE" />
+          &gt;
+          <ph name="ADVANCED_TITLE" />
+          &gt;
+          <ph name="PROXIES_TITLE" />
+          og sørg for at oppsettet ditt er «ingen mellomtjener» eller «direkte».</translation>
+<translation id="5248344925342018662">Du er på en sikker Vivaldi-side</translation>
+<translation id="7023871570427738255">Gå til
+        Vivaldi-menyen &gt;
+        <ph name="SETTINGS_TITLE" />
+        &gt;
+        <ph name="ADVANCED_TITLE" />
+        og fjern avmerkingen for «<ph name="NO_PREFETCH_DESCRIPTION" />».
+        Hvis dette ikke løser problemet, bør du velge dette alternativet
+        på nytt for bedre ytelse.</translation>
+<translation id="7496505986576158197">Vivaldi er gjort mulig av åpen kildekode-prosjektet <ph name="BEGIN_LINK_CHROMIUM" />Chromium<ph name="END_LINK_CHROMIUM" /> og annen <ph name="BEGIN_LINK_OSS" />programvare med åpen kildekode<ph name="END_LINK_OSS" />.</translation>
+<translation id="8187289872471304532">Gå til
+          Programmer &gt; Systemvalg &gt; Nettverk &gt; Avansert &gt; Mellomtjener
+          og fjern avmerkingen for alle valgte mellomtjenere.</translation>
+</translationbundle>

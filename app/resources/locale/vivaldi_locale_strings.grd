@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grit base_dir="." latest_public_release="0" current_release="1"
+      source_lang_id="en" enc_check="möl">
+  <release seq="1" allow_pseudo="false">
+    <messages fallback_to_english="true">
+    </messages>
+  </release>
+</grit>
