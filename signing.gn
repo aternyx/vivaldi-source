@@ -1,0 +1,46 @@
+import("//vivaldi/vivaldi_init_settings.gni")
+
+assert(is_vivaldi)
+
+declare_overrides() {
+  is_full_signer = true
+  sign_executables = true
+}
+
+import("//vivaldi/gn/config/stored_version.gni")
+import("//vivaldi/gn/config/features.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/compile_updates.gni")
+import("//vivaldi/gn/product_updates.gni")
+
+import("//vivaldi/gn/source_updates.gni")
+
+import("//vivaldi/gn/config/signer_features.gni")
+
+if (is_win) {
+  update_target(
+      "//chrome/installer/mini_installer:mini_installer_archive") {
+    deps = []
+    inputs = []
+  }
+}
+if (is_ios) {
+#  update_target("//ios/chrome/app:chrome") {
+#    deps = []
+#  }
+}
+
+group("signings") {
+  deps = []
+  if (is_win) {
+    deps += [
+      "//chrome/installer/mini_installer",
+    ]
+  }
+  if (is_mac) {
+    deps += [ "//vivaldi/installer/mac" ]
+  }
+  if (is_ios) {
+    deps += [ "//vivaldi/installer/ios:sign_ios" ]
+  }
+}

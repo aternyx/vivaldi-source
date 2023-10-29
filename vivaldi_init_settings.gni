@@ -1,0 +1,134 @@
+# Static feature overrides, don't change
+# Features we either always want enable or don't want at all,
+# depending on platform settings
+
+import("//vivaldi/gn/config/features.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/config/hermetic.gni")
+import("//vivaldi/gn/config/reclient.gni")
+
+import("//build/toolchain/cc_wrapper.gni")
+import("//build/toolchain/goma.gni")
+import("//build/toolchain/rbe.gni")
+
+declare_overrides() {
+  chrome_pgo_phase = 0
+  if (is_official_build && (is_win || is_mac ||
+              (is_linux && target_cpu == "x64") ||
+              (is_android && target_cpu == "arm64" && !is_vivaldi_automotive))) {
+    chrome_pgo_phase = 2
+  }
+
+  if(!is_ios) {
+    branding_path_component = "vivaldi"
+    branding_path_product = "vivaldi"
+  } else {
+    # We use google_chrome strings
+    # IOS do not have other ways to select the string
+    # However, the variable is only used to select the variant strings
+    branding_path_component = "google_chrome"
+    branding_path_product = "google_chrome"
+  }
+  branding_file_path = "//vivaldi/app/resources/theme/vivaldi/BRANDING"
+
+  if (is_linux || is_mac || is_win) {
+    # ffmpeg_branding == Chromium disables way too much code including various
+    # utilities unrelated to codecs that we need for system proprietary media
+    # code. Instead of re-enabling the missing pieces we will black list
+    # relevant codecs explicitly in ffmpeg.
+    ffmpeg_branding = "Chrome"
+  }
+  proprietary_codecs = true
+  dcheck_always_on = is_debug # || is_component_build
+  enable_check_raw_ptr_fields = false
+
+  if(!is_ios) {
+    enable_widevine = true
+
+    enable_media_remoting = true
+  }
+
+  if (is_linux) {
+    if (!is_component_build) {
+      enable_linux_installer = is_linux
+      # enable_snap_package = true
+    }
+    if (is_official_build) {
+      symbol_level = 1
+    }
+  }
+
+  if (is_android) {
+    if (is_official_build) {
+      symbol_level = 1
+    }
+    enable_gvr_services = false
+    enable_cardboard = false
+    enable_arcore = false
+    webview_includes_weblayer = false
+    enable_vr = false
+    ffmpeg_branding = "Chrome"
+    if (is_vivaldi_automotive) { # Potential fix for VAB-7448.
+      ffmpeg_branding = "Chromium"
+    }
+    android_channel = "stable"
+    chrome_public_manifest_package = android_vivaldi_manifest_package
+    if (!is_debug) {
+      if (is_official_build) {
+        enable_resource_allowlist_generation = false
+      }
+      strip_debug_info = true
+    }
+    if (is_vivaldi_lynkco) {
+      # NOTE(jarle): For Lynkco we do not treat warnings as errors due to 3rd party
+      # library integration.
+      treat_warnings_as_errors = false
+    }
+  }
+
+  if(!is_ios) {
+    enable_hangout_services_extension = true
+  }
+
+  enable_precompiled_headers = !is_official_build && cc_wrapper == "" && !use_goma && !use_remoteexec
+
+  if (is_mac) {
+    use_system_xcode = true
+    if (getenv("CHROME_HEADLESS") == "1") {
+      mac_use_sdk = "13.3"
+    }
+  }
+
+  if (is_win) {
+    fast_archive_compression = is_component_build
+  }
+
+  if ((target_cpu == "arm" || target_cpu == "arm64") && !is_ios) {
+    enable_openscreen_protocol = false
+  }
+
+  if (is_win && defined(use_hermetic_toolchain) && use_hermetic_toolchain) {
+    toolchain_json_spec_file = "//vivaldi/build/toolchain.json"
+  }
+
+  if(!is_ios) {
+    enable_cdm_host_verification = (is_mac || is_win) && is_official_build && !vivaldi_disable_widevine_verification
+    enable_cdm_storage_id = (is_mac || is_win) && is_official_build && !vivaldi_disable_widevine_verification
+  }
+  if(is_ios) {
+    if (release_kind == "final") {
+      ios_app_bundle_id_prefix = "com.vivaldi"
+    } else {
+      ios_app_bundle_id_prefix = "com.vivaldi.snapshot"
+    }
+    ios_enable_code_signing = vivaldi_signing_id != ""
+    ios_code_signing_identity = vivaldi_signing_id
+    ios_code_signing_identity_description = ""
+    is_component_build = false
+    # Needed until we understand chromium partition allocator better.
+    ios_partition_alloc_enabled = false
+
+    ios_application_icons_target = "//vivaldi/ios/app/resources/appicons:vivaldi_appicons"
+    ios_launchscreen_assets_target = "//vivaldi/ios/app/resources:launchscreen_assets"
+  }
+}

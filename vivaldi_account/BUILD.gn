@@ -1,0 +1,55 @@
+source_set("vivaldi_account") {
+  sources = [
+    "vivaldi_account_manager.cc",
+    "vivaldi_account_manager.h",
+    "vivaldi_account_manager_request_handler.cc",
+    "vivaldi_account_manager_request_handler.h",
+    "vivaldi_account_password_handler.cc",
+    "vivaldi_account_password_handler.h",
+  ]
+
+  deps = [
+    "//base",
+    "//base:i18n",
+    "//components/autofill/core/common",
+    "//components/keyed_service/core",
+    "//components/os_crypt/sync",
+    "//components/prefs",
+    "//components/sync/service",
+    "//components/password_manager/core/browser",
+    "//net",
+    "//net/traffic_annotation",
+    "//services/network/public/cpp",
+    "//url",
+    "//vivaldi/prefs:prefs_files_generated",
+  ]
+
+  if (is_android) {
+    sources += [
+      "vivaldi_account_manager_android.cc",
+      "vivaldi_account_manager_android.h",
+    ]
+
+    deps += [
+      "//chrome/android:jni_headers",
+    ]
+  }
+
+  if(!is_ios) {
+    sources += [
+      "vivaldi_account_manager_factory.cc",
+      "vivaldi_account_manager_factory.h",
+    ]
+
+    deps += [
+      #"//chrome/browser",
+      "//chrome/common:buildflags",
+      "//components/keyed_service/content",
+      "//content/public/browser",
+    ]
+  } else {
+    deps += [
+      "//components/keyed_service/ios",
+    ]
+  }
+}

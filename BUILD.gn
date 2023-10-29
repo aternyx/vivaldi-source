@@ -1,0 +1,279 @@
+import("//vivaldi/vivaldi_init_settings.gni")
+import("//build/config/chrome_build.gni")
+
+assert(is_vivaldi)
+
+import("//build/config/ui.gni")
+
+import("//vivaldi/gn/config/features.gni")
+import("//vivaldi/gn/config/product.gni")
+import("//vivaldi/gn/compile_updates.gni")
+import("//vivaldi/gn/source_updates.gni")
+
+import("//vivaldi/gn/product_updates.gni")
+import("//vivaldi/gn/deps_updates.gni")
+
+import("//vivaldi/gn/product_updates_last.gni")
+
+import("//vivaldi/app/resources/untranslated.gni")
+
+if (is_android) {
+  import("//build/config/android/rules.gni")
+}
+
+import("//vivaldi/testing/testing.gni")
+
+if (is_ios) {
+  import("//build/config/ios/ios_sdk.gni")
+}
+
+group("All") {
+  testonly = true
+
+  # don't build tests for android and x86 (386) Linux since these are not used.
+  # x86 is disabled due to compile issues, in addition to not running tests.
+  # Don't build tests for ARM, either
+
+  deps = []
+  if (!is_ios) {
+    deps += [
+      ":vivaldi",
+      ":generate_files_json",
+      "//vivaldi/app:write_translation_xml_generation_script",
+      "//vivaldi/app:write_pakfile_xml_generation_script",
+      "//vivaldi/app:write_full_pakfile_xml_generation_script",
+    ]
+  }
+  if (is_android) {
+    deps += [
+        "//vivaldi/notes",
+        "//build/android:prepare_android_lint_cache", # Needed to generate build_vars.txt, used by merge_manifest
+    ]
+  }
+  if (vivaldi_build_tests) {
+    deps += [
+      "//base:base_unittests",
+      "//cc:cc_unittests",
+      "//chrome/test:browser_tests",
+      "//chrome/test:unit_tests",
+      "//chrome/test/chromedriver:chromedriver_unittests",
+      "//components:components_unittests",
+      "//content/test:content_browsertests",
+      "//content/test:content_unittests",
+      "//crypto:crypto_unittests",
+      "//device:device_unittests",
+      "//google_apis:google_apis_unittests",
+      "//gpu:gpu_unittests",
+      "//ipc:ipc_tests",
+      "//media:media_unittests",
+      "//media/cast:cast_unittests",
+      "//net:net_unittests",
+      "//printing:printing_unittests",
+      "//sql:sql_unittests",
+      "//ui/gfx:gfx_unittests",
+      "//url:url_unittests",
+    ]
+  }
+  if (is_win) {
+    deps += [
+      "//vivaldi/tools/vivaldi_proxy",
+      "//chrome/installer/mini_installer",
+      "//components/zucchini:zucchini",
+      "//components/zucchini:zucchini64",
+      "//vivaldi/update_notifier",
+      # "//ui/views/examples:views_examples", # example test software for viewing icons
+    ]
+    if (vivaldi_build_tests) {
+      deps += [
+        "//components/zucchini:zucchini_unittests",
+        "//sandbox/win:sbox_integration_tests",
+        "//sandbox/win:sbox_unittests",
+        "//sandbox/win:sbox_validation_tests",
+      ]
+    }
+  } else if (!is_ios && (!is_linux || !is_component_build)) {
+    deps += [ "//chrome/installer" ]
+  }
+  if (is_mac) {
+    deps += [
+      "//vivaldi/installer/mac",
+    ]
+    if (vivaldi_build_tests) {
+      deps += [
+        "//third_party/ocmock",
+        "//ui/message_center:message_center_unittests",
+      ]
+    }
+  }
+  if (is_linux) {
+    deps += [
+      "//sandbox/linux:chrome_sandbox",
+    ]
+    if (vivaldi_build_tests) {
+      deps += [
+        "//sandbox/linux:sandbox_linux_unittests",
+      ]
+      if (use_dbus) {
+        deps += [
+          "//dbus:dbus_test_server",
+          "//dbus:dbus_unittests",
+        ]
+      }
+    }
+    if (!is_component_build) {
+      deps += [
+        "//chrome/installer/linux",
+        ":linux_packages_all",
+      ]
+    }
+    if (use_dbus) {
+      deps += [ "//dbus" ]
+    }
+  }
+  if (vivaldi_build_tests) {
+    deps += [
+      "//chrome/test:interactive_ui_tests",
+      "//chrome/test:sync_integration_tests",
+      "//ppapi:ppapi_unittests",
+    ]
+  }
+  if (use_aura && vivaldi_build_tests) {
+    deps += [
+      "//ui/aura:aura_unittests",
+      "//ui/compositor:compositor_unittests",
+    ]
+    deps += [ "//ui/views:views_unittests" ]
+  }
+  if (is_win && vivaldi_build_tests) {
+    deps += ["//vivaldi/testing:testing"]
+  }
+  if (generate_untranslated){
+    deps += [
+      "//vivaldi/app:generate_untranslated"
+    ]
+  }
+  if (is_ios) {
+    deps += ["//ios/chrome/app:chrome"]
+    if (is_official_build) {
+      deps += ["//vivaldi/ios:ios_dsym_archive"]
+      if (ios_is_app_extension) {
+        deps += ["//vivaldi/ios:ios_extension_dsym_archive"]
+      }
+    }
+    if (getenv("CHROME_HEADLESS") != "1") {  # Signing provisions needed for building on builders
+      deps += ["//ios/components:all_tests"]
+    }
+  }
+  if (is_mac || is_linux || is_android) {
+    deps += [
+      "//third_party/breakpad:minidump_stackwalk($host_toolchain)",
+      "//third_party/breakpad:dump_syms($host_toolchain)",
+    ]
+  }
+}
+
+if (!is_ios) {
+group("vivaldi") {
+  deps = [
+    ":standalone",
+    ":vivaldi_version_info",
+    "//chrome",
+  ]
+  if (is_android) {
+    deps -= [ "//chrome" ]
+    deps += [ "//chrome/android:chrome_public_apk" ]
+    deps += [ "//chrome/android:chrome_public_bundle" ]
+    foreach(t, ["//chrome/android:libchrome"]) {
+      deps += [
+        "${t}__jni_registration__native_sources",
+        "${t}__jni_registration__java_sources",
+      ]
+    }
+  }
+  if (is_mac || is_win) {
+    deps += [ "//third_party/crashpad/crashpad/handler:crashpad_handler" ]
+  }
+  if (is_win) {
+    deps += [ "//vivaldi/tools/vivaldi_proxy" ]
+  }
+}
+}
+
+copy("standalone") {
+  sources = [
+    "testdata/stp.viv",
+  ]
+  outputs = [
+    "$root_build_dir/stp.viv",
+  ]
+}
+
+if (is_linux && !is_component_build) {
+  group("linux_packages_all") {
+    deps = [ "//chrome/installer/linux" ]
+  }
+}
+
+action("generate_files_json") {
+  if (is_win) {
+    plat = "win"
+    if (target_cpu == "x86") {
+      plat="win32"
+    }
+  } else if (is_mac || is_ios) {
+    plat = "mac"
+    if (target_cpu == "arm64") {
+      plat="$plat-$target_cpu"
+    }
+  } else if (is_android) {
+    plat = "android"
+  } else if (is_linux) {
+    plat = "linux"
+  } else {
+    assert(false, "Unknown target platform")
+  }
+
+  script = "//vivaldi/scripts/merge-archive-json.py"
+  chromium_files_cfg = "//infra/archive_config/$plat-archive-rel.json"
+  vivaldi_files_cfg = "//vivaldi/tools/build/$plat/archive.json"
+
+  files_cfg_target = "$root_build_dir/archive.json"
+
+  inputs = [
+    script,
+    chromium_files_cfg,
+    vivaldi_files_cfg,
+  ]
+
+  outputs = [files_cfg_target]
+
+  args = rebase_path([
+    files_cfg_target,
+    chromium_files_cfg,
+    vivaldi_files_cfg,
+  ], root_build_dir)
+}
+
+action("vivaldi_version_info") {
+  script = vivaldi_version_py_path
+  inputs = [
+    vivaldi_version_path,
+    chrome_version_path,
+    lastchange_path,
+  ]
+  outputs = [
+    "$root_build_dir/vivaldi_version.txt",
+  ]
+  args = [
+           "-f",
+           rebase_path(vivaldi_version_path, root_build_dir),
+           "-f",
+           rebase_path(chrome_version_path, root_build_dir),
+           "-f",
+           rebase_path(lastchange_path, root_build_dir),
+           "-e",
+           "VIVALDI_BUILD=$GLOBAL_BUILDNUM",
+           "--vivaldi",
+           "-o",
+         ] + rebase_path(outputs, root_build_dir)
+}
